@@ -1,103 +1,109 @@
-// import 'package:flutter/material.dart';
-// import './home.dart';
+import 'dart:ffi';
 
-// class StartAnimation extends StatefulWidget {
-//   StartAnimation({Key? key, this.buttonController, this.user, this.password})
-//       : shrinkButtonAnimation = Tween(
-//           begin: 320.0,
-//           end: 70.0,
-//         ).animate(
-//           CurvedAnimation(
-//               curve: Interval(0.0, 0.150), parent: buttonController),
-//         ),
-//         zoomAnimation = Tween(begin: 70.0, end: 900.0).animate(CurvedAnimation(
-//             parent: buttonController,
-//             curve: Interval(
-//               0.55,
-//               0.999,
-//               curve: Curves.bounceInOut,
-//             ))),
-//         super(key: key);
+import 'package:flutter/material.dart';
+import './home.dart';
 
-//   final AnimationController buttonController;
-//   final Animation shrinkButtonAnimation;
-//   final Animation zoomAnimation;
+class StartAnimation extends StatefulWidget {
+  StartAnimation(
+      {Key? key, required this.buttonController, required this.successLogin})
+      : shrinkButtonAnimation = Tween(
+          begin: 320.0,
+          end: 70.0,
+        ).animate(
+          CurvedAnimation(
+              curve: const Interval(0.0, 0.150), parent: buttonController),
+        ),
+        zoomAnimation = Tween(begin: 70.0, end: 200.0).animate(CurvedAnimation(
+            parent: buttonController,
+            curve: const Interval(
+              0.55,
+              0.999,
+              curve: Curves.bounceInOut,
+            ))),
+        super(key: key);
 
-//   final String user;
-//   final String password;
+  AnimationController buttonController;
+  Animation shrinkButtonAnimation;
+  Animation zoomAnimation;
 
-//   Widget buildAnimation(BuildContext context, Widget child) {
-//     return Padding(
-//         padding: const EdgeInsets.only(bottom: 60.0),
-//         child: zoomAnimation.value <= 300
-//             ? Container(
-//                 alignment: FractionalOffset.center,
-//                 width: shrinkButtonAnimation.value,
-//                 height: 60.0,
-//                 decoration: BoxDecoration(
-//                     color: Colors.red[700],
-//                     borderRadius:
-//                         BorderRadius.all(const Radius.circular(30.0))),
-//                 child: shrinkButtonAnimation.value > 75
-//                     ? Text("Sign In",
-//                         style: TextStyle(
-//                             fontSize: 20.0,
-//                             color: Colors.white,
-//                             fontWeight: FontWeight.w300,
-//                             letterSpacing: 0.3))
-//                     : CircularProgressIndicator(
-//                         strokeWidth: 1.0,
-//                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-//                       ))
-//             : user == 'amin'
-//                 ? Container(
-//                     width: zoomAnimation.value,
-//                     height: zoomAnimation.value,
-//                     decoration: BoxDecoration(
-//                       color: Colors.red[700],
-//                       shape: zoomAnimation.value < 600
-//                           ? BoxShape.circle
-//                           : BoxShape.rectangle,
-//                     ),
-//                   )
-//                 : Container(
-//                     alignment: FractionalOffset.center,
-//                     width: shrinkButtonAnimation.value,
-//                     height: 60.0,
-//                     decoration: BoxDecoration(
-//                         color: Colors.red[700],
-//                         borderRadius:
-//                             BorderRadius.all(const Radius.circular(30.0))),
-//                     child: shrinkButtonAnimation.value > 75
-//                         ? Text("Sign In",
-//                             style: const TextStyle(
-//                                 fontSize: 20.0,
-//                                 color: Colors.white,
-//                                 fontWeight: FontWeight.w300,
-//                                 letterSpacing: 0.3))
-//                         : CircularProgressIndicator(
-//                             strokeWidth: 1.0,
-//                             valueColor:
-//                                 AlwaysStoppedAnimation<Color>(Colors.white),
-//                           )));
-//   }
+  bool successLogin;
 
-//   @override
-//   _StartAnimationState createState() => _StartAnimationState();
-// }
+  Widget buildAnimation(BuildContext context, Widget? child) {
+    return Padding(
+        padding: const EdgeInsets.only(bottom: 60.0),
+        child: zoomAnimation.value <= 100
+            ? Container(
+                alignment: FractionalOffset.center,
+                width: shrinkButtonAnimation.value,
+                height: 60.0,
+                decoration: BoxDecoration(
+                    color: Colors.red[700],
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(30.0))),
+                child: shrinkButtonAnimation.value > 75
+                    ? const Text("Sign In",
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: 0.3))
+                    : const CircularProgressIndicator(
+                        strokeWidth: 1.0,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ))
+            : successLogin
+                ? Container(
+                    width: zoomAnimation.value,
+                    height: zoomAnimation.value,
+                    decoration: BoxDecoration(
+                      color: Colors.red[700],
+                      shape: zoomAnimation.value < 600
+                          ? BoxShape.circle
+                          : BoxShape.rectangle,
+                    ),
+                  )
+                : Container(
+                    alignment: FractionalOffset.center,
+                    width: shrinkButtonAnimation.value,
+                    height: 60.0,
+                    decoration: BoxDecoration(
+                        color: Colors.red[700],
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30.0))),
+                    child: shrinkButtonAnimation.value > 75
+                        ? const Text("Sign In",
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: 0.3))
+                        : const CircularProgressIndicator(
+                            strokeWidth: 1.0,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          )));
+  }
 
-// class _StartAnimationState extends State<StartAnimation> {
-//   @override
-//   Widget build(BuildContext context) {
-//     widget.buttonController.addListener(() {
-//       if (widget.zoomAnimation.isCompleted) {
-//         if (widget.user == 'amin') {
-//           Navigator.of(context).push(
-//               MaterialPageRoute(builder: (BuildContext context) => new Home()));
-//         }
-//       }
-//     });
-//     return AnimatedBuilder(
-//         animation: widget.buttonController, builder: widget.buildAnimation);
-//   }
-// }
+  @override
+  StartAnimationState createState() => StartAnimationState();
+}
+
+class StartAnimationState extends State<StartAnimation>
+    with TickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    widget.buttonController.addListener(() {
+      // debugPrint(widget.zoomAnimation.isCompleted.toString());
+      // debugPrint("-----terakhir kesini");
+      // if (widget.zoomAnimation.isCompleted) {
+      if (widget.successLogin == true) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext context) => Home()));
+        // }
+      }
+    });
+
+    return AnimatedBuilder(
+        animation: widget.buttonController, builder: widget.buildAnimation);
+  }
+}

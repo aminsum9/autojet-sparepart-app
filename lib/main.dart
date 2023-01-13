@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
-// import './loginAnimation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import './loginAnimation.dart';
 import 'dart:async';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Login Animation Tutorial',
-        home: new LoginPage());
+        home: LoginPage());
   }
 }
 
 class LoginPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
-  final TextEditingController controllerUser = TextEditingController(text: '');
+class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+  final TextEditingController controllerEmail = TextEditingController(text: '');
   final TextEditingController controllerPassword =
       TextEditingController(text: '');
 
   var statusClick = 0;
+  var sucessLogin = false;
 
   // late AnimationController animationControllerButton;
   late AnimationController animationControllerButton;
@@ -34,7 +37,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     animationControllerButton =
-        AnimationController(duration: Duration(seconds: 3), vsync: this)
+        AnimationController(duration: const Duration(seconds: 3), vsync: this)
           ..addStatusListener((status) {
             if (status == AnimationStatus.dismissed) {
               setState(() {
@@ -52,22 +55,59 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     animationControllerButton.dispose();
   }
 
-  Future<Null> _playAnimation() async {
+  Future<http.Response> postData(Uri url, dynamic body) async {
+    final response = await http.post(url, body: body);
+    return response;
+  }
+
+  Future _hadleLogin() async {
     try {
       animationControllerButton.forward();
       animationControllerButton.reverse();
     } on TickerCanceled {}
+    ;
+
+    setState(() {
+      statusClick = 1;
+    });
+
+    var body = {
+      'email': controllerEmail.text,
+      'password': controllerPassword.text
+    };
+
+    final response = await postData(
+        Uri.parse('http://192.168.43.128:8000/user/login'), jsonEncode(body));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['success'] == true) {
+        setState(() {
+          sucessLogin = true;
+          // statusClick = 0;
+        });
+      } else {
+        setState(() {
+          sucessLogin = false;
+          // statusClick = 0;
+        });
+      }
+    } else {
+      setState(() {
+        sucessLogin = false;
+        // statusClick = 0;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('img/bg.jpg'), fit: BoxFit.cover)),
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 colors: [
               Color.fromRGBO(162, 146, 199, 0.8),
@@ -79,38 +119,38 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           Stack(alignment: AlignmentDirectional.bottomCenter, children: [
             Column(
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(top: 270.0),
                 ),
                 Container(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
+                      const Padding(
+                        padding: EdgeInsets.all(10.0),
                       ),
                       TextField(
-                        controller: controllerUser,
-                        decoration: InputDecoration(
+                        controller: controllerEmail,
+                        decoration: const InputDecoration(
                             icon: Icon(
                               Icons.person,
                               color: Colors.white,
                             ),
-                            hintText: "Username"),
+                            hintText: "Email"),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
+                      const Padding(
+                        padding: EdgeInsets.all(10.0),
                       ),
                       TextField(
                         controller: controllerPassword,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             icon: Icon(
                               Icons.lock_outline,
                               color: Colors.white,
                             ),
                             hintText: "Password"),
                       ),
-                      TextButton(
+                      const TextButton(
                           // padding:
                           //     const EdgeInsets.only(top: 220.0, bottom: 30.0),
                           onPressed: null,
@@ -121,27 +161,22 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 color: Colors.white,
                                 fontWeight: FontWeight.w300,
                                 letterSpacing: 0.5),
-                          ))
+                          )),
+                      statusClick == 0
+                          ? InkWell(
+                              onTap: () {
+                                _hadleLogin();
+                              },
+                              child: SignIn())
+                          : StartAnimation(
+                              buttonController: animationControllerButton,
+                              successLogin: sucessLogin,
+                            )
                     ],
                   ),
                 )
               ],
             ),
-            // statusClick == 0
-            //     ?
-            InkWell(
-                onTap: () {
-                  setState(() {
-                    statusClick = 1;
-                  });
-                  _playAnimation();
-                },
-                child: SignIn())
-            // : StartAnimation(
-            //     buttonController: animationControllerButton.view,
-            //     user: controllerUser.text,
-            //     password: controllerPassword.text,
-            //   )
           ])
         ]),
       ),
@@ -152,7 +187,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Padding(
+    return Padding(
       padding: const EdgeInsets.all(60.0),
       child: Container(
         alignment: FractionalOffset.center,
@@ -160,9 +195,9 @@ class SignIn extends StatelessWidget {
         height: 60.0,
         decoration: BoxDecoration(
             color: Colors.red[700],
-            borderRadius: BorderRadius.all(const Radius.circular(30.0))),
-        child: new Text("Sign In",
-            style: new TextStyle(
+            borderRadius: const BorderRadius.all(Radius.circular(30.0))),
+        child: const Text("Sign In",
+            style: TextStyle(
                 fontSize: 20.0,
                 color: Colors.white,
                 fontWeight: FontWeight.w300,
