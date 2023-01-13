@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pretty_json/pretty_json.dart';
 import './home.dart';
 
 class EditBarang extends StatefulWidget {
@@ -17,16 +19,27 @@ class EditDataState extends State<EditBarang> {
   TextEditingController controllerPrice = TextEditingController(text: "");
   TextEditingController controllerQty = TextEditingController(text: "");
 
-  editData() {
-    var url = "http://192.168.43.128:8000/barang/update";
-    http.post(Uri.parse(url), body: {
-      "id": widget.list[widget.index]["id"],
-      "desc": controllerDesc.text,
+  Future<String> getDataStorage(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key).toString();
+  }
+
+  editData() async {
+    var token = await getDataStorage('token');
+
+    var body = {
+      "id": widget.list[widget.index]["id"].toString(),
       "name": controllerName.text,
-      "price": controllerPrice.text,
-      "stock": controllerQty.text,
+      "image": "",
+      "price": controllerPrice.text.toString(),
       "discount": "0",
-    }).then((value) => Navigator.of(context)
+      "qty": controllerQty.text.toString(),
+      "desc": controllerDesc.text,
+      "token": token.toString(),
+    };
+    print(prettyJson(body));
+    var url = "http://192.168.43.128:8000/barang/update";
+    http.post(Uri.parse(url), body: body).then((value) => Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) => Home())));
   }
 
@@ -65,11 +78,6 @@ class EditDataState extends State<EditBarang> {
                       style: TextStyle(
                           fontSize: 25.0, fontWeight: FontWeight.bold)),
                   const Padding(padding: EdgeInsets.all(10.0)),
-                  TextField(
-                    controller: controllerDesc,
-                    decoration:
-                        const InputDecoration(hintText: "masukkan code"),
-                  ),
                   const Padding(padding: EdgeInsets.all(10.0)),
                   TextField(
                     controller: controllerName,
@@ -88,6 +96,11 @@ class EditDataState extends State<EditBarang> {
                     decoration:
                         const InputDecoration(hintText: "masukkan stock"),
                   ),
+                  TextField(
+                    controller: controllerDesc,
+                    decoration:
+                        const InputDecoration(hintText: "masukkan deskripsi"),
+                  ),
                   const Padding(padding: EdgeInsets.all(10.0)),
                 ],
               ),
@@ -95,8 +108,7 @@ class EditDataState extends State<EditBarang> {
                   onPressed: () {
                     editData();
                   },
-                  child:
-                      const Text("EDIT", style: TextStyle(color: Colors.white)),
+                  child: Text("EDIT", style: TextStyle(color: Colors.white)),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.green,
                   )),

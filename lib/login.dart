@@ -4,7 +4,6 @@ import 'dart:convert';
 import './loginAnimation.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import './home.dart';
 
 class LoginPage extends StatefulWidget {
   @override

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'editbarang.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import './home.dart';
 
 class DetailBarang extends StatefulWidget {
@@ -14,28 +15,46 @@ class DetailBarang extends StatefulWidget {
 
 class DetailState extends State<DetailBarang> {
   void confirmDelete() {
-    AlertDialog alertDialog = AlertDialog(
-        content: Text(
-            "Apakah anda yakin ingin menghapus '${widget.list[widget.index]['name']}'?"),
-        actions: [
-          TextButton(
-            onPressed: () => deleteData(),
-            child: Text("OK"),
-            // color: Colors.red
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("BATAL", style: TextStyle(color: Colors.white)),
-            // color: Colors.lightGreen
-          )
-        ]);
-    // showDialog(context: context, child: alertDialog);
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Hapus Barang?'),
+          content: Text(
+              "Apakah anda yakin ingin menghapus'${widget.list[widget.index]['name']}'?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("BATAL",
+                  style: TextStyle(color: Colors.lightGreen)),
+              // color: Colors.lightGreen
+            ),
+            TextButton(
+              child: const Text('HAPUS', style: TextStyle(color: Colors.red)),
+              onPressed: () {
+                deleteData();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  void deleteData() {
+  Future<String> getDataStorage(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key).toString();
+  }
+
+  void deleteData() async {
+    var token = await getDataStorage('token');
+
     var url = "http://192.168.43.128:8000/barang/delete";
+
     http.post(Uri.parse(url), body: {
-      "id": widget.list[widget.index]["id"]
+      "id": widget.list[widget.index]["id"].toString(),
+      "token": token.toString(),
     }).then((value) => Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext contex) => Home())));
   }
