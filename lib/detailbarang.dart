@@ -1,18 +1,18 @@
 // import 'package:crud_flutter/editdata.dart';
 import 'package:flutter/material.dart';
-import './editdata.dart';
+import 'editbarang.dart';
 import 'package:http/http.dart' as http;
 import './home.dart';
 
-class Detail extends StatefulWidget {
+class DetailBarang extends StatefulWidget {
   List list;
   int index;
-  Detail({required this.list, required this.index});
+  DetailBarang({required this.list, required this.index});
   @override
-  _DetailState createState() => _DetailState();
+  DetailState createState() => DetailState();
 }
 
-class _DetailState extends State<Detail> {
+class DetailState extends State<DetailBarang> {
   void confirmDelete() {
     AlertDialog alertDialog = AlertDialog(
         content: Text(
@@ -43,7 +43,9 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("${widget.list[widget.index]['name']}")),
+        appBar: AppBar(
+            title: Text("${widget.list[widget.index]['name']}"),
+            backgroundColor: Colors.green),
         body: Container(
           height: 300.0,
           padding: const EdgeInsets.all(20.0),
@@ -88,7 +90,7 @@ class _DetailState extends State<Detail> {
                 TextButton(
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          EditData(list: widget.list, index: widget.index))),
+                          EditBarang(list: widget.list, index: widget.index))),
                   child: const Text("EDIT"),
                   // color: Colors.lightGreen
                 ),

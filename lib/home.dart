@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import './adddata.dart';
-import 'detail.dart';
+import 'addbarang.dart';
+import 'detailbarang.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MaterialApp(home: Home()));
@@ -45,11 +45,15 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("CRUD Futter")),
+        appBar: AppBar(
+          title: const Text("Daftar Barang"),
+          backgroundColor: Colors.green,
+        ),
         floatingActionButton: FloatingActionButton(
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => AddData())),
-            child: const Icon(Icons.add)),
+          onPressed: () => Navigator.pushNamed(context, '/add_barang'),
+          child: const Icon(Icons.add),
+          backgroundColor: Colors.green,
+        ),
         body: FutureBuilder(
             future: getData(),
             builder: (context, snapshot) {
@@ -77,7 +81,7 @@ class ItemList extends StatelessWidget {
           child: GestureDetector(
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    Detail(list: list, index: i))),
+                    DetailBarang(list: list, index: i))),
             child: Card(
               child: ListTile(
                 title: Text(list[i]["name"]),

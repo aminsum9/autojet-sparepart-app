@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AddData extends StatefulWidget {
+class AddBarang extends StatefulWidget {
   @override
   AddDataState createState() => AddDataState();
 }
 
-class AddDataState extends State<AddData> {
+class AddDataState extends State<AddBarang> {
   TextEditingController controllerName = TextEditingController(text: "");
   TextEditingController controllerPrice = TextEditingController(text: "");
   TextEditingController controllerDiscount = TextEditingController(text: "");
@@ -41,7 +41,8 @@ class AddDataState extends State<AddData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ADD DATA"),
+        title: const Text("Tambah Barang"),
+        backgroundColor: Colors.green,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),

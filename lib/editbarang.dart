@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import './home.dart';
 
-class EditData extends StatefulWidget {
+class EditBarang extends StatefulWidget {
   final List list;
   final int index;
 
-  EditData({required this.list, this.index = 0});
+  EditBarang({required this.list, this.index = 0});
   @override
   EditDataState createState() => EditDataState();
 }
 
-class EditDataState extends State<EditData> {
+class EditDataState extends State<EditBarang> {
   TextEditingController controllerDesc = TextEditingController(text: "");
   TextEditingController controllerName = TextEditingController(text: "");
   TextEditingController controllerPrice = TextEditingController(text: "");
@@ -49,7 +49,8 @@ class EditDataState extends State<EditData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("EDIT DATA"),
+        title: const Text("Edit Data Barang"),
+        backgroundColor: Colors.green,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -60,7 +61,7 @@ class EditDataState extends State<EditData> {
               Column(
                 children: [
                   const Padding(padding: EdgeInsets.all(10.0)),
-                  const Text("Edit Data",
+                  const Text("Edit Data Barang",
                       style: TextStyle(
                           fontSize: 25.0, fontWeight: FontWeight.bold)),
                   const Padding(padding: EdgeInsets.all(10.0)),
