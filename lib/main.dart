@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './loginAnimation.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pretty_json/pretty_json.dart';
+import './home.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,6 +36,21 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   late AnimationController animationControllerButton;
   Animation? animation;
 
+  Future<bool> saveDataStorage2(String key, String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString(key, value);
+  }
+
+  Future<String> getDataStorage2(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key).toString();
+  }
+
+  Future<http.Response> postData2(Uri url, dynamic body) async {
+    final response = await http.post(url, body: body);
+    return response;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +64,22 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             }
           });
     animationControllerButton.forward();
+
+    getDataStorage('token').then((token) => {
+          if (token.toString() != null)
+            {
+              postData(
+                  Uri.parse('http://192.168.43.128:8000/user/check_login'), {
+                "token": token.toString()
+              }).then((response) => {
+                    if (response.statusCode == 200)
+                      {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => Home()))
+                      }
+                  })
+            }
+        });
   }
 
   @override
@@ -53,6 +87,16 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     // TODO: implement dispose
     super.dispose();
     animationControllerButton.dispose();
+  }
+
+  Future<bool> saveDataStorage(String key, String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString(key, value);
+  }
+
+  Future<String> getDataStorage(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key).toString();
   }
 
   Future<http.Response> postData(Uri url, dynamic body) async {
@@ -77,10 +121,13 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     };
 
     final response = await postData(
-        Uri.parse('http://192.168.43.128:8000/user/login'), jsonEncode(body));
+        Uri.parse('http://192.168.43.128:8000/user/login'), body);
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+
       if (data['success'] == true) {
+        await saveDataStorage('token', data['api_key']);
         setState(() {
           sucessLogin = true;
           // statusClick = 0;

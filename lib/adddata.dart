@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddData extends StatefulWidget {
   @override
@@ -7,20 +8,33 @@ class AddData extends StatefulWidget {
 }
 
 class AddDataState extends State<AddData> {
-  TextEditingController controllerCode = TextEditingController(text: "");
   TextEditingController controllerName = TextEditingController(text: "");
   TextEditingController controllerPrice = TextEditingController(text: "");
+  TextEditingController controllerDiscount = TextEditingController(text: "");
   TextEditingController controllerStock = TextEditingController(text: "");
+  TextEditingController controllerDesc = TextEditingController(text: "");
 
-  void addData() {
-    var url = "http://192.168.43.129/barang/add";
+  Future<String> getDataStorage(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key).toString();
+  }
+
+  void addData() async {
+    var token = await getDataStorage('token');
+
+    var url = "http://192.168.43.128:8000/barang/add";
 
     http.post(Uri.parse(url), body: {
-      "item_code": controllerCode.text,
-      "item_name": controllerName.text,
+      "name": controllerName.text,
       "price": controllerPrice.text,
-      "stock": controllerStock.text
-    }).then((value) => Navigator.pop(context));
+      "discount": controllerDiscount.text,
+      "qty": controllerStock.text,
+      "image": "",
+      "desc": controllerDesc.text,
+      "token": token.toString(),
+    }).then((response) => {
+          if (response.statusCode == 200) {Navigator.pop(context)}
+        });
   }
 
   @override
@@ -35,38 +49,44 @@ class AddDataState extends State<AddData> {
             Column(
               children: [
                 TextField(
-                  controller: controllerCode,
-                  decoration: const InputDecoration(
-                      hintText: "masukkan code item", labelText: "Item Code"),
-                ),
-                TextField(
                   controller: controllerName,
                   decoration: const InputDecoration(
-                      hintText: "masukkan nama item", labelText: "Name"),
+                      hintText: "masukkan nama item", labelText: "Nama"),
                 ),
                 TextField(
                   controller: controllerPrice,
                   decoration: const InputDecoration(
-                      hintText: "masukkan harga item", labelText: "Price"),
+                      hintText: "masukkan harga item", labelText: "Harga"),
+                ),
+                TextField(
+                  controller: controllerDiscount,
+                  decoration: const InputDecoration(
+                      hintText: "masukkan diskon barang", labelText: "Diskon"),
                 ),
                 TextField(
                   controller: controllerStock,
                   decoration: const InputDecoration(
-                      hintText: "masukkan stock item", labelText: "Stock"),
+                      hintText: "masukkan stock item", labelText: "Qty"),
+                ),
+                TextField(
+                  controller: controllerDesc,
+                  decoration: const InputDecoration(
+                      hintText: "masukkan code item",
+                      labelText: "Deskripsi barang"),
                 ),
                 const Padding(
                   padding: EdgeInsets.all(20.0),
                 ),
-                TextButton(
-                  onPressed: () {
-                    addData();
-                  },
-                  child: const Text("SUBMIT",
-                      style: TextStyle(color: Colors.white)),
-                  // color: Colors.blueAccent
-                )
               ],
-            )
+            ),
+            TextButton(
+                onPressed: () {
+                  addData();
+                },
+                child: Text("SUBMIT", style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.green,
+                )),
           ])),
     );
   }

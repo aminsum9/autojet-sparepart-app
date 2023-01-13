@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import './adddata.dart';
 import 'detail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MaterialApp(home: Home()));
 
 class Home extends StatefulWidget {
   @override
   HomeState createState() => HomeState();
+}
+
+Future<String> getDataStorage(String key) async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString(key).toString();
 }
 
 Future<http.Response> postData(Uri url, dynamic body) async {
@@ -19,16 +25,17 @@ Future<http.Response> postData(Uri url, dynamic body) async {
 
 class HomeState extends State<Home> {
   Future<List> getData() async {
-    var body = {"page": 1, "paging": 10, "token": ""};
+    var token = await getDataStorage('token');
+
+    var body = {"page": "1", "paging": "10", "token": token.toString()};
 
     final response = await postData(
-        Uri.parse('http://192.168.43.128/barang/get_barangs'),
-        jsonEncode(body));
+        Uri.parse("http://192.168.43.128:8000/barang/get_barangs"), body);
 
     final data = jsonDecode(response.body);
 
     if (data['success'] == true) {
-      return data['data'];
+      return data['data']['data'];
     } else {
       var data = [];
       return data;

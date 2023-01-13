@@ -33,7 +33,7 @@ class _DetailState extends State<Detail> {
   }
 
   void deleteData() {
-    var url = "http://192.168.43.129/barang/delete";
+    var url = "http://192.168.43.128:8000/barang/delete";
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"]
     }).then((value) => Navigator.of(context)
@@ -54,7 +54,7 @@ class _DetailState extends State<Detail> {
               padding: EdgeInsets.all(15.0),
             ),
             Text(
-              widget.list[widget.index]['item_name'],
+              widget.list[widget.index]['name'],
               style: const TextStyle(
                   fontSize: 20.0,
                   color: Colors.blueAccent,
@@ -64,15 +64,19 @@ class _DetailState extends State<Detail> {
               padding: EdgeInsets.all(15.0),
             ),
             Text(
-              "Code : ${widget.list[widget.index]['item_code']}",
+              "Harga : ${widget.list[widget.index]['price']}",
               style: const TextStyle(fontSize: 17.0),
             ),
             Text(
-              "Price : ${widget.list[widget.index]['price']}",
+              "Diskon : ${widget.list[widget.index]['discount']}",
               style: const TextStyle(fontSize: 17.0),
             ),
             Text(
-              "Stock : ${widget.list[widget.index]['stock']}",
+              "Qty : ${widget.list[widget.index]['qty']}",
+              style: const TextStyle(fontSize: 17.0),
+            ),
+            Text(
+              "Deskripsi : ${widget.list[widget.index]['desc']}",
               style: const TextStyle(fontSize: 17.0),
             ),
             const Padding(

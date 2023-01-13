@@ -12,33 +12,36 @@ class EditData extends StatefulWidget {
 }
 
 class EditDataState extends State<EditData> {
-  TextEditingController controllerCode = TextEditingController(text: "");
+  TextEditingController controllerDesc = TextEditingController(text: "");
   TextEditingController controllerName = TextEditingController(text: "");
   TextEditingController controllerPrice = TextEditingController(text: "");
-  TextEditingController controllerStock = TextEditingController(text: "");
+  TextEditingController controllerQty = TextEditingController(text: "");
 
   editData() {
-    var url = "http://192.168.43.129/barang/update";
+    var url = "http://192.168.43.128:8000/barang/update";
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"],
-      "item_code": controllerCode.text,
-      "item_name": controllerName.text,
+      "desc": controllerDesc.text,
+      "name": controllerName.text,
       "price": controllerPrice.text,
-      "stock": controllerStock.text,
+      "stock": controllerQty.text,
+      "discount": "0",
     }).then((value) => Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) => Home())));
   }
 
   @override
   void initState() {
-    controllerCode =
-        TextEditingController(text: widget.list[widget.index]['item_code']);
+    controllerDesc =
+        TextEditingController(text: widget.list[widget.index]['desc']);
     controllerName =
-        TextEditingController(text: widget.list[widget.index]['item_name']);
-    controllerPrice =
-        TextEditingController(text: widget.list[widget.index]['price']);
-    controllerStock =
-        TextEditingController(text: widget.list[widget.index]['stock']);
+        TextEditingController(text: widget.list[widget.index]['name']);
+    controllerPrice = TextEditingController(
+        text: widget.list[widget.index]['price'] != null
+            ? widget.list[widget.index]['price']?.toString()
+            : "Empty");
+    controllerQty = TextEditingController(
+        text: widget.list[widget.index]['qty']?.toString());
     super.initState();
   }
 
@@ -62,7 +65,7 @@ class EditDataState extends State<EditData> {
                           fontSize: 25.0, fontWeight: FontWeight.bold)),
                   const Padding(padding: EdgeInsets.all(10.0)),
                   TextField(
-                    controller: controllerCode,
+                    controller: controllerDesc,
                     decoration:
                         const InputDecoration(hintText: "masukkan code"),
                   ),
@@ -80,21 +83,22 @@ class EditDataState extends State<EditData> {
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
                   TextField(
-                    controller: controllerStock,
+                    controller: controllerQty,
                     decoration:
                         const InputDecoration(hintText: "masukkan stock"),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
-                  TextButton(
-                    onPressed: () {
-                      editData();
-                    },
-                    child: const Text("EDIT",
-                        style: TextStyle(color: Colors.white)),
-                    // color: Colors.greenAccent
-                  )
                 ],
               ),
+              TextButton(
+                  onPressed: () {
+                    editData();
+                  },
+                  child:
+                      const Text("EDIT", style: TextStyle(color: Colors.white)),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  )),
             ]),
           ))),
     );
