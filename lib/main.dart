@@ -1,3 +1,4 @@
+import 'package:autojet_sparepart/detailsupplier.dart';
 import 'package:autojet_sparepart/listtransaksi.dart';
 import 'package:flutter/material.dart';
 import 'listbarang.dart';
@@ -7,6 +8,7 @@ import './register.dart';
 import './home.dart';
 //
 import './addtransaksi.dart';
+import './detailtransaksi.dart';
 import './listtransaksi.dart';
 //barang
 import './listbarang.dart';
@@ -20,6 +22,7 @@ import './detailuser.dart';
 import './edituser.dart';
 //supplier
 import './listsupplier.dart';
+import './detailsupplier.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
       '/home': (context) => Home(),
       //transaksi
       '/list_transaksi': (context) => ListTransaksi(),
+      '/detail_transaksi': (context) => DetailTransaksi(list: [], index: 0),
       '/add_transaksi': (context) => AddTransaksi(),
       //barang
       '/list_barang': (context) => ListBarang(),
@@ -46,6 +50,7 @@ class MyApp extends StatelessWidget {
       '/edit_user': (context) => EditUser(list: [], index: 0),
       //
       '/list_supplier': (context) => ListSupplier(),
+      '/detail_supplier': (context) => DetailSupplier(list: [], index: 0),
     });
   }
 }

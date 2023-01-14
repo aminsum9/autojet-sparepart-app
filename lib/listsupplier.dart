@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:autojet_sparepart/detailsupplier.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'detailuser.dart';
+import 'detailsupplier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ListSupplier extends StatefulWidget {
@@ -87,7 +88,7 @@ class ItemList extends StatelessWidget {
           child: GestureDetector(
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    DetailUser(list: list, index: i))),
+                    DetailSupplier(list: list, index: i))),
             child: Card(
               child: ListTile(
                 title: Text(list[i]["name"]),
