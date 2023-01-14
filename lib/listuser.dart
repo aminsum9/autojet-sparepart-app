@@ -45,13 +45,6 @@ class ListUserState extends State<ListUser> {
     // return [];
   }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getDataUser()
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

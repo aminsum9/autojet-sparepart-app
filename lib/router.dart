@@ -7,6 +7,7 @@ import './register.dart';
 //home
 import './home.dart';
 import './account.dart';
+import './report.dart';
 //
 import './addtransaksi.dart';
 import './detailtransaksi.dart';
@@ -64,6 +65,7 @@ class RouterState extends State<RouterApp> with TickerProviderStateMixin {
               '/register': (context) => Register(),
               '/home': (context) => Home(),
               '/account': (context) => Account(),
+              '/report': (context) => Report(list: [], index: 0),
               //transaksi
               '/list_transaksi': (context) => ListTransaksi(),
               '/detail_transaksi': (context) =>

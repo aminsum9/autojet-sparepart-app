@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import './edituser.dart';
+import 'dart:convert';
+import 'package:pretty_json/pretty_json.dart';
 
 class Account extends StatefulWidget {
   @override
@@ -24,6 +27,57 @@ Future<http.Response> postData(Uri url, dynamic body) async {
 }
 
 class AccountState extends State<Account> {
+  Map<String, dynamic> dataUser = {};
+
+  // AccountState({this.toEditUser});
+
+  getDataUser() async {
+    var token = await getDataStorage('token');
+
+    var body = {"token": token.toString()};
+
+    final response = await postData(
+        Uri.parse("http://192.168.43.128:8000/user/get_by_id"), body);
+
+    if (response.statusCode != 200) {
+      return [];
+    }
+
+    var data = await jsonDecode(response.body);
+    // var data = response.body;
+    // print(prettyJson(data));
+    if (data['success'] == true) {
+      setState(() {
+        dataUser = data['data'];
+      });
+    } else {
+      var data = [];
+      return data;
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDataUser();
+  }
+
+  void toEditUser() async {
+    print(prettyJson(dataUser));
+    if (dataUser['name'] != null) {
+      await Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) =>
+              EditUser(list: [dataUser], index: 0)));
+    }
+  }
+
+  void toReport() async {
+    if (dataUser['name'] != null) {
+      await Navigator.pushNamed(context, '/report');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,63 +87,45 @@ class AccountState extends State<Account> {
           ),
           backgroundColor: Colors.lightGreen,
         ),
-        body: Column(
+        drawerEdgeDragWidth: 10,
+        body: ListView(
           children: [
-            ItemList(
-                routeName: '/edit_user',
-                title: "Edit Akun",
-                icon: Icons.account_circle),
-            ItemList(
-                routeName: '/edit_user',
-                title: "Laporan",
-                icon: Icons.outbox_outlined),
-            TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.lightGreen),
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              child: GestureDetector(
+                onTap: () => toEditUser(),
+                child: const Card(
+                  child: ListTile(
+                    title: Text("Edit Akun"),
+                    leading: Icon(Icons.account_circle),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              child: GestureDetector(
+                onTap: () => toReport(),
+                child: const Card(
+                  child: ListTile(
+                    title: Text("Laporan"),
+                    leading: Icon(Icons.outbox_outlined),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              child: TextButton(
                 onPressed: () {
                   removeDataStorage();
                   Navigator.pushNamed(context, '/login');
                 },
-                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [Text("Log Out"), Icon(Icons.outbond)]))
+                child: Text("Log Out", style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(backgroundColor: Colors.lightGreen),
+              ),
+            ),
           ],
         ));
-  }
-}
-
-class ItemList extends StatelessWidget {
-  final String routeName;
-  final String title;
-  final IconData icon;
-  // var args = {
-  //   // "list": [
-  //   //   {
-  //   //     "name": "Amin",
-  //   //     "email": "amin@gmail.com",
-  //   //     "address": "Yogyakarta",
-  //   //     "phone": "8085743989094",
-  //   //     "id": "1"
-  //   //   }
-  //   // ],
-  //   "list": widget.list,
-  //   "index": widget.index
-  // };
-
-  ItemList({required this.routeName, required this.title, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      child: GestureDetector(
-        onTap: () => {Navigator.pushNamed(context, routeName)},
-        child: Card(
-          child: ListTile(
-            title: Text(title),
-            leading: Icon(icon),
-          ),
-        ),
-      ),
-    );
   }
 }

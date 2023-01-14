@@ -28,7 +28,7 @@ class EditUserState extends State<EditUser> {
     var token = await getDataStorage('token');
 
     var body = {
-      "id": widget.index != 0 ? widget.list[widget.index]["id"].toString() : "",
+      "id": widget.list[widget.index]["id"] ?? "",
       "name": controllerName.text,
       "email": controllerEmail.text.toString(),
       "image": "",
@@ -45,18 +45,14 @@ class EditUserState extends State<EditUser> {
 
   @override
   void initState() {
-    controllerAddress = TextEditingController(
-        text: widget.index != 0 ? widget.list[widget.index]['address'] : "");
-    controllerName = TextEditingController(
-        text: widget.index != 0 ? widget.list[widget.index]['name'] : "");
-    controllerEmail = TextEditingController(
-        text: widget.index != 0
-            ? widget.list[widget.index]['email']?.toString()
-            : "");
-    controllerPhone = TextEditingController(
-        text: widget.index != 0
-            ? widget.list[widget.index]['phone']?.toString()
-            : "");
+    controllerAddress =
+        TextEditingController(text: widget.list[widget.index]['address'] ?? "");
+    controllerName =
+        TextEditingController(text: widget.list[widget.index]['name'] ?? "");
+    controllerEmail =
+        TextEditingController(text: widget.list[widget.index]['email'] ?? "");
+    controllerPhone =
+        TextEditingController(text: widget.list[widget.index]['phone'] ?? "");
     super.initState();
   }
 
@@ -65,7 +61,7 @@ class EditUserState extends State<EditUser> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Data User"),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.lightGreen,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -112,7 +108,7 @@ class EditUserState extends State<EditUser> {
                   },
                   child: Text("EDIT", style: TextStyle(color: Colors.white)),
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.lightGreen,
                   )),
             ]),
           ))),
