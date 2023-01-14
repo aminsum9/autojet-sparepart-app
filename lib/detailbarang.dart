@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'editbarang.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'listbarang.dart';
+import 'home.dart';
 
 class DetailBarang extends StatefulWidget {
   List list;
   int index;
+
   DetailBarang({required this.list, required this.index});
   @override
   DetailState createState() => DetailState();
@@ -55,8 +56,8 @@ class DetailState extends State<DetailBarang> {
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),
       "token": token.toString(),
-    }).then((value) => Navigator.of(context).push(
-        MaterialPageRoute(builder: (BuildContext contex) => ListBarang())));
+    }).then((value) => Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext contex) => Home())));
   }
 
   @override

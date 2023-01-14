@@ -21,7 +21,7 @@ Future<http.Response> postData(Uri url, dynamic body) async {
 }
 
 class ListUserState extends State<ListUser> {
-  Future<List> getData() async {
+  Future<List> getDataUser() async {
     var token = await getDataStorage('token');
 
     var body = {"page": "1", "paging": "10", "token": token.toString()};
@@ -29,7 +29,12 @@ class ListUserState extends State<ListUser> {
     final response = await postData(
         Uri.parse("http://192.168.43.128:8000/user/get_users"), body);
 
-    final data = jsonDecode(response.body);
+    if (response.statusCode != 200) {
+      return [];
+    }
+
+    var data = await jsonDecode(response.body);
+    // var data = response.body;
 
     if (data['success'] == true) {
       return data['data']['data'];
@@ -37,18 +42,26 @@ class ListUserState extends State<ListUser> {
       var data = [];
       return data;
     }
+    // return [];
   }
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   getDataUser()
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, '/add_barang'),
+          onPressed: () => Navigator.pushNamed(context, '/add_user'),
           child: const Icon(Icons.add),
           backgroundColor: Colors.green,
         ),
         body: FutureBuilder(
-            future: getData(),
+            future: getDataUser(),
             builder: (context, snapshot) {
               if (snapshot.hasError) print(snapshot.error);
               return snapshot.hasData

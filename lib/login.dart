@@ -131,11 +131,12 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       final data = jsonDecode(response.body);
 
       if (data['success'] == true) {
-        await saveDataStorage('token', data['api_key']);
-        setState(() {
-          sucessLogin = true;
-          // statusClick = 0;
-        });
+        saveDataStorage('token', data['api_key']).then((value) => {
+              setState(() {
+                sucessLogin = true;
+                // statusClick = 0;
+              })
+            });
       } else {
         setState(() {
           sucessLogin = false;

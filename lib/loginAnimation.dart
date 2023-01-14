@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'listbarang.dart';
+import 'home.dart';
 
 class StartAnimation extends StatefulWidget {
   StartAnimation(
@@ -97,8 +97,8 @@ class StartAnimationState extends State<StartAnimation>
       // debugPrint("-----terakhir kesini");
       // if (widget.zoomAnimation.isCompleted) {
       if (widget.successLogin == true) {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (BuildContext context) => ListBarang()));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext context) => Home()));
         // }
       }
     });

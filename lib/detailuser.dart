@@ -1,9 +1,9 @@
-// import 'package:crud_flutter/editdata.dart';
+import 'dart:convert';
+
+import 'package:autojet_sparepart/edituser.dart';
 import 'package:flutter/material.dart';
-import 'editbarang.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'listuser.dart';
 
 class DetailUser extends StatefulWidget {
   List list;
@@ -55,8 +55,8 @@ class DetailState extends State<DetailUser> {
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),
       "token": token.toString(),
-    }).then((value) => Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext contex) => ListUser())));
+    }).then((response) =>
+        {Navigator.pop(context, true), Navigator.pop(context, true)});
   }
 
   @override
@@ -109,7 +109,7 @@ class DetailState extends State<DetailUser> {
                 TextButton(
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          EditBarang(list: widget.list, index: widget.index))),
+                          EditUser(list: widget.list, index: widget.index))),
                   child: const Text("EDIT"),
                   // color: Colors.lightGreen
                 ),
