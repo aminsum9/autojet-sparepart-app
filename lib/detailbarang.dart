@@ -64,7 +64,7 @@ class DetailState extends State<DetailBarang> {
     return Scaffold(
         appBar: AppBar(
             title: Text("${widget.list[widget.index]['name']}"),
-            backgroundColor: Colors.green),
+            backgroundColor: Colors.lightGreen),
         body: Container(
           height: 300.0,
           padding: const EdgeInsets.all(20.0),

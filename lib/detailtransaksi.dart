@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:autojet_sparepart/edituser.dart';
+import 'package:autojet_sparepart/edittransaksi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,7 +64,7 @@ class DetailState extends State<DetailTransaksi> {
     return Scaffold(
         appBar: AppBar(
             title: Text("${widget.list[widget.index]['trx_id']}"),
-            backgroundColor: Colors.green),
+            backgroundColor: Colors.lightGreen),
         body: Container(
           height: 300.0,
           padding: const EdgeInsets.all(20.0),
@@ -108,8 +108,8 @@ class DetailState extends State<DetailTransaksi> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          EditUser(list: widget.list, index: widget.index))),
+                      builder: (BuildContext context) => EditTransaksi(
+                          list: widget.list, index: widget.index))),
                   child: const Text("EDIT"),
                   // color: Colors.lightGreen
                 ),

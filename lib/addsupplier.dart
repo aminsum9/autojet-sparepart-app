@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AddTransaksi extends StatefulWidget {
+class AddSupplier extends StatefulWidget {
   @override
-  AddDataState createState() => AddDataState();
+  AddSupplierState createState() => AddSupplierState();
 }
 
-class AddDataState extends State<AddTransaksi> {
+class AddSupplierState extends State<AddSupplier> {
   TextEditingController controllerName = TextEditingController(text: "");
-  TextEditingController controllerPrice = TextEditingController(text: "");
-  TextEditingController controllerDiscount = TextEditingController(text: "");
-  TextEditingController controllerStock = TextEditingController(text: "");
+  TextEditingController controllerEmail = TextEditingController(text: "");
+  TextEditingController controllerPhone = TextEditingController(text: "");
+  TextEditingController controllerAddress = TextEditingController(text: "");
   TextEditingController controllerDesc = TextEditingController(text: "");
 
   Future<String> getDataStorage(String key) async {
@@ -22,18 +22,18 @@ class AddDataState extends State<AddTransaksi> {
   void addData() async {
     var token = await getDataStorage('token');
 
-    var url = "http://192.168.43.128:8000/barang/add";
+    var url = "http://192.168.43.128:8000/supplier/add";
 
     http.post(Uri.parse(url), body: {
       "name": controllerName.text,
-      "price": controllerPrice.text,
-      "discount": controllerDiscount.text,
-      "qty": controllerStock.text,
+      "email": controllerEmail.text,
+      "phone": controllerPhone.text,
+      "address": controllerAddress.text,
       "image": "",
       "desc": controllerDesc.text,
       "token": token.toString(),
     }).then((response) => {
-          if (response.statusCode == 200) {Navigator.pop(context)}
+          if (response.statusCode == 200) {Navigator.pop(context, true)}
         });
   }
 
@@ -41,7 +41,7 @@ class AddDataState extends State<AddTransaksi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Buat Transaksi"),
+        title: const Text("Tambah Supplier"),
         backgroundColor: Colors.lightGreen,
       ),
       body: Container(
@@ -55,25 +55,25 @@ class AddDataState extends State<AddTransaksi> {
                       hintText: "masukkan nama item", labelText: "Nama"),
                 ),
                 TextField(
-                  controller: controllerPrice,
+                  controller: controllerEmail,
                   decoration: const InputDecoration(
-                      hintText: "masukkan harga item", labelText: "Harga"),
+                      hintText: "masukkan email user baru", labelText: "Email"),
                 ),
                 TextField(
-                  controller: controllerDiscount,
+                  controller: controllerPhone,
                   decoration: const InputDecoration(
-                      hintText: "masukkan diskon barang", labelText: "Diskon"),
+                      hintText: "masukkan No. Telp. user baru",
+                      labelText: "No. Telepon"),
                 ),
                 TextField(
-                  controller: controllerStock,
+                  controller: controllerAddress,
                   decoration: const InputDecoration(
-                      hintText: "masukkan stock item", labelText: "Qty"),
+                      hintText: "masukkan alamat", labelText: "Alamat"),
                 ),
                 TextField(
                   controller: controllerDesc,
                   decoration: const InputDecoration(
-                      hintText: "masukkan code item",
-                      labelText: "Deskripsi barang"),
+                      hintText: "masukkan deskripsi", labelText: "Deskripsi"),
                 ),
                 const Padding(
                   padding: EdgeInsets.all(20.0),

@@ -12,6 +12,7 @@ import './report.dart';
 import './addtransaksi.dart';
 import './detailtransaksi.dart';
 import './listtransaksi.dart';
+import './edittransaksi.dart';
 //barang
 import './listbarang.dart';
 import './addbarang.dart';
@@ -23,8 +24,10 @@ import './adduser.dart';
 import './detailuser.dart';
 import './edituser.dart';
 //supplier
+import './addsupplier.dart';
 import './listsupplier.dart';
 import './detailsupplier.dart';
+import './editsupplier.dart';
 
 class AppRouter extends InheritedWidget {
   final Color color;
@@ -71,6 +74,7 @@ class RouterState extends State<RouterApp> with TickerProviderStateMixin {
               '/detail_transaksi': (context) =>
                   DetailTransaksi(list: [], index: 0),
               '/add_transaksi': (context) => AddTransaksi(),
+              '/edit_transaksi': (context) => EditTransaksi(list: [], index: 0),
               //barang
               '/list_barang': (context) => ListBarang(),
               '/detail_barang': (context) => DetailBarang(list: [], index: 0),
@@ -83,8 +87,10 @@ class RouterState extends State<RouterApp> with TickerProviderStateMixin {
               '/edit_user': (context) => EditUser(list: [], index: 0),
               //
               '/list_supplier': (context) => ListSupplier(),
+              '/add_supplier': (context) => AddSupplier(),
               '/detail_supplier': (context) =>
                   DetailSupplier(list: [], index: 0),
+              '/edit_supplier': (context) => EditSupplier(list: [], index: 0),
             }));
   }
 }

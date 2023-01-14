@@ -42,7 +42,7 @@ class AddUserState extends State<AddUser> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tambah User"),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.lightGreen,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -87,7 +87,7 @@ class AddUserState extends State<AddUser> {
                 },
                 child: Text("SUBMIT", style: TextStyle(color: Colors.white)),
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.lightGreen,
                 )),
           ])),
     );

@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:autojet_sparepart/edituser.dart';
+import 'package:autojet_sparepart/editsupplier.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:autojet_sparepart/editsupplier.dart';
 
 class DetailSupplier extends StatefulWidget {
   List list;
@@ -64,7 +65,7 @@ class DetailState extends State<DetailSupplier> {
     return Scaffold(
         appBar: AppBar(
             title: Text("${widget.list[widget.index]['name']}"),
-            backgroundColor: Colors.green),
+            backgroundColor: Colors.lightGreen),
         body: Container(
           height: 300.0,
           padding: const EdgeInsets.all(20.0),
@@ -96,10 +97,10 @@ class DetailState extends State<DetailSupplier> {
               "No. Telp. : ${widget.list[widget.index]['phone']}",
               style: const TextStyle(fontSize: 17.0),
             ),
-            // Text(
-            //   "Deskripsi : ${widget.list[widget.index]['desc']}",
-            //   style: const TextStyle(fontSize: 17.0),
-            // ),
+            Text(
+              "Deskripsi : ${widget.list[widget.index]['desc']}",
+              style: const TextStyle(fontSize: 17.0),
+            ),
             const Padding(
               padding: EdgeInsets.all(20.0),
             ),
@@ -108,8 +109,8 @@ class DetailState extends State<DetailSupplier> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          EditUser(list: widget.list, index: widget.index))),
+                      builder: (BuildContext context) => EditSupplier(
+                          list: widget.list, index: widget.index))),
                   child: const Text("EDIT"),
                   // color: Colors.lightGreen
                 ),

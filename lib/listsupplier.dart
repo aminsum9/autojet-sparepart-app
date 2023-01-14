@@ -46,20 +46,13 @@ class ListSupplierState extends State<ListSupplier> {
     // return [];
   }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getDataUser()
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, '/add_transaksi'),
+          onPressed: () => Navigator.pushNamed(context, '/add_supplier'),
           child: const Icon(Icons.add),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.lightGreen,
         ),
         body: FutureBuilder(
             future: getDataTransaksi(),

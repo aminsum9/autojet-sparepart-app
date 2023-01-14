@@ -4,20 +4,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
 import 'home.dart';
 
-class EditUser extends StatefulWidget {
+class EditSupplier extends StatefulWidget {
   final List list;
   final int index;
 
-  EditUser({required this.list, this.index = 0});
+  EditSupplier({required this.list, this.index = 0});
   @override
-  EditUserState createState() => EditUserState();
+  EditSupplierState createState() => EditSupplierState();
 }
 
-class EditUserState extends State<EditUser> {
+class EditSupplierState extends State<EditSupplier> {
   TextEditingController controllerAddress = TextEditingController(text: "");
   TextEditingController controllerName = TextEditingController(text: "");
   TextEditingController controllerEmail = TextEditingController(text: "");
   TextEditingController controllerPhone = TextEditingController(text: "");
+  TextEditingController controllerDesc = TextEditingController(text: "");
 
   Future<String> getDataStorage(String key) async {
     final prefs = await SharedPreferences.getInstance();
@@ -34,10 +35,11 @@ class EditUserState extends State<EditUser> {
       "image": "",
       "address": controllerAddress.text,
       "phone": controllerPhone.text.toString(),
+      "desc": controllerDesc.text.toString(),
       "token": token.toString(),
     };
 
-    var url = "http://192.168.43.128:8000/user/update";
+    var url = "http://192.168.43.128:8000/supplier/update";
     http
         .post(Uri.parse(url), body: body)
         .then((value) => Navigator.pushNamed(context, '/home'));
@@ -53,6 +55,8 @@ class EditUserState extends State<EditUser> {
         TextEditingController(text: widget.list[widget.index]['email'] ?? "");
     controllerPhone =
         TextEditingController(text: widget.list[widget.index]['phone'] ?? "");
+    controllerDesc =
+        TextEditingController(text: widget.list[widget.index]['desc'] ?? "");
     super.initState();
   }
 
@@ -60,7 +64,7 @@ class EditUserState extends State<EditUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Data User"),
+        title: const Text("Edit Data Supplier"),
         backgroundColor: Colors.lightGreen,
       ),
       body: Container(
@@ -72,7 +76,7 @@ class EditUserState extends State<EditUser> {
               Column(
                 children: [
                   const Padding(padding: EdgeInsets.all(10.0)),
-                  const Text("Edit Data User",
+                  const Text("Edit Data Supplier",
                       style: TextStyle(
                           fontSize: 25.0, fontWeight: FontWeight.bold)),
                   const Padding(padding: EdgeInsets.all(10.0)),
@@ -98,6 +102,11 @@ class EditUserState extends State<EditUser> {
                     controller: controllerAddress,
                     decoration:
                         const InputDecoration(hintText: "masukkan alamat"),
+                  ),
+                  TextField(
+                    controller: controllerDesc,
+                    decoration:
+                        const InputDecoration(hintText: "masukkan deskripsi"),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
                 ],

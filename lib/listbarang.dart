@@ -78,7 +78,7 @@ class ItemList extends StatelessWidget {
             child: Card(
               child: ListTile(
                 title: Text(list[i]["name"]),
-                subtitle: Text('Stock${list[i]["qty"]}'),
+                subtitle: Text('Qty : ${list[i]["qty"]}'),
                 leading: const Icon(Icons.widgets),
               ),
             ),
