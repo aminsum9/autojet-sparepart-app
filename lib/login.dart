@@ -72,18 +72,18 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           });
     animationControllerButton.forward();
 
-    getDataStorage('token').then((token) => {
-          if (token.toString() != null)
-            {
-              postData(
-                  Uri.parse('http://192.168.43.128:8000/user/check_login'), {
-                "token": token.toString()
-              }).then((response) => {
-                    if (response.statusCode == 200)
-                      {Navigator.pushNamed(context, '/home')}
-                  })
-            }
-        });
+    // getDataStorage('token').then((token) => {
+    //       if (token.toString() != null)
+    //         {
+    //           postData(
+    //               Uri.parse('http://192.168.43.128:8000/user/check_login'), {
+    //             "token": token.toString()
+    //           }).then((response) => {
+    //                 if (response.statusCode == 200)
+    //                   {Navigator.pushNamed(context, '/home')}
+    //               })
+    //         }
+    //     });
   }
 
   @override

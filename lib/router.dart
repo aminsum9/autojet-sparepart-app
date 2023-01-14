@@ -1,7 +1,6 @@
-import 'package:autojet_sparepart/detailsupplier.dart';
-import 'package:autojet_sparepart/listtransaksi.dart';
 import 'package:flutter/material.dart';
-import 'listbarang.dart';
+//
+import '/splash.dart';
 import './login.dart';
 import './register.dart';
 //home
@@ -61,8 +60,20 @@ class RouterState extends State<RouterApp> with TickerProviderStateMixin {
     return AppRouter(
         color: Colors.lightGreen,
         child: MaterialApp(
-            home: LoginPage(),
+            home: Splash(),
             debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              brightness: Brightness.light,
+              // add tabBarTheme
+              tabBarTheme: const TabBarTheme(
+                  labelColor: Colors.white,
+                  labelStyle: TextStyle(color: Colors.white), // color for text
+                  indicator: UnderlineTabIndicator(
+                      // color for indicator (underline)
+                      borderSide: BorderSide(color: Colors.white))),
+              primaryColor:
+                  Colors.lightGreen, // outdated and has no effect to Tabbar
+            ),
             routes: {
               '/login': (context) => LoginPage(),
               '/register': (context) => Register(),
