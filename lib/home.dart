@@ -32,7 +32,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           controller: _tabController,
           tabs: const <Widget>[
             Tab(
-              icon: Icon(Icons.gif_box),
+              icon: Icon(Icons.widgets),
               child: Text("Daftar Barang"),
             ),
             Tab(

@@ -92,7 +92,7 @@ class ItemList extends StatelessWidget {
               child: ListTile(
                 title: Text(list[i]["name"]),
                 subtitle: Text('Email : ${list[i]["email"]}'),
-                leading: const Icon(Icons.widgets),
+                leading: const Icon(Icons.account_circle),
               ),
             ),
           ),
