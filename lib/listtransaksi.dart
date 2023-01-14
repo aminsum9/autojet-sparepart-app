@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'detailuser.dart';
+import 'detailtransaksi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ListTransaksi extends StatefulWidget {
@@ -87,7 +87,7 @@ class ItemList extends StatelessWidget {
           child: GestureDetector(
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    DetailUser(list: list, index: i))),
+                    DetailTransaksi(list: list, index: i))),
             child: Card(
               child: ListTile(
                 title: Text(list[i]["trx_id"]),
