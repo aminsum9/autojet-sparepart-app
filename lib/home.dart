@@ -1,8 +1,8 @@
 import 'package:autojet_sparepart/listbarang.dart';
+import 'package:autojet_sparepart/listsupplier.dart';
+import 'package:autojet_sparepart/listtransaksi.dart';
 import 'package:autojet_sparepart/listuser.dart';
 import 'package:flutter/material.dart';
-// import './listbarang.dart';
-// import './listuser.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,7 +19,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -32,12 +32,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           controller: _tabController,
           tabs: const <Widget>[
             Tab(
+              icon: Icon(Icons.book),
+              child: Text("Transaksi"),
+            ),
+            Tab(
               icon: Icon(Icons.widgets),
-              child: Text("Daftar Barang"),
+              child: Text("Barang"),
             ),
             Tab(
               icon: Icon(Icons.account_box),
-              child: Text("Daftar User"),
+              child: Text("User"),
+            ),
+            Tab(
+              icon: Icon(Icons.factory),
+              child: Text("Supplier"),
             ),
           ],
         ),
@@ -45,8 +53,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: [
+          ListTransaksi(),
           ListBarang(),
           ListUser(),
+          ListSupplier(),
         ],
       ),
     );
