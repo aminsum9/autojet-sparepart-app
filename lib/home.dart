@@ -8,12 +8,11 @@ class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Home> createState() => HomeState();
 }
 
-/// [AnimationController]s can be created with `vsync: this` because of
 /// [TickerProviderStateMixin].
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class HomeState extends State<Home> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -24,9 +23,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // final state = MyApp.of(context).state;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+              icon: const Icon(
+                Icons.account_circle,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/account');
+              })
+        ],
         backgroundColor: Colors.lightGreen,
         bottom: TabBar(
           controller: _tabController,

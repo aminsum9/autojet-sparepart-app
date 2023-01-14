@@ -56,8 +56,7 @@ class DetailState extends State<DetailBarang> {
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),
       "token": token.toString(),
-    }).then((value) => Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext contex) => Home())));
+    }).then((value) => Navigator.pushNamed(context, '/home'));
   }
 
   @override

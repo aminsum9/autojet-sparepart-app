@@ -93,12 +93,9 @@ class StartAnimationState extends State<StartAnimation>
   @override
   Widget build(BuildContext context) {
     widget.buttonController.addListener(() {
-      // debugPrint(widget.zoomAnimation.isCompleted.toString());
-      // debugPrint("-----terakhir kesini");
       // if (widget.zoomAnimation.isCompleted) {
       if (widget.successLogin == true) {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext context) => Home()));
+        Navigator.pushNamed(context, '/home');
         // }
       }
     });

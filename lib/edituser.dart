@@ -38,8 +38,9 @@ class EditUserState extends State<EditUser> {
     };
 
     var url = "http://192.168.43.128:8000/user/update";
-    http.post(Uri.parse(url), body: body).then((value) => Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) => Home())));
+    http
+        .post(Uri.parse(url), body: body)
+        .then((value) => Navigator.pushNamed(context, '/home'));
   }
 
   @override
