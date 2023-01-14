@@ -28,7 +28,7 @@ class EditUserState extends State<EditUser> {
     var token = await getDataStorage('token');
 
     var body = {
-      "id": widget.list[widget.index]["id"].toString(),
+      "id": widget.index != 0 ? widget.list[widget.index]["id"].toString() : "",
       "name": controllerName.text,
       "email": controllerEmail.text.toString(),
       "image": "",
@@ -45,16 +45,18 @@ class EditUserState extends State<EditUser> {
 
   @override
   void initState() {
-    controllerAddress =
-        TextEditingController(text: widget.list[widget.index]['address']);
-    controllerName =
-        TextEditingController(text: widget.list[widget.index]['name']);
+    controllerAddress = TextEditingController(
+        text: widget.index != 0 ? widget.list[widget.index]['address'] : "");
+    controllerName = TextEditingController(
+        text: widget.index != 0 ? widget.list[widget.index]['name'] : "");
     controllerEmail = TextEditingController(
-        text: widget.list[widget.index]['email'] != null
+        text: widget.index != 0
             ? widget.list[widget.index]['email']?.toString()
             : "");
     controllerPhone = TextEditingController(
-        text: widget.list[widget.index]['phone']?.toString());
+        text: widget.index != 0
+            ? widget.list[widget.index]['phone']?.toString()
+            : "");
     super.initState();
   }
 
