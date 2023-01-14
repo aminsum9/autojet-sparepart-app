@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'editbarang.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'listbarang.dart';
+import 'listuser.dart';
 
-class DetailBarang extends StatefulWidget {
+class DetailUser extends StatefulWidget {
   List list;
   int index;
-  DetailBarang({required this.list, required this.index});
+  DetailUser({required this.list, required this.index});
   @override
   DetailState createState() => DetailState();
 }
 
-class DetailState extends State<DetailBarang> {
+class DetailState extends State<DetailUser> {
   void confirmDelete() {
     showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Hapus Barang?'),
+          title: const Text('Hapus User?'),
           content: Text(
               "Apakah anda yakin ingin menghapus'${widget.list[widget.index]['name']}'?"),
           actions: <Widget>[
@@ -50,13 +50,13 @@ class DetailState extends State<DetailBarang> {
   void deleteData() async {
     var token = await getDataStorage('token');
 
-    var url = "http://192.168.43.128:8000/barang/delete";
+    var url = "http://192.168.43.128:8000/user/delete";
 
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),
       "token": token.toString(),
-    }).then((value) => Navigator.of(context).push(
-        MaterialPageRoute(builder: (BuildContext contex) => ListBarang())));
+    }).then((value) => Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext contex) => ListUser())));
   }
 
   @override
@@ -85,21 +85,21 @@ class DetailState extends State<DetailBarang> {
               padding: EdgeInsets.all(15.0),
             ),
             Text(
-              "Harga : ${widget.list[widget.index]['price']}",
+              "Email : ${widget.list[widget.index]['email']}",
               style: const TextStyle(fontSize: 17.0),
             ),
             Text(
-              "Diskon : ${widget.list[widget.index]['discount']}",
+              "Alamat : ${widget.list[widget.index]['address']}",
               style: const TextStyle(fontSize: 17.0),
             ),
             Text(
-              "Qty : ${widget.list[widget.index]['qty']}",
+              "No. Telp. : ${widget.list[widget.index]['phone']}",
               style: const TextStyle(fontSize: 17.0),
             ),
-            Text(
-              "Deskripsi : ${widget.list[widget.index]['desc']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
+            // Text(
+            //   "Deskripsi : ${widget.list[widget.index]['desc']}",
+            //   style: const TextStyle(fontSize: 17.0),
+            // ),
             const Padding(
               padding: EdgeInsets.all(20.0),
             ),

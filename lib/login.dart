@@ -150,20 +150,18 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     }
   }
 
+  void toRegister() {
+    Navigator.pushNamed(context, '/register');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('img/bg.jpg'), fit: BoxFit.cover)),
       child: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-                colors: [
-              Color.fromRGBO(162, 146, 199, 0.8),
-              Color.fromRGBO(51, 51, 63, 0.9)
-            ],
+                colors: [Colors.white, Colors.lightGreen],
                 begin: FractionalOffset.topCenter,
                 end: FractionalOffset.bottomCenter)),
         child: ListView(padding: const EdgeInsets.all(20.0), children: [
@@ -194,6 +192,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                       TextField(
                         controller: controllerPassword,
+                        obscureText: true,
                         decoration: const InputDecoration(
                             icon: Icon(
                               Icons.lock_outline,
@@ -201,15 +200,17 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             ),
                             hintText: "Password"),
                       ),
-                      const TextButton(
+                      TextButton(
                           // padding:
                           //     const EdgeInsets.only(top: 220.0, bottom: 30.0),
-                          onPressed: null,
-                          child: Text(
-                            "Dont have any account? Sign up here.",
+                          onPressed: () {
+                            toRegister();
+                          },
+                          child: const Text(
+                            "Belum punya akun? daftar di sini.",
                             style: TextStyle(
                                 fontSize: 12.0,
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.w300,
                                 letterSpacing: 0.5),
                           )),
