@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import './loginAnimation.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,59 +37,12 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   var statusClick = 0;
   var sucessLogin = false;
-
-  // late AnimationController animationControllerButton;
-  late AnimationController animationControllerButton;
-  Animation? animation;
-
-  Future<bool> saveDataStorage2(String key, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.setString(key, value);
-  }
-
-  Future<String> getDataStorage2(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key).toString();
-  }
-
-  Future<http.Response> postData2(Uri url, dynamic body) async {
-    final response = await http.post(url, body: body);
-    return response;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    animationControllerButton =
-        AnimationController(duration: const Duration(seconds: 3), vsync: this)
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.dismissed) {
-              setState(() {
-                statusClick = 0;
-              });
-            }
-          });
-    animationControllerButton.forward();
-
-    // getDataStorage('token').then((token) => {
-    //       if (token.toString() != null)
-    //         {
-    //           postData(
-    //               Uri.parse('http://192.168.43.128:8000/user/check_login'), {
-    //             "token": token.toString()
-    //           }).then((response) => {
-    //                 if (response.statusCode == 200)
-    //                   {Navigator.pushNamed(context, '/home')}
-    //               })
-    //         }
-    //     });
-  }
+  var errorMessage = "";
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    animationControllerButton.dispose();
   }
 
   Future<bool> saveDataStorage(String key, String value) async {
@@ -109,12 +61,6 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 
   Future _hadleLogin() async {
-    try {
-      animationControllerButton.forward();
-      animationControllerButton.reverse();
-    } on TickerCanceled {}
-    ;
-
     setState(() {
       statusClick = 1;
     });
@@ -131,16 +77,12 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       final data = jsonDecode(response.body);
 
       if (data['success'] == true) {
-        saveDataStorage('token', data['api_key']).then((value) => {
-              setState(() {
-                sucessLogin = true;
-                // statusClick = 0;
-              })
-            });
+        saveDataStorage('token', data['api_key'])
+            .then((value) => {Navigator.pushNamed(context, '/home')});
       } else {
         setState(() {
           sucessLogin = false;
-          // statusClick = 0;
+          errorMessage = data['message'];
         });
       }
     } else {
@@ -201,6 +143,12 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             ),
                             hintText: "Password"),
                       ),
+                      const Padding(padding: EdgeInsets.only(top: 13)),
+                      errorMessage != ""
+                          ? Text(errorMessage,
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.red))
+                          : const Text(""),
                       TextButton(
                           // padding:
                           //     const EdgeInsets.only(top: 220.0, bottom: 30.0),
@@ -215,16 +163,11 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 fontWeight: FontWeight.w300,
                                 letterSpacing: 0.5),
                           )),
-                      statusClick == 0
-                          ? InkWell(
-                              onTap: () {
-                                _hadleLogin();
-                              },
-                              child: SignIn())
-                          : StartAnimation(
-                              buttonController: animationControllerButton,
-                              successLogin: sucessLogin,
-                            )
+                      InkWell(
+                          onTap: () {
+                            _hadleLogin();
+                          },
+                          child: SignIn())
                     ],
                   ),
                 )
