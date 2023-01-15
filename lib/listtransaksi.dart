@@ -91,8 +91,9 @@ class ItemList extends StatelessWidget {
                     DetailTransaksi(list: list, index: i))),
             child: Card(
               child: ListTile(
-                title: Text(list[i]["trx_id"]),
-                subtitle: Text('Status : ${list[i]["status"]}'),
+                title: Text("${list[i]["trx_id"]} (${list[i]["status"]})"),
+                subtitle: Text(
+                    'Dibuat tgl. : ${list[i]["created_at"].split('T')[0]}'),
                 leading: const Icon(Icons.account_circle),
               ),
             ),

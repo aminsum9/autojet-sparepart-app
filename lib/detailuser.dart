@@ -107,13 +107,13 @@ class DetailState extends State<DetailUser> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          EditUser(list: widget.list, index: widget.index))),
-                  child: const Text("EDIT"),
-                  // color: Colors.lightGreen
-                ),
+                // TextButton(
+                //   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (BuildContext context) =>
+                //           EditUser(list: widget.list, index: widget.index))),
+                //   child: const Text("EDIT"),
+                //   // color: Colors.lightGreen
+                // ),
                 const Padding(padding: EdgeInsets.all(15.0)),
                 TextButton(
                   onPressed: () => confirmDelete(),
