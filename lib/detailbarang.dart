@@ -17,6 +17,7 @@ class DetailBarang extends StatefulWidget {
 
 class DetailState extends State<DetailBarang> {
   String suppliersBy = "";
+  String userInput = "";
 
   void confirmDelete() {
     showDialog<void>(
@@ -50,15 +51,22 @@ class DetailState extends State<DetailBarang> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    //supplier
     List<dynamic> suppliers = widget.list[widget.index]['suppliers'];
 
     String supplier = "";
 
     suppliers.forEach((e) => {supplier = "${supplier} - ${e['name']}\n"});
 
-    debugPrint(supplier);
-
     suppliersBy = supplier;
+    //barang
+    List<dynamic> inputBy = widget.list[widget.index]['input_by'];
+
+    String input_by = "";
+
+    inputBy.forEach((e) => {input_by = "${input_by} - ${e['name']}\n"});
+
+    userInput = input_by;
   }
 
   Future<String> getDataStorage(String key) async {
@@ -131,6 +139,21 @@ class DetailState extends State<DetailBarang> {
             ),
             Text(
               "${suppliersBy}",
+              style: const TextStyle(fontSize: 17.0),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+            ),
+            Text(
+              "Diinput Oleh :",
+              style:
+                  const TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(5.0),
+            ),
+            Text(
+              "${userInput}",
               style: const TextStyle(fontSize: 17.0),
             ),
             const Padding(
