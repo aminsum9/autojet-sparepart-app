@@ -52,7 +52,7 @@ class ListSupplierState extends State<ListSupplier> {
         floatingActionButton: FloatingActionButton(
           onPressed: () => Navigator.pushNamed(context, '/add_supplier'),
           child: const Icon(Icons.add),
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: Colors.green,
         ),
         body: FutureBuilder(
             future: getDataTransaksi(),

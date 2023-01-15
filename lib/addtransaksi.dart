@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pretty_json/pretty_json.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:item_picker/item_picker.dart';
 import 'dart:convert';
@@ -12,16 +13,14 @@ class AddTransaksi extends StatefulWidget {
 class AddDataState extends State<AddTransaksi> {
   TextEditingController controllerDiscount = TextEditingController(text: "");
   TextEditingController controllerNotes = TextEditingController(text: "");
+  TextEditingController controllerQty = TextEditingController(text: "");
   //
   String selectedBarang = "";
-  String selectedUser = "";
   String subTotal = "";
   //
-  List<MapEntry<String, dynamic>> dataUsers = [];
   List<MapEntry<String, dynamic>> dataBarang = [];
-  List<dynamic> barangTransaksi = [
-    {"qty": "10"}
-  ];
+  List<Widget> detailTransaksi = [];
+  List<dynamic> barangTransaksi = [];
   //
 
   Future<http.Response> postData(Uri url, dynamic body) async {
@@ -32,36 +31,6 @@ class AddDataState extends State<AddTransaksi> {
   Future<String> getDataStorage(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(key).toString();
-  }
-
-  getDataUSers() async {
-    var token = await getDataStorage('token');
-
-    var body = {"page": "1", "paging": "10", "token": token.toString()};
-
-    final response = await postData(
-        Uri.parse("http://192.168.43.128:8000/user/get_users"), body);
-
-    if (response.statusCode != 200) {
-      return [];
-    }
-
-    var data = await jsonDecode(response.body);
-
-    if (data['success'] == true) {
-      List<MapEntry<String, dynamic>> resultBarang = [];
-
-      data['data']['data'].forEach((dynamic item) =>
-          {resultBarang.add(MapEntry(item['name'], item['id'].toString()))});
-
-      setState(() {
-        dataUsers = resultBarang;
-      });
-    } else {
-      setState(() {
-        dataUsers = [];
-      });
-    }
   }
 
   getDataBarang() async {
@@ -98,7 +67,6 @@ class AddDataState extends State<AddTransaksi> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getDataUSers();
     getDataBarang();
   }
 
@@ -107,21 +75,148 @@ class AddDataState extends State<AddTransaksi> {
 
     var url = "http://192.168.43.128:8000/transaksi/create_transaksi";
 
-    List<MapEntry<String, dynamic>> detailTransaksi = [];
+    List<dynamic> detailTransaksi = [];
 
     barangTransaksi.forEach((item) {
-      barangTransaksi.add(item);
+      detailTransaksi.add(item);
     });
 
-    http.post(Uri.parse(url), body: {
-      "user_id": selectedUser,
-      "detail_transaksi": detailTransaksi,
-      "discount": controllerDiscount.text,
+    var body = {
+      "trx_id": "TESSS", // tes
+      "user_id": "1", // tes
+      "detail_transaksi": jsonEncode(detailTransaksi),
+      "discount": controllerDiscount.text ?? "0",
       "notes": controllerNotes.text,
       "token": token.toString(),
-    }).then((response) => {
+    };
+
+    printPrettyJson(body);
+
+    http.post(Uri.parse(url), body: body).then((response) => {
+          print(jsonDecode(response.body)),
           if (response.statusCode == 200) {Navigator.pop(context)}
         });
+  }
+
+  void confirmQty(String id) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Ubah Qty'),
+          content: TextField(
+            controller: controllerQty,
+            decoration: const InputDecoration(
+                hintText: "masukkan qty", labelText: "Qty"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("BATAL",
+                  style: TextStyle(color: Colors.lightGreen)),
+              // color: Colors.lightGreen
+            ),
+            TextButton(
+              child:
+                  const Text('SET QTY', style: TextStyle(color: Colors.green)),
+              onPressed: () {
+                setQty(id);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void setQty(String id) {
+    int index = 0;
+    barangTransaksi.forEach((item) {
+      if (item['id'] == id.toString()) {
+        barangTransaksi[index]['qty'] = controllerQty.text;
+
+        detailTransaksi[index] = Container(
+            padding: const EdgeInsets.all(10.0),
+            child: Card(
+              child: Column(
+                children: [
+                  const Padding(padding: EdgeInsets.all(15.0)),
+                  Text("${barangTransaksi[index]['name'].toString()}"),
+                  TextButton(
+                      onPressed: () {
+                        confirmQty(id);
+                      },
+                      child: Text("Qty : ${controllerQty.text}"))
+                ],
+              ),
+            ));
+      }
+      index++;
+    });
+  }
+
+  String findDetailTrans(String id) {
+    int index = 0;
+    String qty = "0";
+    barangTransaksi.forEach((item) {
+      if (item['id'] == id) {
+        qty = barangTransaksi[index]['qty'];
+      }
+      index++;
+    });
+
+    debugPrint("----qty");
+    debugPrint(qty);
+    setState(() {
+      controllerQty.text = "";
+    });
+    return qty;
+  }
+
+  void addBarangTrans(String item_id) {
+    var barang = {};
+
+    dataBarang.forEach((item) {
+      if (item.value == item_id) {
+        barang = {
+          "id": item.value,
+          "name": item.key,
+        };
+      }
+    });
+
+    var newData = {
+      "id": barang['id'].toString(),
+      "name": barang['name'].toString(),
+      "subtotal": "0",
+      "discount": "0",
+      "grand_total": "0",
+      "qty": "0",
+      "notes": "",
+    };
+    barangTransaksi.add(newData);
+
+    barangTransaksi = barangTransaksi;
+
+    detailTransaksi.add(Container(
+        padding: const EdgeInsets.all(10.0),
+        child: Card(
+          child: Column(
+            children: [
+              const Padding(padding: EdgeInsets.all(15.0)),
+              Text("${barang['name'].toString()}"),
+              TextButton(
+                  onPressed: () {
+                    var id = barang['id'];
+                    confirmQty(id);
+                    findDetailTrans(id);
+                  },
+                  child: Text("Qty : ${findDetailTrans(barang['id'])}"))
+            ],
+          ),
+        )));
   }
 
   @override
@@ -143,30 +238,28 @@ class AddDataState extends State<AddTransaksi> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Customer: ",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                ItemPicker(
-                  list: dataUsers,
-                  defaultValue: selectedUser,
-                  onSelectionChange: (value) => {
-                    setState(() {
-                      selectedUser = value;
-                    })
-                  },
-                ),
-                const Text(
                   "Pilih Barang: ",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
+                const Padding(padding: EdgeInsets.all(10.0)),
                 ItemPicker(
                   list: dataBarang,
                   defaultValue: selectedBarang,
                   onSelectionChange: (value) => {
+                    addBarangTrans(value),
                     setState(() {
                       selectedBarang = value;
                     })
                   },
+                ),
+                const Padding(padding: EdgeInsets.all(10.0)),
+                const Text(
+                  "Barang Transaksi: ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: detailTransaksi,
                 ),
                 TextField(
                   controller: controllerDiscount,
