@@ -38,7 +38,7 @@ class ListTransaksiState extends State<ListTransaksi> {
     // var data = response.body;
 
     if (data['success'] == true) {
-      return data['data']['data'];
+      return data['data'];
     } else {
       var data = [];
       return data;

@@ -51,12 +51,12 @@ class AddDataState extends State<AddTransaksi> {
     if (data['success'] == true) {
       List<MapEntry<String, dynamic>> resultBarang = [];
 
-      data['data']['data'].forEach((dynamic item) =>
+      data['data'].forEach((dynamic item) =>
           {resultBarang.add(MapEntry(item['name'], item['id'].toString()))});
 
       setState(() {
         dataBarang = resultBarang;
-        barangData = data['data']['data'];
+        barangData = data['data'];
       });
     } else {
       setState(() {

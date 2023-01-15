@@ -47,7 +47,7 @@ class EditWarehouseState extends State<EditWarehouse> {
     if (data['success'] == true) {
       List<MapEntry<String, dynamic>> resultBarang = [];
 
-      data['data']['data'].forEach((dynamic item) =>
+      data['data'].forEach((dynamic item) =>
           {resultBarang.add(MapEntry(item['name'], item['id'].toString()))});
 
       setState(() {
@@ -77,7 +77,7 @@ class EditWarehouseState extends State<EditWarehouse> {
     if (data['success'] == true) {
       List<MapEntry<String, dynamic>> resultSuppliers = [];
 
-      data['data']['data'].forEach((dynamic item) =>
+      data['data'].forEach((dynamic item) =>
           {resultSuppliers.add(MapEntry(item['name'], item['id'].toString()))});
 
       setState(() {

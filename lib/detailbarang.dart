@@ -16,6 +16,8 @@ class DetailBarang extends StatefulWidget {
 }
 
 class DetailState extends State<DetailBarang> {
+  String suppliersBy = "";
+
   void confirmDelete() {
     showDialog<void>(
       context: context,
@@ -44,6 +46,21 @@ class DetailState extends State<DetailBarang> {
     );
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    List<dynamic> suppliers = widget.list[widget.index]['suppliers'];
+
+    String supplier = "";
+
+    suppliers.forEach((e) => {supplier = "${supplier} - ${e['name']}\n"});
+
+    debugPrint(supplier);
+
+    suppliersBy = supplier;
+  }
+
   Future<String> getDataStorage(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(key).toString();
@@ -67,7 +84,7 @@ class DetailState extends State<DetailBarang> {
             title: Text("${widget.list[widget.index]['name']}"),
             backgroundColor: Colors.lightGreen),
         body: Container(
-          height: 300.0,
+          // height: 300.0,
           padding: const EdgeInsets.all(20.0),
           child: Card(
               child: Center(
@@ -99,6 +116,21 @@ class DetailState extends State<DetailBarang> {
             ),
             Text(
               "Deskripsi : ${widget.list[widget.index]['desc']}",
+              style: const TextStyle(fontSize: 17.0),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(5.0),
+            ),
+            Text(
+              "Penyuplai :",
+              style:
+                  const TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(5.0),
+            ),
+            Text(
+              "${suppliersBy}",
               style: const TextStyle(fontSize: 17.0),
             ),
             const Padding(

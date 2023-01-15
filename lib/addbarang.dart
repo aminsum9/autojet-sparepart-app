@@ -43,7 +43,7 @@ class AddWarehouseState extends State<AddBarang> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tambah Barang"),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.lightGreen,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -87,7 +87,7 @@ class AddWarehouseState extends State<AddBarang> {
                 },
                 child: Text("SUBMIT", style: TextStyle(color: Colors.white)),
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.lightGreen,
                 )),
           ])),
     );

@@ -33,7 +33,7 @@ class ListBarangState extends State<ListBarang> {
     final data = jsonDecode(response.body);
 
     if (data['success'] == true) {
-      return data['data']['data'];
+      return data['data'];
     } else {
       var data = [];
       return data;
