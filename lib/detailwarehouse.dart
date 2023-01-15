@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
 import 'package:intl/intl.dart';
+import 'config/url.dart' as globals;
 
 class DetailWarehouse extends StatefulWidget {
   List list;
@@ -51,7 +52,7 @@ class DetailState extends State<DetailWarehouse> {
   void deleteData() async {
     var token = await getDataStorage('token');
 
-    var url = "http://192.168.43.128:8000/warehouse/delete";
+    var url = "${globals.BASE_URL}warehouse/delete";
 
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),

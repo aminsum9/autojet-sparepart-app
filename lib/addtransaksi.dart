@@ -4,6 +4,7 @@ import 'package:pretty_json/pretty_json.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:item_picker/item_picker.dart';
 import 'dart:convert';
+import 'config/url.dart' as globals;
 
 class AddTransaksi extends StatefulWidget {
   @override
@@ -39,7 +40,7 @@ class AddDataState extends State<AddTransaksi> {
     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
     final response = await postData(
-        Uri.parse("http://192.168.43.128:8000/barang/get_barangs"), body);
+        Uri.parse("${globals.BASE_URL}barang/get_barangs"), body);
 
     if (response.statusCode != 200) {
       return [];
@@ -75,7 +76,7 @@ class AddDataState extends State<AddTransaksi> {
   void addData() async {
     var token = await getDataStorage('token');
 
-    var url = "http://192.168.43.128:8000/transaksi/create_transaksi";
+    var url = "${globals.BASE_URL}transaksi/create_transaksi";
 
     List<dynamic> detailTransaksi = [];
 
@@ -125,22 +126,23 @@ class AddDataState extends State<AddTransaksi> {
           else
             {
               showDialog<void>(
-                  context: context,
-                  barrierDismissible: false, // user must tap button!
-                  builder: (BuildContext context) {
-                    AlertDialog(
-                      title: const Text('Gagal melakukan transaksi!'),
-                      content: Text("Terjadi kesalahan pada server."),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text("OK",
-                              style: TextStyle(color: Colors.green)),
-                          // color: Colors.lightGreen
-                        ),
-                      ],
-                    );
-                  }),
+                context: context,
+                barrierDismissible: false, // user must tap button!
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Gagal melakukan transaksi!'),
+                    content: Text("Terjadi kesalahan pada server."),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("OK",
+                            style: TextStyle(color: Colors.green)),
+                        // color: Colors.lightGreen
+                      ),
+                    ],
+                  );
+                },
+              ),
             }
         });
   }

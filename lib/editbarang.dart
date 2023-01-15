@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
 import 'listbarang.dart';
+import 'config/url.dart' as globals;
 
 class EditBarang extends StatefulWidget {
   final List list;
@@ -38,7 +39,7 @@ class EditBarangState extends State<EditBarang> {
       "token": token.toString(),
     };
     print(prettyJson(body));
-    var url = "http://192.168.43.128:8000/barang/update";
+    var url = "${globals.BASE_URL}barang/update";
     http.post(Uri.parse(url), body: body).then((value) => Navigator.of(context)
         .push(MaterialPageRoute(
             builder: (BuildContext context) => ListBarang())));

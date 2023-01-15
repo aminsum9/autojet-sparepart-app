@@ -4,6 +4,7 @@ import 'package:autojet_sparepart/edituser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config/url.dart' as globals;
 
 class DetailUser extends StatefulWidget {
   List list;
@@ -50,7 +51,7 @@ class DetailState extends State<DetailUser> {
   void deleteData() async {
     var token = await getDataStorage('token');
 
-    var url = "http://192.168.43.128:8000/user/delete";
+    var url = "${globals.BASE_URL}user/delete";
 
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),

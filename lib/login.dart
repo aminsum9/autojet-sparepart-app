@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config/url.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -70,8 +71,8 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       'password': controllerPassword.text
     };
 
-    final response = await postData(
-        Uri.parse('http://192.168.43.128:8000/user/login'), body);
+    final response =
+        await postData(Uri.parse('${globals.BASE_URL}user/login'), body);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

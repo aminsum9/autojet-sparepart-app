@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
 import 'home.dart';
+import 'config/url.dart' as globals;
 
 class Report extends StatefulWidget {
   final List list;
@@ -32,7 +33,7 @@ class ReportState extends State<Report> {
       // "token": token.toString(),
     };
 
-    var url = "http://192.168.43.128:8000/user/update";
+    var url = "${globals.BASE_URL}user/update";
     http
         .post(Uri.parse(url), body: body)
         .then((value) => Navigator.pushNamed(context, '/home'));

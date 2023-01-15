@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config/url.dart' as globals;
 
 class AddUser extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class AddUserState extends State<AddUser> {
   void addData() async {
     var token = await getDataStorage('token');
 
-    var url = "http://192.168.43.128:8000/user/register";
+    var url = "${globals.BASE_URL}user/register";
 
     http.post(Uri.parse(url), body: {
       "name": controllerName.text,

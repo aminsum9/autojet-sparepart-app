@@ -4,6 +4,7 @@ import 'package:autojet_sparepart/edittransaksi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config/url.dart' as globals;
 
 class DetailTransaksi extends StatefulWidget {
   List list;
@@ -56,17 +57,21 @@ class DetailState extends State<DetailTransaksi> {
       detailTransaksi.add(Container(
           padding: const EdgeInsets.all(10.0),
           child: Card(
-            child: Column(
+              child: ListTile(
+            title: Text(
+              "Barang : ${item['barang'] != null ? item['barang']['name'].toString() : ""}",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Column(
               children: [
+                const Padding(padding: EdgeInsets.all(5.0)),
                 Text("Qty : ${item['qty'].toString()}"),
                 Text("Subtotal : ${item['subtotal'].toString()}"),
                 Text("Diskon : ${item['discount'].toString()}"),
                 Text("Total : ${item['grand_total'].toString()}"),
-                Text(
-                    "Barang : ${item['barang'] != null ? item['barang']['name'].toString() : ""}"),
               ],
             ),
-          )));
+          ))));
     });
   }
 
@@ -78,7 +83,7 @@ class DetailState extends State<DetailTransaksi> {
   void deleteData() async {
     var token = await getDataStorage('token');
 
-    var url = "http://192.168.43.128:8000/transaksi/delete";
+    var url = "${globals.BASE_URL}transaksi/delete";
 
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),
@@ -131,17 +136,6 @@ class DetailState extends State<DetailTransaksi> {
             const Padding(
               padding: EdgeInsets.all(20.0),
             ),
-            const Text(
-              "Detail Transaksi",
-              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: detailTransaksi,
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-            ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -159,7 +153,21 @@ class DetailState extends State<DetailTransaksi> {
                   // color: Colors.redAccent
                 )
               ],
-            )
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+            ),
+            const Text(
+              "Detail Transaksi",
+              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: detailTransaksi,
+            ),
           ]))),
         ));
   }

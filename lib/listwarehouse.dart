@@ -4,6 +4,7 @@ import 'package:autojet_sparepart/detailwarehouse.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config/url.dart' as globals;
 
 class ListWarehouse extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class ListWarehouseState extends State<ListWarehouse> {
     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
     final response = await postData(
-        Uri.parse("http://192.168.43.128:8000/warehouse/get_warehouses"), body);
+        Uri.parse("${globals.BASE_URL}warehouse/get_warehouses"), body);
 
     final data = jsonDecode(response.body);
 

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:item_picker/item_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'config/url.dart' as globals;
 
 class EditWarehouse extends StatefulWidget {
   final List list;
@@ -35,7 +36,7 @@ class EditWarehouseState extends State<EditWarehouse> {
     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
     final response = await postData(
-        Uri.parse("http://192.168.43.128:8000/barang/get_barangs"), body);
+        Uri.parse("${globals.BASE_URL}barang/get_barangs"), body);
 
     if (response.statusCode != 200) {
       return [];
@@ -65,7 +66,7 @@ class EditWarehouseState extends State<EditWarehouse> {
     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
     final response = await postData(
-        Uri.parse("http://192.168.43.128:8000/supplier/get_suppliers"), body);
+        Uri.parse("${globals.BASE_URL}supplier/get_suppliers"), body);
 
     if (response.statusCode != 200) {
       return [];
@@ -106,7 +107,7 @@ class EditWarehouseState extends State<EditWarehouse> {
   void editWarehouse() async {
     var token = await getDataStorage('token');
 
-    var url = "http://192.168.43.128:8000/warehouse/update";
+    var url = "${globals.BASE_URL}warehouse/update";
 
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]['id'].toString(),

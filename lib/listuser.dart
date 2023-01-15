@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'detailuser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config/url.dart' as globals;
 
 class ListUser extends StatefulWidget {
   @override
@@ -26,8 +27,8 @@ class ListUserState extends State<ListUser> {
 
     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
-    final response = await postData(
-        Uri.parse("http://192.168.43.128:8000/user/get_users"), body);
+    final response =
+        await postData(Uri.parse("${globals.BASE_URL}user/get_users"), body);
 
     if (response.statusCode != 200) {
       return [];

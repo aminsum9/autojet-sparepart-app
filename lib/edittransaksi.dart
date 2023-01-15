@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
+import 'config/url.dart' as globals;
 
 class EditTransaksi extends StatefulWidget {
   final List list;
@@ -40,7 +41,7 @@ class EditTransaksiState extends State<EditTransaksi> {
       "token": token.toString(),
     };
 
-    var url = "http://192.168.43.128:8000/supplier/update";
+    var url = "${globals.BASE_URL}supplier/update";
     http
         .post(Uri.parse(url), body: body)
         .then((value) => Navigator.pushNamed(context, '/home'));
