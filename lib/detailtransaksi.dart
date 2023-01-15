@@ -54,12 +54,18 @@ class DetailState extends State<DetailTransaksi> {
     detailTransaksis = widget.list[widget.index]['detail_transaksi'];
 
     detailTransaksis.forEach((item) {
+      List<dynamic> suppliers = item['barang']['suppliers'];
+
+      String supplier = "";
+
+      suppliers.forEach((e) => {supplier = "${supplier} ${e['name']},"});
+
       detailTransaksi.add(Container(
           padding: const EdgeInsets.all(10.0),
           child: Card(
               child: ListTile(
             title: Text(
-              "Barang : ${item['barang'] != null ? item['barang']['name'].toString() : ""}",
+              "${item['barang'] != null ? item['barang']['name'].toString() : ""}",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Column(
@@ -69,6 +75,7 @@ class DetailState extends State<DetailTransaksi> {
                 Text("Subtotal : ${item['subtotal'].toString()}"),
                 Text("Diskon : ${item['discount'].toString()}"),
                 Text("Total : ${item['grand_total'].toString()}"),
+                Text("Penyuplai : ${supplier}"),
               ],
             ),
           ))));
@@ -131,6 +138,10 @@ class DetailState extends State<DetailTransaksi> {
             ),
             Text(
               "Total : ${widget.list[widget.index]['grand_total']}",
+              style: const TextStyle(fontSize: 17.0),
+            ),
+            Text(
+              "Dibuat oleh : ${widget.list[widget.index]['created_by']?['name'] ?? ""}",
               style: const TextStyle(fontSize: 17.0),
             ),
             const Padding(
