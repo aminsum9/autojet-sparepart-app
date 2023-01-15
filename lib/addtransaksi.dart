@@ -16,9 +16,9 @@ class AddDataState extends State<AddTransaksi> {
   TextEditingController controllerQty = TextEditingController(text: "");
   //
   String selectedBarang = "";
-  String subTotal = "";
   //
   List<MapEntry<String, dynamic>> dataBarang = [];
+  List<dynamic> barangData = [];
   List<Widget> detailTransaksi = [];
   List<dynamic> barangTransaksi = [];
   //
@@ -55,10 +55,12 @@ class AddDataState extends State<AddTransaksi> {
 
       setState(() {
         dataBarang = resultBarang;
+        barangData = data['data']['data'];
       });
     } else {
       setState(() {
-        dataBarang = [];
+        barangData = [];
+        barangData = [];
       });
     }
   }
@@ -90,15 +92,66 @@ class AddDataState extends State<AddTransaksi> {
       "token": token.toString(),
     };
 
-    printPrettyJson(body);
+    // printPrettyJson(body);
 
     http.post(Uri.parse(url), body: body).then((response) => {
-          print(jsonDecode(response.body)),
-          if (response.statusCode == 200) {Navigator.pop(context)}
+          // printPrettyJson(jsonDecode(response.body)),
+          if (response.statusCode == 200)
+            {
+              if (jsonDecode(response.body)['success'])
+                {Navigator.pop(context)}
+              else
+                {
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Gagal melakukan transaksi!'),
+                        content: Text(jsonDecode(response.body)['message']),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("OK",
+                                style: TextStyle(color: Colors.green)),
+                            // color: Colors.lightGreen
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                }
+            }
+          else
+            {
+              showDialog<void>(
+                  context: context,
+                  barrierDismissible: false, // user must tap button!
+                  builder: (BuildContext context) {
+                    AlertDialog(
+                      title: const Text('Gagal melakukan transaksi!'),
+                      content: Text("Terjadi kesalahan pada server."),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("OK",
+                              style: TextStyle(color: Colors.green)),
+                          // color: Colors.lightGreen
+                        ),
+                      ],
+                    );
+                  }),
+            }
         });
   }
 
   void confirmQty(String id) {
+    // if (qty != "") {
+    //   setState(() {
+    //     controllerQty.text = qty;
+    //   });
+    // }
+
     showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -155,34 +208,21 @@ class AddDataState extends State<AddTransaksi> {
       }
       index++;
     });
-  }
 
-  String findDetailTrans(String id) {
-    int index = 0;
-    String qty = "0";
-    barangTransaksi.forEach((item) {
-      if (item['id'] == id) {
-        qty = barangTransaksi[index]['qty'];
-      }
-      index++;
-    });
-
-    debugPrint("----qty");
-    debugPrint(qty);
     setState(() {
       controllerQty.text = "";
     });
-    return qty;
   }
 
   void addBarangTrans(String item_id) {
     var barang = {};
 
-    dataBarang.forEach((item) {
-      if (item.value == item_id) {
+    barangData.forEach((item) {
+      if (item['id'].toString() == item_id.toString()) {
         barang = {
-          "id": item.value,
-          "name": item.key,
+          "id": item['id'].toString(),
+          "name": item['name'].toString(),
+          "price": item['price'].toString(),
         };
       }
     });
@@ -190,12 +230,11 @@ class AddDataState extends State<AddTransaksi> {
     var newData = {
       "id": barang['id'].toString(),
       "name": barang['name'].toString(),
-      "subtotal": "0",
-      "discount": "0",
-      "grand_total": "0",
       "qty": "0",
+      "price": barang['price'].toString(),
       "notes": "",
     };
+
     barangTransaksi.add(newData);
 
     barangTransaksi = barangTransaksi;
@@ -211,9 +250,8 @@ class AddDataState extends State<AddTransaksi> {
                   onPressed: () {
                     var id = barang['id'];
                     confirmQty(id);
-                    findDetailTrans(id);
                   },
-                  child: Text("Qty : ${findDetailTrans(barang['id'])}"))
+                  child: const Text("Qty : 0"))
             ],
           ),
         )));
@@ -221,9 +259,11 @@ class AddDataState extends State<AddTransaksi> {
 
   @override
   Widget build(BuildContext context) {
+    int subTotal = 0;
+
     barangTransaksi.forEach((item) {
-      // subTotal = subTotal + item['qty'].toString();
-      subTotal = subTotal + item['qty'].toString();
+      // subTotal = subTotal + int.parse(item['qty']);
+      // subTotal = subTotal + int.parse(item['qty']) * int.parse(item['price']);
     });
 
     return Scaffold(
@@ -275,7 +315,7 @@ class AddDataState extends State<AddTransaksi> {
                   padding: EdgeInsets.all(15.0),
                 ),
                 Text(
-                  "Subtotal: ${subTotal}",
+                  "Subtotal: ${subTotal.toString()}",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const Padding(

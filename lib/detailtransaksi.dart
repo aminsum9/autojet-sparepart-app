@@ -58,6 +58,7 @@ class DetailState extends State<DetailTransaksi> {
           child: Card(
             child: Column(
               children: [
+                Text("Qty : ${item['qty'].toString()}"),
                 Text("Subtotal : ${item['subtotal'].toString()}"),
                 Text("Diskon : ${item['discount'].toString()}"),
                 Text("Total : ${item['grand_total'].toString()}"),
