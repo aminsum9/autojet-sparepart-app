@@ -14,6 +14,9 @@ class DetailTransaksi extends StatefulWidget {
 }
 
 class DetailState extends State<DetailTransaksi> {
+  List<dynamic> detailTransaksis = [];
+  List<Widget> detailTransaksi = [];
+
   void confirmDelete() {
     showDialog<void>(
       context: context,
@@ -42,6 +45,30 @@ class DetailState extends State<DetailTransaksi> {
     );
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    detailTransaksi = [];
+    detailTransaksis = widget.list[widget.index]['detail_transaksi'];
+
+    detailTransaksis.forEach((item) {
+      detailTransaksi.add(Container(
+          padding: const EdgeInsets.all(10.0),
+          child: Card(
+            child: Column(
+              children: [
+                Text("Subtotal : ${item['subtotal'].toString()}"),
+                Text("Diskon : ${item['discount'].toString()}"),
+                Text("Total : ${item['grand_total'].toString()}"),
+                Text(
+                    "Barang : ${item['barang'] != null ? item['barang']['name'].toString() : ""}"),
+              ],
+            ),
+          )));
+    });
+  }
+
   Future<String> getDataStorage(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(key).toString();
@@ -66,7 +93,7 @@ class DetailState extends State<DetailTransaksi> {
             title: Text("${widget.list[widget.index]['trx_id']}"),
             backgroundColor: Colors.lightGreen),
         body: Container(
-          height: 300.0,
+          // height: 300.0,
           padding: const EdgeInsets.all(20.0),
           child: Card(
               child: Center(
@@ -99,6 +126,17 @@ class DetailState extends State<DetailTransaksi> {
             Text(
               "Total : ${widget.list[widget.index]['grand_total']}",
               style: const TextStyle(fontSize: 17.0),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+            ),
+            const Text(
+              "Detail Transaksi",
+              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: detailTransaksi,
             ),
             const Padding(
               padding: EdgeInsets.all(20.0),

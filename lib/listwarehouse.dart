@@ -45,7 +45,7 @@ class ListWarehouseState extends State<ListWarehouse> {
         floatingActionButton: FloatingActionButton(
           onPressed: () => Navigator.pushNamed(context, '/add_warehouse'),
           child: const Icon(Icons.add),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.lightGreen,
         ),
         body: FutureBuilder(
             future: getData(),

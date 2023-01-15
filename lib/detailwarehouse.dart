@@ -81,6 +81,9 @@ class DetailState extends State<DetailWarehouse> {
                   color: Colors.blueAccent,
                   fontWeight: FontWeight.bold),
             ),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
+            ),
             Text(
               "Supplier : ${widget.list[widget.index]['supplier']['name']}",
               style: const TextStyle(fontSize: 17.0),

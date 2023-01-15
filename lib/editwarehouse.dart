@@ -124,7 +124,7 @@ class EditWarehouseState extends State<EditWarehouse> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Data Barang Masuk"),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.lightGreen,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -178,7 +178,7 @@ class EditWarehouseState extends State<EditWarehouse> {
                     child: Text("Edit Data",
                         style: TextStyle(color: Colors.white)),
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.lightGreen,
                     )),
               ])),
     );

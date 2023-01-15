@@ -112,7 +112,7 @@ class AddWarehouseState extends State<AddWarehouse> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tambah Data Barang Masuk"),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.lightGreen,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -166,7 +166,7 @@ class AddWarehouseState extends State<AddWarehouse> {
                     child: Text("Tambah Data",
                         style: TextStyle(color: Colors.white)),
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.lightGreen,
                     )),
               ])),
     );
