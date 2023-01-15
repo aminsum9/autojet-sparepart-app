@@ -4,10 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AddBarang extends StatefulWidget {
   @override
-  AddDataState createState() => AddDataState();
+  AddWarehouseState createState() => AddWarehouseState();
 }
 
-class AddDataState extends State<AddBarang> {
+class AddWarehouseState extends State<AddBarang> {
   TextEditingController controllerName = TextEditingController(text: "");
   TextEditingController controllerPrice = TextEditingController(text: "");
   TextEditingController controllerDiscount = TextEditingController(text: "");
@@ -19,7 +19,7 @@ class AddDataState extends State<AddBarang> {
     return prefs.getString(key).toString();
   }
 
-  void addData() async {
+  void addDataBarang() async {
     var token = await getDataStorage('token');
 
     var url = "http://192.168.43.128:8000/barang/add";
@@ -82,7 +82,7 @@ class AddDataState extends State<AddBarang> {
             ),
             TextButton(
                 onPressed: () {
-                  addData();
+                  addDataBarang();
                 },
                 child: Text("SUBMIT", style: TextStyle(color: Colors.white)),
                 style: TextButton.styleFrom(

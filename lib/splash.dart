@@ -102,13 +102,13 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('img/bg.jpg'), fit: BoxFit.cover)),
-      child: Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.white, Colors.lightGreen],
-                begin: FractionalOffset.topCenter,
-                end: FractionalOffset.bottomCenter)),
-      ),
+      // child: Container(
+      //   decoration: const BoxDecoration(
+      //       gradient: LinearGradient(
+      //           colors: [Colors.white, Colors.lightGreen],
+      //           begin: FractionalOffset.topCenter,
+      //           end: FractionalOffset.bottomCenter)),
+      // ),
     ));
   }
 }

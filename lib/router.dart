@@ -27,6 +27,11 @@ import './addsupplier.dart';
 import './listsupplier.dart';
 import './detailsupplier.dart';
 import './editsupplier.dart';
+//warehouse
+import './listwarehouse.dart';
+import './addwarehouse.dart';
+import './detailwarehouse.dart';
+import './editwarehouse.dart';
 
 class AppRouter extends InheritedWidget {
   final Color color;
@@ -102,6 +107,12 @@ class RouterState extends State<RouterApp> with TickerProviderStateMixin {
               '/detail_supplier': (context) =>
                   DetailSupplier(list: [], index: 0),
               '/edit_supplier': (context) => EditSupplier(list: [], index: 0),
+              //warehouse
+              '/list_warehouse': (context) => ListWarehouse(),
+              '/add_warehouse': (context) => AddWarehouse(),
+              '/detail_warehouse': (context) =>
+                  DetailWarehouse(list: [], index: 0),
+              '/edit_warehouse': (context) => EditWarehouse(list: [], index: 0),
             }));
   }
 }

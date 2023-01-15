@@ -35,6 +35,8 @@ dependencies:
   shared_preferences: ^2.0.0-nullsafety
   json_annotation: ^4.7.0
   pretty_json: any
+  item_picker: any
+  intl: any
 
 
   # The following adds the Cupertino Icons font to your application.
