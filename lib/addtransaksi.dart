@@ -195,10 +195,15 @@ class AddDataState extends State<AddTransaksi> {
         detailTransaksi[index] = Container(
             padding: const EdgeInsets.all(10.0),
             child: Card(
-              child: Column(
+                child: ListTile(
+              contentPadding: EdgeInsets.all(15.0),
+              title: Text(
+                "${barangTransaksi[index]['name'].toString()}",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Column(
                 children: [
                   const Padding(padding: EdgeInsets.all(15.0)),
-                  Text("${barangTransaksi[index]['name'].toString()}"),
                   TextButton(
                       onPressed: () {
                         confirmQty(id);
@@ -206,7 +211,7 @@ class AddDataState extends State<AddTransaksi> {
                       child: Text("Qty : ${controllerQty.text}"))
                 ],
               ),
-            ));
+            )));
       }
       index++;
     });
@@ -242,21 +247,27 @@ class AddDataState extends State<AddTransaksi> {
     barangTransaksi = barangTransaksi;
 
     detailTransaksi.add(Container(
-        padding: const EdgeInsets.all(10.0),
+        // padding: const EdgeInsets.all(10.0),
         child: Card(
-          child: Column(
-            children: [
-              const Padding(padding: EdgeInsets.all(15.0)),
-              Text("${barang['name'].toString()}"),
-              TextButton(
-                  onPressed: () {
-                    var id = barang['id'];
-                    confirmQty(id);
-                  },
-                  child: const Text("Qty : 0"))
-            ],
-          ),
-        )));
+      child: ListTile(
+        contentPadding: EdgeInsets.all(15.0),
+        title: Text(
+          "${barang['name'].toString()}",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Column(
+          children: [
+            const Padding(padding: EdgeInsets.all(15.0)),
+            TextButton(
+                onPressed: () {
+                  var id = barang['id'];
+                  confirmQty(id);
+                },
+                child: const Text("Qty : 0"))
+          ],
+        ),
+      ),
+    )));
   }
 
   @override
@@ -299,6 +310,7 @@ class AddDataState extends State<AddTransaksi> {
                   "Barang Transaksi: ",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
+                const Padding(padding: EdgeInsets.all(5.0)),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: detailTransaksi,
