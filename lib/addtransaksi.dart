@@ -273,11 +273,16 @@ class AddDataState extends State<AddTransaksi> {
   @override
   Widget build(BuildContext context) {
     int subTotal = 0;
+    int discount = 0;
+    // int grandTotal = 0;
 
     barangTransaksi.forEach((item) {
-      // subTotal = subTotal + int.parse(item['qty']);
-      // subTotal = subTotal + int.parse(item['qty']) * int.parse(item['price']);
+      subTotal = subTotal + int.parse(item['qty']) * int.parse(item['price']);
     });
+    // print(controllerDiscount.text.toString());
+    // grandTotal =
+    //     subTotal - int.parse(controllerDiscount.text.toString() ?? "0");
+    // print(grandTotal.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -332,6 +337,10 @@ class AddDataState extends State<AddTransaksi> {
                   "Subtotal: ${subTotal.toString()}",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
+                // Text(
+                //   "Total: ${grandTotal.toString()}",
+                //   style: TextStyle(fontWeight: FontWeight.bold),
+                // ),
                 const Padding(
                   padding: EdgeInsets.all(20.0),
                 ),
