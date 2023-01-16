@@ -48,22 +48,24 @@ class ListUserState extends State<ListUser> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () => Navigator.pushNamed(context, '/add_user'),
-        //   child: const Icon(Icons.add),
-        //   backgroundColor: Colors.green,
-        // ),
-        body: FutureBuilder(
-            future: getDataUser(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) print(snapshot.error);
-              return snapshot.hasData
-                  ? ItemList(list: snapshot.data!)
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    );
-            }));
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () => Navigator.pushNamed(context, '/add_user'),
+            //   child: const Icon(Icons.add),
+            //   backgroundColor: Colors.green,
+            // ),
+            body: FutureBuilder(
+                future: getDataUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) print(snapshot.error);
+                  return snapshot.hasData
+                      ? ItemList(list: snapshot.data!)
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                })));
   }
 }
 

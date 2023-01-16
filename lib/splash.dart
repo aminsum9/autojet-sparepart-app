@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -78,7 +80,10 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
                 "token": token.toString()
               }).then((response) => {
                     if (response.statusCode == 200)
-                      {Navigator.pushNamed(context, '/home')}
+                      {
+                        if (jsonDecode(response.body)['success'] == true)
+                          {Navigator.pushNamed(context, '/home')}
+                      }
                     else
                       {
                         {Navigator.pushNamed(context, '/login')}

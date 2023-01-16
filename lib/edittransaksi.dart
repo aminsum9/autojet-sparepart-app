@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:item_picker/item_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
 import 'config/url.dart' as globals;
@@ -16,7 +17,15 @@ class EditTransaksi extends StatefulWidget {
 }
 
 class EditTransaksiState extends State<EditTransaksi> {
-  TextEditingController controllerStatus = TextEditingController(text: "");
+  List<MapEntry<String, dynamic>> listStatus = [
+    const MapEntry('new', 1),
+    const MapEntry('pending', 2),
+    const MapEntry('finish', 3),
+    const MapEntry('cancel', 4),
+    const MapEntry('refund', 5),
+  ];
+  int selectedStatus = 1;
+
   TextEditingController controllerSubTotal = TextEditingController(text: "");
   TextEditingController controllerDiscount = TextEditingController(text: "");
   TextEditingController controllerTotal = TextEditingController(text: "");
@@ -30,9 +39,23 @@ class EditTransaksiState extends State<EditTransaksi> {
   editDataUser() async {
     var token = await getDataStorage('token');
 
+    var status = 'new';
+
+    if (selectedStatus == 1) {
+      status = 'new';
+    } else if (selectedStatus == 2) {
+      status = 'pending';
+    } else if (selectedStatus == 3) {
+      status = 'finish';
+    } else if (selectedStatus == 4) {
+      status = 'cancel';
+    } else if (selectedStatus == 5) {
+      status = 'refund';
+    }
+
     var body = {
       "id": widget.list[widget.index]["id"].toString() ?? "",
-      "status": controllerStatus.text.toString(),
+      "status": status,
       "subtotal": controllerSubTotal.text.toString(),
       "discount": controllerDiscount.text.toString(),
       "grand_total": controllerTotal.text.toString(),
@@ -53,21 +76,43 @@ class EditTransaksiState extends State<EditTransaksi> {
 
   @override
   void initState() {
+    super.initState();
     controllerSubTotal = TextEditingController(
         text: widget.list[widget.index]['subtotal'].toString() ?? "");
-    controllerStatus = TextEditingController(
-        text: widget.list[widget.index]['status'].toString() ?? "");
     controllerDiscount = TextEditingController(
         text: widget.list[widget.index]['discount'].toString() ?? "");
     controllerTotal = TextEditingController(
         text: widget.list[widget.index]['grand_total'].toString() ?? "");
     controllerNotes =
         TextEditingController(text: widget.list[widget.index]['notes'] ?? "");
-    super.initState();
+    var status = widget.list[widget.index]['status'].toString();
+
+    if (status == 'new') {
+      setState(() {
+        selectedStatus = 1;
+      });
+    } else if (status == 'pending') {
+      setState(() {
+        selectedStatus = 2;
+      });
+    } else if (status == 'finish') {
+      setState(() {
+        selectedStatus = 3;
+      });
+    } else if (status == 'cancel') {
+      setState(() {
+        selectedStatus = 4;
+      });
+    } else if (status == 'refund') {
+      setState(() {
+        selectedStatus = 5;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(selectedStatus.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Data Transaksi"),
@@ -91,10 +136,6 @@ class EditTransaksiState extends State<EditTransaksi> {
                   Text(
                       "Dibuat oleh : ${widget.list[widget.index]['created_by']['name']}"),
                   TextField(
-                    controller: controllerStatus,
-                    decoration: const InputDecoration(hintText: "Status"),
-                  ),
-                  TextField(
                     controller: controllerSubTotal,
                     decoration: const InputDecoration(hintText: "Subtotal"),
                   ),
@@ -111,6 +152,18 @@ class EditTransaksiState extends State<EditTransaksi> {
                   TextField(
                     controller: controllerNotes,
                     decoration: const InputDecoration(hintText: "Notes"),
+                  ),
+                  const Padding(padding: EdgeInsets.all(10.0)),
+                  const Text("Pilih Status",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  ItemPicker(
+                    list: listStatus,
+                    defaultValue: selectedStatus,
+                    onSelectionChange: (value) => {
+                      setState(() {
+                        selectedStatus = value;
+                      })
+                    },
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
                 ],

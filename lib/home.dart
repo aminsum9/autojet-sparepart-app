@@ -55,9 +55,9 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
               child: Text("Barang", style: TextStyle(fontSize: 11)),
             ),
             Tab(
-              icon: Icon(Icons.account_box),
+              icon: Icon(Icons.warehouse),
               child: Text(
-                "User",
+                "Gudang",
                 style: TextStyle(fontSize: 11),
               ),
             ),
@@ -69,9 +69,9 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
               ),
             ),
             Tab(
-              icon: Icon(Icons.warehouse),
+              icon: Icon(Icons.account_box),
               child: Text(
-                "Gudang",
+                "User",
                 style: TextStyle(fontSize: 11),
               ),
             ),
@@ -83,9 +83,9 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         children: [
           ListTransaksi(),
           ListBarang(),
-          ListUser(),
-          ListSupplier(),
           ListWarehouse(),
+          ListSupplier(),
+          ListUser(),
         ],
       ),
     );

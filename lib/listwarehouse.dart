@@ -42,22 +42,24 @@ class ListWarehouseState extends State<ListWarehouse> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, '/add_warehouse'),
-          child: const Icon(Icons.add),
-          backgroundColor: Colors.lightGreen,
-        ),
-        body: FutureBuilder(
-            future: getData(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) print(snapshot.error);
-              return snapshot.hasData
-                  ? ItemList(list: snapshot.data!)
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    );
-            }));
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => Navigator.pushNamed(context, '/add_warehouse'),
+              child: const Icon(Icons.add),
+              backgroundColor: Colors.lightGreen,
+            ),
+            body: FutureBuilder(
+                future: getData(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) print(snapshot.error);
+                  return snapshot.hasData
+                      ? ItemList(list: snapshot.data!)
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                })));
   }
 }
 

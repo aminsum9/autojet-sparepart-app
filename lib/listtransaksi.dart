@@ -35,7 +35,6 @@ class ListTransaksiState extends State<ListTransaksi> {
     }
 
     var data = await jsonDecode(response.body);
-    // var data = response.body;
 
     if (data['success'] == true) {
       return data['data'];
@@ -43,34 +42,28 @@ class ListTransaksiState extends State<ListTransaksi> {
       var data = [];
       return data;
     }
-    // return [];
   }
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getDataUser()
-  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, '/add_transaksi'),
-          child: const Icon(Icons.add),
-          backgroundColor: Colors.green,
-        ),
-        body: FutureBuilder(
-            future: getDataTransaksi(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) print(snapshot.error);
-              return snapshot.hasData
-                  ? ItemList(list: snapshot.data!)
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    );
-            }));
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => Navigator.pushNamed(context, '/add_transaksi'),
+              child: const Icon(Icons.add),
+              backgroundColor: Colors.green,
+            ),
+            body: FutureBuilder(
+                future: getDataTransaksi(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) print(snapshot.error);
+                  return snapshot.hasData
+                      ? ItemList(list: snapshot.data!)
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                })));
   }
 }
 
