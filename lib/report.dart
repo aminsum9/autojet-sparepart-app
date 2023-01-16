@@ -153,6 +153,9 @@ class ReportState extends State<Report> {
                     },
                     child:
                         Text("Sampai : ${endDate.toString().split(' ')[0]}")),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
+                ),
                 const Text(
                   "Total Barang Terjual :",
                   style: TextStyle(
@@ -173,6 +176,9 @@ class ReportState extends State<Report> {
                       fontSize: 20.0,
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
                 ),
                 Text(
                   "Total Subtotal : Rp.${totalSubtotal}",
