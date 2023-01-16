@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +32,7 @@ class EditTransaksiState extends State<EditTransaksi> {
 
     var body = {
       "id": widget.list[widget.index]["id"].toString() ?? "",
+      "status": controllerStatus.text.toString(),
       "subtotal": controllerSubTotal.text.toString(),
       "discount": controllerDiscount.text.toString(),
       "grand_total": controllerTotal.text.toString(),
@@ -38,9 +41,14 @@ class EditTransaksiState extends State<EditTransaksi> {
     };
 
     var url = "${globals.BASE_URL}transaksi/update";
-    http
-        .post(Uri.parse(url), body: body)
-        .then((value) => Navigator.pushNamed(context, '/home'));
+    http.post(Uri.parse(url), body: body).then((value) => {
+          if (jsonDecode(value.body)['success'] == true)
+            {Navigator.pushNamed(context, '/home')}
+          else
+            {
+              //
+            }
+        });
   }
 
   @override

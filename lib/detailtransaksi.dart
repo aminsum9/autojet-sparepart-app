@@ -144,6 +144,10 @@ class DetailState extends State<DetailTransaksi> {
               "Dibuat oleh : ${widget.list[widget.index]['created_by']?['name'] ?? ""}",
               style: const TextStyle(fontSize: 17.0),
             ),
+            Text(
+              "Catatan : ${widget.list[widget.index]['notes'] ?? ""}",
+              style: const TextStyle(fontSize: 17.0),
+            ),
             const Padding(
               padding: EdgeInsets.all(20.0),
             ),
