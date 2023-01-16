@@ -37,7 +37,7 @@ class EditTransaksiState extends State<EditTransaksi> {
       "token": token.toString(),
     };
 
-    var url = "${globals.BASE_URL}supplier/update";
+    var url = "${globals.BASE_URL}transaksi/update";
     http
         .post(Uri.parse(url), body: body)
         .then((value) => Navigator.pushNamed(context, '/home'));
