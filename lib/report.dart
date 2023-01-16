@@ -81,7 +81,15 @@ class ReportState extends State<Report> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getReport(DateTime.now(), DateTime.now());
+
+    var date = DateTime.now();
+    var startDateInit = DateTime(date.year, date.month, date.day - 7);
+
+    setState(() {
+      startDate = startDateInit;
+    });
+
+    getReport(startDateInit, DateTime.now());
   }
 
   Future<void> selectStartDate() async {
@@ -122,62 +130,66 @@ class ReportState extends State<Report> {
         appBar: AppBar(
             title: Text("Laporan Transaksi"),
             backgroundColor: Colors.lightGreen),
-        body: Container(
-          // height: 300.0,
-          padding: const EdgeInsets.all(20.0),
-          child: Card(
-              child: Center(
-                  child: Column(children: [
-            const Padding(
-              padding: EdgeInsets.all(15.0),
-            ),
-            TextButton(
-                onPressed: () {
-                  selectStartDate();
-                },
-                child: Text("Dari : ${startDate.toString().split(' ')[0]}")),
-            TextButton(
-                onPressed: () {
-                  selectEndDate();
-                },
-                child: Text("Sampai : ${endDate.toString().split(' ')[0]}")),
-            const Text(
-              "Total Barang Terjual :",
-              style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.blueAccent,
-                  fontWeight: FontWeight.bold),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(5.0),
-            ),
-            Text(
-              "${totalBarangTerjual}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            const Text(
-              "Total Data Transaksi :",
-              style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.blueAccent,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "Total Subtotal : Rp.${totalSubtotal}",
-              style: TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Totas Discount. : Rp.${totalDiscount}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Total Grand Total : Rp.${totalGrandTotal}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-            ),
-          ]))),
-        ));
+        body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Container(
+              // height: 300.0,
+              padding: const EdgeInsets.all(20.0),
+              child: Card(
+                  child: Center(
+                      child: Column(children: [
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
+                ),
+                TextButton(
+                    onPressed: () {
+                      selectStartDate();
+                    },
+                    child:
+                        Text("Dari : ${startDate.toString().split(' ')[0]}")),
+                TextButton(
+                    onPressed: () {
+                      selectEndDate();
+                    },
+                    child:
+                        Text("Sampai : ${endDate.toString().split(' ')[0]}")),
+                const Text(
+                  "Total Barang Terjual :",
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
+                ),
+                Text(
+                  "${totalBarangTerjual}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                const Text(
+                  "Total Data Transaksi :",
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "Total Subtotal : Rp.${totalSubtotal}",
+                  style: TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Totas Discount. : Rp.${totalDiscount}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Total Grand Total : Rp.${totalGrandTotal}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                ),
+              ]))),
+            )));
   }
 }

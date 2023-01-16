@@ -106,84 +106,86 @@ class DetailState extends State<DetailTransaksi> {
             title: Text("${widget.list[widget.index]['trx_id']}"),
             backgroundColor: Colors.lightGreen),
         body: Container(
-          // height: 300.0,
-          padding: const EdgeInsets.all(20.0),
-          child: Card(
-              child: Center(
-                  child: Column(children: [
-            const Padding(
-              padding: EdgeInsets.all(15.0),
-            ),
-            Text(
-              widget.list[widget.index]['trx_id'],
-              style: const TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.blueAccent,
-                  fontWeight: FontWeight.bold),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15.0),
-            ),
-            Text(
-              "Status : ${widget.list[widget.index]['status']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Subtotal : ${widget.list[widget.index]['subtotal']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Discount. : ${widget.list[widget.index]['discount']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Total : ${widget.list[widget.index]['grand_total']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Dibuat oleh : ${widget.list[widget.index]['created_by']?['name'] ?? ""}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Catatan : ${widget.list[widget.index]['notes'] ?? ""}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => EditTransaksi(
-                          list: widget.list, index: widget.index))),
-                  child: const Text("EDIT"),
-                  // color: Colors.lightGreen
+            padding: const EdgeInsets.all(20.0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Card(
+                  child: Center(
+                      child: Column(children: [
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
                 ),
-                const Padding(padding: EdgeInsets.all(15.0)),
-                TextButton(
-                  onPressed: () => confirmDelete(),
-                  child: const Text("DELETE"),
-                  // color: Colors.redAccent
-                )
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.all(10.0),
-            ),
-            const Text(
-              "Detail Transaksi",
-              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(10.0),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: detailTransaksi,
-            ),
-          ]))),
-        ));
+                Text(
+                  widget.list[widget.index]['trx_id'],
+                  style: const TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
+                ),
+                Text(
+                  "Status : ${widget.list[widget.index]['status']}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Subtotal : ${widget.list[widget.index]['subtotal']}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Discount. : ${widget.list[widget.index]['discount']}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Total : ${widget.list[widget.index]['grand_total']}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Dibuat oleh : ${widget.list[widget.index]['created_by']?['name'] ?? ""}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Catatan : ${widget.list[widget.index]['notes'] ?? ""}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => EditTransaksi(
+                                  list: widget.list, index: widget.index))),
+                      child: const Text("EDIT"),
+                      // color: Colors.lightGreen
+                    ),
+                    const Padding(padding: EdgeInsets.all(15.0)),
+                    TextButton(
+                      onPressed: () => confirmDelete(),
+                      child: const Text("DELETE"),
+                      // color: Colors.redAccent
+                    )
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(10.0),
+                ),
+                const Text(
+                  "Detail Transaksi",
+                  style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(10.0),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: detailTransaksi,
+                ),
+              ]))),
+            )));
   }
 }

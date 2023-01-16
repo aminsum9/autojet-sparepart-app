@@ -100,84 +100,86 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-      child: Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.white, Colors.lightGreen],
-                begin: FractionalOffset.topCenter,
-                end: FractionalOffset.bottomCenter)),
-        child: ListView(padding: const EdgeInsets.all(20.0), children: [
-          Stack(alignment: AlignmentDirectional.bottomCenter, children: [
-            Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 270.0),
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            body: Container(
+          child: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.white, Colors.lightGreen],
+                    begin: FractionalOffset.topCenter,
+                    end: FractionalOffset.bottomCenter)),
+            child: ListView(padding: const EdgeInsets.all(20.0), children: [
+              Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+                Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 270.0),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(10.0),
+                          ),
+                          TextField(
+                            controller: controllerEmail,
+                            decoration: const InputDecoration(
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                ),
+                                hintText: "Email"),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.all(10.0),
+                          ),
+                          TextField(
+                            controller: controllerPassword,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                                icon: Icon(
+                                  Icons.lock_outline,
+                                  color: Colors.white,
+                                ),
+                                hintText: "Password"),
+                          ),
+                          const Padding(padding: EdgeInsets.only(top: 13)),
+                          errorMessage != ""
+                              ? Text(errorMessage,
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Colors.red))
+                              : const Text(""),
+                          TextButton(
+                              // padding:
+                              //     const EdgeInsets.only(top: 220.0, bottom: 30.0),
+                              onPressed: () {
+                                toRegister();
+                              },
+                              child: const Text(
+                                "Belum punya akun? daftar di sini.",
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w300,
+                                    letterSpacing: 0.5),
+                              )),
+                          InkWell(
+                              onTap: () {
+                                _hadleLogin();
+                              },
+                              child: SignIn())
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(10.0),
-                      ),
-                      TextField(
-                        controller: controllerEmail,
-                        decoration: const InputDecoration(
-                            icon: Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                            hintText: "Email"),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(10.0),
-                      ),
-                      TextField(
-                        controller: controllerPassword,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                            icon: Icon(
-                              Icons.lock_outline,
-                              color: Colors.white,
-                            ),
-                            hintText: "Password"),
-                      ),
-                      const Padding(padding: EdgeInsets.only(top: 13)),
-                      errorMessage != ""
-                          ? Text(errorMessage,
-                              style: const TextStyle(
-                                  fontSize: 12, color: Colors.red))
-                          : const Text(""),
-                      TextButton(
-                          // padding:
-                          //     const EdgeInsets.only(top: 220.0, bottom: 30.0),
-                          onPressed: () {
-                            toRegister();
-                          },
-                          child: const Text(
-                            "Belum punya akun? daftar di sini.",
-                            style: TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w300,
-                                letterSpacing: 0.5),
-                          )),
-                      InkWell(
-                          onTap: () {
-                            _hadleLogin();
-                          },
-                          child: SignIn())
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ])
-        ]),
-      ),
-    ));
+              ])
+            ]),
+          ),
+        )));
   }
 }
 

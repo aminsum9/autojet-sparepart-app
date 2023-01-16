@@ -91,93 +91,96 @@ class DetailState extends State<DetailBarang> {
         appBar: AppBar(
             title: Text("${widget.list[widget.index]['name']}"),
             backgroundColor: Colors.lightGreen),
-        body: Container(
-          // height: 300.0,
-          padding: const EdgeInsets.all(20.0),
-          child: Card(
-              child: Center(
-                  child: Column(children: [
-            const Padding(
-              padding: EdgeInsets.all(15.0),
-            ),
-            Text(
-              widget.list[widget.index]['name'],
-              style: const TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.blueAccent,
-                  fontWeight: FontWeight.bold),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15.0),
-            ),
-            Text(
-              "Harga : ${widget.list[widget.index]['price']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Diskon : ${widget.list[widget.index]['discount']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Qty : ${widget.list[widget.index]['qty']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Deskripsi : ${widget.list[widget.index]['desc']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(5.0),
-            ),
-            Text(
-              "Penyuplai :",
-              style:
-                  const TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(5.0),
-            ),
-            Text(
-              "${suppliersBy}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-            ),
-            Text(
-              "Diinput Oleh :",
-              style:
-                  const TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(5.0),
-            ),
-            Text(
-              "${userInput}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          EditBarang(list: widget.list, index: widget.index))),
-                  child: const Text("EDIT"),
-                  // color: Colors.lightGreen
+        body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Container(
+              // height: 300.0,
+              padding: const EdgeInsets.all(20.0),
+              child: Card(
+                  child: Center(
+                      child: Column(children: [
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
                 ),
-                const Padding(padding: EdgeInsets.all(15.0)),
-                TextButton(
-                  onPressed: () => confirmDelete(),
-                  child: const Text("DELETE"),
-                  // color: Colors.redAccent
+                Text(
+                  widget.list[widget.index]['name'],
+                  style: const TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
+                ),
+                Text(
+                  "Harga : ${widget.list[widget.index]['price']}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Diskon : ${widget.list[widget.index]['discount']}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Qty : ${widget.list[widget.index]['qty']}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                Text(
+                  "Deskripsi : ${widget.list[widget.index]['desc']}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
+                ),
+                Text(
+                  "Penyuplai :",
+                  style: const TextStyle(
+                      fontSize: 17.0, fontWeight: FontWeight.bold),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
+                ),
+                Text(
+                  "${suppliersBy}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                ),
+                Text(
+                  "Diinput Oleh :",
+                  style: const TextStyle(
+                      fontSize: 17.0, fontWeight: FontWeight.bold),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
+                ),
+                Text(
+                  "${userInput}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => EditBarang(
+                                  list: widget.list, index: widget.index))),
+                      child: const Text("EDIT"),
+                      // color: Colors.lightGreen
+                    ),
+                    const Padding(padding: EdgeInsets.all(15.0)),
+                    TextButton(
+                      onPressed: () => confirmDelete(),
+                      child: const Text("DELETE"),
+                      // color: Colors.redAccent
+                    )
+                  ],
                 )
-              ],
-            )
-          ]))),
-        ));
+              ]))),
+            )));
   }
 }
