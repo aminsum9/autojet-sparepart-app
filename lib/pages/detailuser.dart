@@ -1,21 +1,20 @@
 import 'dart:convert';
 
-import 'package:autojet_sparepart/editsupplier.dart';
+import 'package:autojet_sparepart/pages/edituser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:autojet_sparepart/editsupplier.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
-class DetailSupplier extends StatefulWidget {
+class DetailUser extends StatefulWidget {
   List list;
   int index;
-  DetailSupplier({required this.list, required this.index});
+  DetailUser({required this.list, required this.index});
   @override
   DetailState createState() => DetailState();
 }
 
-class DetailState extends State<DetailSupplier> {
+class DetailState extends State<DetailUser> {
   void confirmDelete() {
     showDialog<void>(
       context: context,
@@ -52,7 +51,7 @@ class DetailState extends State<DetailSupplier> {
   void deleteData() async {
     var token = await getDataStorage('token');
 
-    var url = "${globals.BASE_URL}supplier/delete";
+    var url = "${globals.BASE_URL}user/delete";
 
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),
@@ -98,23 +97,23 @@ class DetailState extends State<DetailSupplier> {
               "No. Telp. : ${widget.list[widget.index]['phone']}",
               style: const TextStyle(fontSize: 17.0),
             ),
-            Text(
-              "Deskripsi : ${widget.list[widget.index]['desc']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
+            // Text(
+            //   "Deskripsi : ${widget.list[widget.index]['desc']}",
+            //   style: const TextStyle(fontSize: 17.0),
+            // ),
             const Padding(
               padding: EdgeInsets.all(20.0),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => EditSupplier(
-                          list: widget.list, index: widget.index))),
-                  child: const Text("EDIT"),
-                  // color: Colors.lightGreen
-                ),
+                // TextButton(
+                //   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (BuildContext context) =>
+                //           EditUser(list: widget.list, index: widget.index))),
+                //   child: const Text("EDIT"),
+                //   // color: Colors.lightGreen
+                // ),
                 const Padding(padding: EdgeInsets.all(15.0)),
                 TextButton(
                   onPressed: () => confirmDelete(),

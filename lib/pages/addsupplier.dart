@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
-class AddUser extends StatefulWidget {
+class AddSupplier extends StatefulWidget {
   @override
-  AddUserState createState() => AddUserState();
+  AddSupplierState createState() => AddSupplierState();
 }
 
-class AddUserState extends State<AddUser> {
+class AddSupplierState extends State<AddSupplier> {
   TextEditingController controllerName = TextEditingController(text: "");
   TextEditingController controllerEmail = TextEditingController(text: "");
   TextEditingController controllerPhone = TextEditingController(text: "");
   TextEditingController controllerAddress = TextEditingController(text: "");
-  TextEditingController controllerPassword = TextEditingController(text: "");
+  TextEditingController controllerDesc = TextEditingController(text: "");
 
   Future<String> getDataStorage(String key) async {
     final prefs = await SharedPreferences.getInstance();
@@ -23,7 +23,7 @@ class AddUserState extends State<AddUser> {
   void addData() async {
     var token = await getDataStorage('token');
 
-    var url = "${globals.BASE_URL}user/register";
+    var url = "${globals.BASE_URL}supplier/add";
 
     http.post(Uri.parse(url), body: {
       "name": controllerName.text,
@@ -31,10 +31,10 @@ class AddUserState extends State<AddUser> {
       "phone": controllerPhone.text,
       "address": controllerAddress.text,
       "image": "",
-      "password": controllerPassword.text,
+      "desc": controllerDesc.text,
       "token": token.toString(),
     }).then((response) => {
-          if (response.statusCode == 200) {Navigator.pop(context)}
+          if (response.statusCode == 200) {Navigator.pop(context, true)}
         });
   }
 
@@ -42,7 +42,7 @@ class AddUserState extends State<AddUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tambah User"),
+        title: const Text("Tambah Supplier"),
         backgroundColor: Colors.lightGreen,
       ),
       body: Container(
@@ -72,10 +72,9 @@ class AddUserState extends State<AddUser> {
                       hintText: "masukkan alamat", labelText: "Alamat"),
                 ),
                 TextField(
-                  controller: controllerPassword,
-                  obscureText: true,
+                  controller: controllerDesc,
                   decoration: const InputDecoration(
-                      hintText: "masukkan password", labelText: "Password"),
+                      hintText: "masukkan deskripsi", labelText: "Deskripsi"),
                 ),
                 const Padding(
                   padding: EdgeInsets.all(20.0),

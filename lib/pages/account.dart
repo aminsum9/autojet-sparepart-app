@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import './edituser.dart';
+import 'edituser.dart';
 import 'dart:convert';
 import 'package:pretty_json/pretty_json.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
 class Account extends StatefulWidget {
   @override

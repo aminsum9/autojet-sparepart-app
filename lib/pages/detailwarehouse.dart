@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
 import 'package:intl/intl.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
 class DetailWarehouse extends StatefulWidget {
   List list;

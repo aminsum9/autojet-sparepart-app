@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
 import 'home.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
 class EditUser extends StatefulWidget {
   final List list;

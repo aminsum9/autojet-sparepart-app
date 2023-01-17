@@ -2,61 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
-import 'listbarang.dart';
-import 'config/url.dart' as globals;
+import 'home.dart';
+import '../config/url.dart' as globals;
 
-class EditBarang extends StatefulWidget {
+class EditSupplier extends StatefulWidget {
   final List list;
   final int index;
 
-  EditBarang({required this.list, this.index = 0});
+  EditSupplier({required this.list, this.index = 0});
   @override
-  EditBarangState createState() => EditBarangState();
+  EditSupplierState createState() => EditSupplierState();
 }
 
-class EditBarangState extends State<EditBarang> {
-  TextEditingController controllerDesc = TextEditingController(text: "");
+class EditSupplierState extends State<EditSupplier> {
+  TextEditingController controllerAddress = TextEditingController(text: "");
   TextEditingController controllerName = TextEditingController(text: "");
-  TextEditingController controllerPrice = TextEditingController(text: "");
-  TextEditingController controllerQty = TextEditingController(text: "");
+  TextEditingController controllerEmail = TextEditingController(text: "");
+  TextEditingController controllerPhone = TextEditingController(text: "");
+  TextEditingController controllerDesc = TextEditingController(text: "");
 
   Future<String> getDataStorage(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(key).toString();
   }
 
-  editData() async {
+  editDataUser() async {
     var token = await getDataStorage('token');
 
     var body = {
-      "id": widget.list[widget.index]["id"].toString(),
+      "id": widget.list[widget.index]["id"].toString() ?? "",
       "name": controllerName.text,
+      "email": controllerEmail.text.toString(),
       "image": "",
-      "price": controllerPrice.text.toString(),
-      "discount": "0",
-      "qty": controllerQty.text.toString(),
-      "desc": controllerDesc.text,
+      "address": controllerAddress.text,
+      "phone": controllerPhone.text.toString(),
+      "desc": controllerDesc.text.toString(),
       "token": token.toString(),
     };
-    // print(prettyJson(body));
-    var url = "${globals.BASE_URL}barang/update";
-    http.post(Uri.parse(url), body: body).then((value) => Navigator.of(context)
-        .push(MaterialPageRoute(
-            builder: (BuildContext context) => ListBarang())));
+
+    var url = "${globals.BASE_URL}supplier/update";
+    http
+        .post(Uri.parse(url), body: body)
+        .then((value) => Navigator.pushNamed(context, '/home'));
   }
 
   @override
   void initState() {
-    controllerDesc =
-        TextEditingController(text: widget.list[widget.index]['desc']);
+    controllerAddress =
+        TextEditingController(text: widget.list[widget.index]['address'] ?? "");
     controllerName =
-        TextEditingController(text: widget.list[widget.index]['name']);
-    controllerPrice = TextEditingController(
-        text: widget.list[widget.index]['price'] != null
-            ? widget.list[widget.index]['price']?.toString()
-            : "");
-    controllerQty = TextEditingController(
-        text: widget.list[widget.index]['qty']?.toString());
+        TextEditingController(text: widget.list[widget.index]['name'] ?? "");
+    controllerEmail =
+        TextEditingController(text: widget.list[widget.index]['email'] ?? "");
+    controllerPhone =
+        TextEditingController(text: widget.list[widget.index]['phone'] ?? "");
+    controllerDesc =
+        TextEditingController(text: widget.list[widget.index]['desc'] ?? "");
     super.initState();
   }
 
@@ -64,8 +65,8 @@ class EditBarangState extends State<EditBarang> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Data Barang"),
-        backgroundColor: Colors.green,
+        title: const Text("Edit Data Supplier"),
+        backgroundColor: Colors.lightGreen,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -76,7 +77,7 @@ class EditBarangState extends State<EditBarang> {
               Column(
                 children: [
                   const Padding(padding: EdgeInsets.all(10.0)),
-                  const Text("Edit Data Barang",
+                  const Text("Edit Data Supplier",
                       style: TextStyle(
                           fontSize: 25.0, fontWeight: FontWeight.bold)),
                   const Padding(padding: EdgeInsets.all(10.0)),
@@ -88,15 +89,20 @@ class EditBarangState extends State<EditBarang> {
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
                   TextField(
-                    controller: controllerPrice,
+                    controller: controllerEmail,
                     decoration:
-                        const InputDecoration(hintText: "masukkan harga"),
+                        const InputDecoration(hintText: "masukkan email"),
                   ),
                   const Padding(padding: EdgeInsets.all(10.0)),
                   TextField(
-                    controller: controllerQty,
+                    controller: controllerPhone,
+                    decoration: const InputDecoration(
+                        hintText: "masukkan nomor telepon"),
+                  ),
+                  TextField(
+                    controller: controllerAddress,
                     decoration:
-                        const InputDecoration(hintText: "masukkan stock"),
+                        const InputDecoration(hintText: "masukkan alamat"),
                   ),
                   TextField(
                     controller: controllerDesc,
@@ -108,11 +114,11 @@ class EditBarangState extends State<EditBarang> {
               ),
               TextButton(
                   onPressed: () {
-                    editData();
+                    editDataUser();
                   },
                   child: Text("EDIT", style: TextStyle(color: Colors.white)),
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.lightGreen,
                   )),
             ]),
           ))),

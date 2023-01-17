@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'detailbarang.dart';
+import 'detailuser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
-class ListBarang extends StatefulWidget {
+class ListUser extends StatefulWidget {
   @override
-  ListBarangState createState() => ListBarangState();
+  ListUserState createState() => ListUserState();
 }
 
 Future<String> getDataStorage(String key) async {
@@ -21,16 +21,21 @@ Future<http.Response> postData(Uri url, dynamic body) async {
   return response;
 }
 
-class ListBarangState extends State<ListBarang> {
-  Future<List> getData() async {
+class ListUserState extends State<ListUser> {
+  Future<List> getDataUser() async {
     var token = await getDataStorage('token');
 
     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
-    final response = await postData(
-        Uri.parse("${globals.BASE_URL}barang/get_barangs"), body);
+    final response =
+        await postData(Uri.parse("${globals.BASE_URL}user/get_users"), body);
 
-    final data = jsonDecode(response.body);
+    if (response.statusCode != 200) {
+      return [];
+    }
+
+    var data = await jsonDecode(response.body);
+    // var data = response.body;
 
     if (data['success'] == true) {
       return data['data'];
@@ -38,6 +43,7 @@ class ListBarangState extends State<ListBarang> {
       var data = [];
       return data;
     }
+    // return [];
   }
 
   @override
@@ -45,13 +51,13 @@ class ListBarangState extends State<ListBarang> {
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => Navigator.pushNamed(context, '/add_barang'),
-              child: const Icon(Icons.add),
-              backgroundColor: Colors.green,
-            ),
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () => Navigator.pushNamed(context, '/add_user'),
+            //   child: const Icon(Icons.add),
+            //   backgroundColor: Colors.green,
+            // ),
             body: FutureBuilder(
-                future: getData(),
+                future: getDataUser(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) print(snapshot.error);
                   return snapshot.hasData
@@ -77,12 +83,12 @@ class ItemList extends StatelessWidget {
           child: GestureDetector(
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    DetailBarang(list: list, index: i))),
+                    DetailUser(list: list, index: i))),
             child: Card(
               child: ListTile(
                 title: Text(list[i]["name"]),
-                subtitle: Text('Qty : ${list[i]["qty"]}'),
-                leading: const Icon(Icons.widgets),
+                subtitle: Text('Email : ${list[i]["email"]}'),
+                leading: const Icon(Icons.account_circle),
               ),
             ),
           ),

@@ -1,10 +1,10 @@
-import 'package:autojet_sparepart/listsupplier.dart';
+import 'package:autojet_sparepart/pages/listsupplier.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:item_picker/item_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
 class AddWarehouse extends StatefulWidget {
   @override

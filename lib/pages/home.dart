@@ -1,8 +1,8 @@
-import 'package:autojet_sparepart/listbarang.dart';
-import 'package:autojet_sparepart/listsupplier.dart';
-import 'package:autojet_sparepart/listtransaksi.dart';
-import 'package:autojet_sparepart/listuser.dart';
-import 'package:autojet_sparepart/listwarehouse.dart';
+import 'package:autojet_sparepart/pages/listbarang.dart';
+import 'package:autojet_sparepart/pages/listsupplier.dart';
+import 'package:autojet_sparepart/pages/listtransaksi.dart';
+import 'package:autojet_sparepart/pages/listuser.dart';
+import 'package:autojet_sparepart/pages/listwarehouse.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {

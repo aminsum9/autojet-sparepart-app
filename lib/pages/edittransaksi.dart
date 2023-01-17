@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:item_picker/item_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
 class EditTransaksi extends StatefulWidget {
   final List list;

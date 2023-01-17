@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:autojet_sparepart/detailsupplier.dart';
+import 'package:autojet_sparepart/pages/detailsupplier.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'detailsupplier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
 class ListSupplier extends StatefulWidget {
   @override

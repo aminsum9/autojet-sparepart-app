@@ -37,6 +37,7 @@ dependencies:
   pretty_json: any
   item_picker: any
   intl: any
+  image_picker: ^0.8.6
 
 
   # The following adds the Cupertino Icons font to your application.

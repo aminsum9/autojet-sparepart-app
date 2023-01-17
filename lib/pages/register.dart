@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
 class Register extends StatefulWidget {
   @override

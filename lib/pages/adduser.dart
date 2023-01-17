@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
-class AddBarang extends StatefulWidget {
+class AddUser extends StatefulWidget {
   @override
-  AddWarehouseState createState() => AddWarehouseState();
+  AddUserState createState() => AddUserState();
 }
 
-class AddWarehouseState extends State<AddBarang> {
+class AddUserState extends State<AddUser> {
   TextEditingController controllerName = TextEditingController(text: "");
-  TextEditingController controllerPrice = TextEditingController(text: "");
-  TextEditingController controllerDiscount = TextEditingController(text: "");
-  TextEditingController controllerStock = TextEditingController(text: "");
-  TextEditingController controllerDesc = TextEditingController(text: "");
+  TextEditingController controllerEmail = TextEditingController(text: "");
+  TextEditingController controllerPhone = TextEditingController(text: "");
+  TextEditingController controllerAddress = TextEditingController(text: "");
+  TextEditingController controllerPassword = TextEditingController(text: "");
 
   Future<String> getDataStorage(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(key).toString();
   }
 
-  void addDataBarang() async {
+  void addData() async {
     var token = await getDataStorage('token');
 
-    var url = "${globals.BASE_URL}barang/add";
+    var url = "${globals.BASE_URL}user/register";
 
     http.post(Uri.parse(url), body: {
       "name": controllerName.text,
-      "price": controllerPrice.text,
-      "discount": controllerDiscount.text,
-      "qty": controllerStock.text,
+      "email": controllerEmail.text,
+      "phone": controllerPhone.text,
+      "address": controllerAddress.text,
       "image": "",
-      "desc": controllerDesc.text,
+      "password": controllerPassword.text,
       "token": token.toString(),
     }).then((response) => {
           if (response.statusCode == 200) {Navigator.pop(context)}
@@ -42,7 +42,7 @@ class AddWarehouseState extends State<AddBarang> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tambah Barang"),
+        title: const Text("Tambah User"),
         backgroundColor: Colors.lightGreen,
       ),
       body: Container(
@@ -56,25 +56,26 @@ class AddWarehouseState extends State<AddBarang> {
                       hintText: "masukkan nama item", labelText: "Nama"),
                 ),
                 TextField(
-                  controller: controllerPrice,
+                  controller: controllerEmail,
                   decoration: const InputDecoration(
-                      hintText: "masukkan harga item", labelText: "Harga"),
+                      hintText: "masukkan email user baru", labelText: "Email"),
                 ),
                 TextField(
-                  controller: controllerDiscount,
+                  controller: controllerPhone,
                   decoration: const InputDecoration(
-                      hintText: "masukkan diskon barang", labelText: "Diskon"),
+                      hintText: "masukkan No. Telp. user baru",
+                      labelText: "No. Telepon"),
                 ),
                 TextField(
-                  controller: controllerStock,
+                  controller: controllerAddress,
                   decoration: const InputDecoration(
-                      hintText: "masukkan stock item", labelText: "Qty"),
+                      hintText: "masukkan alamat", labelText: "Alamat"),
                 ),
                 TextField(
-                  controller: controllerDesc,
+                  controller: controllerPassword,
+                  obscureText: true,
                   decoration: const InputDecoration(
-                      hintText: "masukkan code item",
-                      labelText: "Deskripsi barang"),
+                      hintText: "masukkan password", labelText: "Password"),
                 ),
                 const Padding(
                   padding: EdgeInsets.all(20.0),
@@ -83,7 +84,7 @@ class AddWarehouseState extends State<AddBarang> {
             ),
             TextButton(
                 onPressed: () {
-                  addDataBarang();
+                  addData();
                 },
                 child: Text("SUBMIT", style: TextStyle(color: Colors.white)),
                 style: TextButton.styleFrom(

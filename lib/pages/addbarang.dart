@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
-class AddSupplier extends StatefulWidget {
+class AddBarang extends StatefulWidget {
   @override
-  AddSupplierState createState() => AddSupplierState();
+  AddWarehouseState createState() => AddWarehouseState();
 }
 
-class AddSupplierState extends State<AddSupplier> {
+class AddWarehouseState extends State<AddBarang> {
   TextEditingController controllerName = TextEditingController(text: "");
-  TextEditingController controllerEmail = TextEditingController(text: "");
-  TextEditingController controllerPhone = TextEditingController(text: "");
-  TextEditingController controllerAddress = TextEditingController(text: "");
+  TextEditingController controllerPrice = TextEditingController(text: "");
+  TextEditingController controllerDiscount = TextEditingController(text: "");
+  TextEditingController controllerStock = TextEditingController(text: "");
   TextEditingController controllerDesc = TextEditingController(text: "");
 
   Future<String> getDataStorage(String key) async {
@@ -20,21 +20,21 @@ class AddSupplierState extends State<AddSupplier> {
     return prefs.getString(key).toString();
   }
 
-  void addData() async {
+  void addDataBarang() async {
     var token = await getDataStorage('token');
 
-    var url = "${globals.BASE_URL}supplier/add";
+    var url = "${globals.BASE_URL}barang/add";
 
     http.post(Uri.parse(url), body: {
       "name": controllerName.text,
-      "email": controllerEmail.text,
-      "phone": controllerPhone.text,
-      "address": controllerAddress.text,
+      "price": controllerPrice.text,
+      "discount": controllerDiscount.text,
+      "qty": controllerStock.text,
       "image": "",
       "desc": controllerDesc.text,
       "token": token.toString(),
     }).then((response) => {
-          if (response.statusCode == 200) {Navigator.pop(context, true)}
+          if (response.statusCode == 200) {Navigator.pop(context)}
         });
   }
 
@@ -42,7 +42,7 @@ class AddSupplierState extends State<AddSupplier> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tambah Supplier"),
+        title: const Text("Tambah Barang"),
         backgroundColor: Colors.lightGreen,
       ),
       body: Container(
@@ -56,25 +56,25 @@ class AddSupplierState extends State<AddSupplier> {
                       hintText: "masukkan nama item", labelText: "Nama"),
                 ),
                 TextField(
-                  controller: controllerEmail,
+                  controller: controllerPrice,
                   decoration: const InputDecoration(
-                      hintText: "masukkan email user baru", labelText: "Email"),
+                      hintText: "masukkan harga item", labelText: "Harga"),
                 ),
                 TextField(
-                  controller: controllerPhone,
+                  controller: controllerDiscount,
                   decoration: const InputDecoration(
-                      hintText: "masukkan No. Telp. user baru",
-                      labelText: "No. Telepon"),
+                      hintText: "masukkan diskon barang", labelText: "Diskon"),
                 ),
                 TextField(
-                  controller: controllerAddress,
+                  controller: controllerStock,
                   decoration: const InputDecoration(
-                      hintText: "masukkan alamat", labelText: "Alamat"),
+                      hintText: "masukkan stock item", labelText: "Qty"),
                 ),
                 TextField(
                   controller: controllerDesc,
                   decoration: const InputDecoration(
-                      hintText: "masukkan deskripsi", labelText: "Deskripsi"),
+                      hintText: "masukkan code item",
+                      labelText: "Deskripsi barang"),
                 ),
                 const Padding(
                   padding: EdgeInsets.all(20.0),
@@ -83,7 +83,7 @@ class AddSupplierState extends State<AddSupplier> {
             ),
             TextButton(
                 onPressed: () {
-                  addData();
+                  addDataBarang();
                 },
                 child: Text("SUBMIT", style: TextStyle(color: Colors.white)),
                 style: TextButton.styleFrom(

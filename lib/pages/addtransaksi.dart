@@ -4,7 +4,7 @@ import 'package:pretty_json/pretty_json.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:item_picker/item_picker.dart';
 import 'dart:convert';
-import 'config/url.dart' as globals;
+import '../config/url.dart' as globals;
 
 class AddTransaksi extends StatefulWidget {
   @override

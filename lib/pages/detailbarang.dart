@@ -1,22 +1,23 @@
-import 'dart:convert';
-
-import 'package:autojet_sparepart/edittransaksi.dart';
+// import 'package:crud_flutter/editdata.dart';
 import 'package:flutter/material.dart';
+import 'editbarang.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'config/url.dart' as globals;
+import 'home.dart';
+import '../config/url.dart' as globals;
 
-class DetailTransaksi extends StatefulWidget {
+class DetailBarang extends StatefulWidget {
   List list;
   int index;
-  DetailTransaksi({required this.list, required this.index});
+
+  DetailBarang({required this.list, required this.index});
   @override
   DetailState createState() => DetailState();
 }
 
-class DetailState extends State<DetailTransaksi> {
-  List<dynamic> detailTransaksis = [];
-  List<Widget> detailTransaksi = [];
+class DetailState extends State<DetailBarang> {
+  String suppliersBy = "";
+  String userInput = "";
 
   void confirmDelete() {
     showDialog<void>(
@@ -24,9 +25,9 @@ class DetailState extends State<DetailTransaksi> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Hapus Transaksi?'),
+          title: const Text('Hapus Barang?'),
           content: Text(
-              "Apakah anda yakin ingin menghapus dengan id transaksi '${widget.list[widget.index]['trx_id']}'?"),
+              "Apakah anda yakin ingin menghapus'${widget.list[widget.index]['name']}'?"),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -50,36 +51,22 @@ class DetailState extends State<DetailTransaksi> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    detailTransaksi = [];
-    detailTransaksis = widget.list[widget.index]['detail_transaksi'];
+    //supplier
+    List<dynamic> suppliers = widget.list[widget.index]['suppliers'];
 
-    detailTransaksis.forEach((item) {
-      List<dynamic> suppliers = item['barang']['suppliers'];
+    String supplier = "";
 
-      String supplier = "";
+    suppliers.forEach((e) => {supplier = "${supplier} - ${e['name']}\n"});
 
-      suppliers.forEach((e) => {supplier = "${supplier} ${e['name']},"});
+    suppliersBy = supplier;
+    //barang
+    List<dynamic> inputBy = widget.list[widget.index]['input_by'];
 
-      detailTransaksi.add(Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Card(
-              child: ListTile(
-            title: Text(
-              "${item['barang'] != null ? item['barang']['name'].toString() : ""}",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Column(
-              children: [
-                const Padding(padding: EdgeInsets.all(5.0)),
-                Text("Qty : ${item['qty'].toString()}"),
-                Text("Subtotal : ${item['subtotal'].toString()}"),
-                Text("Diskon : ${item['discount'].toString()}"),
-                Text("Total : ${item['grand_total'].toString()}"),
-                Text("Penyuplai : ${supplier}"),
-              ],
-            ),
-          ))));
-    });
+    String input_by = "";
+
+    inputBy.forEach((e) => {input_by = "${input_by} - ${e['name']}\n"});
+
+    userInput = input_by;
   }
 
   Future<String> getDataStorage(String key) async {
@@ -90,25 +77,25 @@ class DetailState extends State<DetailTransaksi> {
   void deleteData() async {
     var token = await getDataStorage('token');
 
-    var url = "${globals.BASE_URL}transaksi/delete";
+    var url = "${globals.BASE_URL}barang/delete";
 
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),
       "token": token.toString(),
-    }).then((response) =>
-        {Navigator.pop(context, true), Navigator.pop(context, true)});
+    }).then((value) => Navigator.pushNamed(context, '/home'));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("${widget.list[widget.index]['trx_id']}"),
+            title: Text("${widget.list[widget.index]['name']}"),
             backgroundColor: Colors.lightGreen),
-        body: Container(
-            padding: const EdgeInsets.all(20.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
+        body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Container(
+              // height: 300.0,
+              padding: const EdgeInsets.all(20.0),
               child: Card(
                   child: Center(
                       child: Column(children: [
@@ -116,7 +103,7 @@ class DetailState extends State<DetailTransaksi> {
                   padding: EdgeInsets.all(15.0),
                 ),
                 Text(
-                  widget.list[widget.index]['trx_id'],
+                  widget.list[widget.index]['name'],
                   style: const TextStyle(
                       fontSize: 20.0,
                       color: Colors.blueAccent,
@@ -126,27 +113,49 @@ class DetailState extends State<DetailTransaksi> {
                   padding: EdgeInsets.all(15.0),
                 ),
                 Text(
-                  "Status : ${widget.list[widget.index]['status']}",
+                  "Harga : ${widget.list[widget.index]['price']}",
                   style: const TextStyle(fontSize: 17.0),
                 ),
                 Text(
-                  "Subtotal : ${widget.list[widget.index]['subtotal']}",
+                  "Diskon : ${widget.list[widget.index]['discount']}",
                   style: const TextStyle(fontSize: 17.0),
                 ),
                 Text(
-                  "Discount. : ${widget.list[widget.index]['discount']}",
+                  "Qty : ${widget.list[widget.index]['qty']}",
                   style: const TextStyle(fontSize: 17.0),
                 ),
                 Text(
-                  "Total : ${widget.list[widget.index]['grand_total']}",
+                  "Deskripsi : ${widget.list[widget.index]['desc']}",
                   style: const TextStyle(fontSize: 17.0),
                 ),
-                Text(
-                  "Dibuat oleh : ${widget.list[widget.index]['created_by']?['name'] ?? ""}",
-                  style: const TextStyle(fontSize: 17.0),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
                 ),
                 Text(
-                  "Catatan : ${widget.list[widget.index]['notes'] ?? ""}",
+                  "Penyuplai :",
+                  style: const TextStyle(
+                      fontSize: 17.0, fontWeight: FontWeight.bold),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
+                ),
+                Text(
+                  "${suppliersBy}",
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                ),
+                Text(
+                  "Diinput Oleh :",
+                  style: const TextStyle(
+                      fontSize: 17.0, fontWeight: FontWeight.bold),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
+                ),
+                Text(
+                  "${userInput}",
                   style: const TextStyle(fontSize: 17.0),
                 ),
                 const Padding(
@@ -158,7 +167,7 @@ class DetailState extends State<DetailTransaksi> {
                     TextButton(
                       onPressed: () => Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (BuildContext context) => EditTransaksi(
+                              builder: (BuildContext context) => EditBarang(
                                   list: widget.list, index: widget.index))),
                       child: const Text("EDIT"),
                       // color: Colors.lightGreen
@@ -170,21 +179,7 @@ class DetailState extends State<DetailTransaksi> {
                       // color: Colors.redAccent
                     )
                   ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                ),
-                const Text(
-                  "Detail Transaksi",
-                  style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: detailTransaksi,
-                ),
+                )
               ]))),
             )));
   }

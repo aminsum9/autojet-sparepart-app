@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 //
-import '/splash.dart';
-import './login.dart';
-import './register.dart';
+import 'pages/splash.dart';
+import 'pages/login.dart';
+import 'pages/register.dart';
 //home
-import './home.dart';
-import './account.dart';
-import './report.dart';
+import 'pages/home.dart';
+import 'pages/account.dart';
+import 'pages/report.dart';
 //
-import './addtransaksi.dart';
-import './detailtransaksi.dart';
-import './listtransaksi.dart';
-import './edittransaksi.dart';
+import 'pages/addtransaksi.dart';
+import 'pages/detailtransaksi.dart';
+import 'pages/listtransaksi.dart';
+import 'pages/edittransaksi.dart';
 //barang
-import './listbarang.dart';
-import './addbarang.dart';
-import './detailbarang.dart';
-import './editbarang.dart';
+import 'pages/listbarang.dart';
+import 'pages/addbarang.dart';
+import 'pages/detailbarang.dart';
+import 'pages/editbarang.dart';
 //user
-import './listuser.dart';
-import './adduser.dart';
-import './detailuser.dart';
-import './edituser.dart';
+import 'pages/listuser.dart';
+import 'pages/adduser.dart';
+import 'pages/detailuser.dart';
+import 'pages/edituser.dart';
 //supplier
-import './addsupplier.dart';
-import './listsupplier.dart';
-import './detailsupplier.dart';
-import './editsupplier.dart';
+import 'pages/addsupplier.dart';
+import 'pages/listsupplier.dart';
+import 'pages/detailsupplier.dart';
+import 'pages/editsupplier.dart';
 //warehouse
-import './listwarehouse.dart';
-import './addwarehouse.dart';
-import './detailwarehouse.dart';
-import './editwarehouse.dart';
+import 'pages/listwarehouse.dart';
+import 'pages/addwarehouse.dart';
+import 'pages/detailwarehouse.dart';
+import 'pages/editwarehouse.dart';
 
 class AppRouter extends InheritedWidget {
   final Color color;
