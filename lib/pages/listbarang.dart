@@ -82,7 +82,18 @@ class ItemList extends StatelessWidget {
               child: ListTile(
                 title: Text(list[i]["name"]),
                 subtitle: Text('Qty : ${list[i]["qty"]}'),
-                leading: const Icon(Icons.widgets),
+                leading: list[i]["image"] != "" && list[i]["image"] != null
+                    ? Image.network(
+                        list[i]["image"] != null
+                            ? "${globals.BASE_URL}/images/barang/${list[i]["image"]}"
+                            : "",
+                        width: 50,
+                        height: 50,
+                      )
+                    : const Icon(
+                        Icons.widgets,
+                        size: 50,
+                      ),
               ),
             ),
           ),

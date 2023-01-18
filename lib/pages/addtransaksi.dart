@@ -131,7 +131,7 @@ class AddDataState extends State<AddTransaksi> {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('Gagal melakukan transaksi!'),
-                    content: Text("Terjadi kesalahan pada server."),
+                    content: const Text("Terjadi kesalahan pada server."),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.pop(context),
