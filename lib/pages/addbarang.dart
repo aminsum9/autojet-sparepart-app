@@ -182,34 +182,63 @@ class AddWarehouseState extends State<AddBarang> {
                             child: const Text("Hapus gambar")))
                   ],
                 ),
+                const Padding(
+                  padding: EdgeInsets.all(10.0),
+                ),
                 TextField(
                   controller: controllerName,
-                  decoration: const InputDecoration(
-                      hintText: "masukkan nama item", labelText: "Nama"),
+                  decoration: InputDecoration(
+                      hintText: "masukkan nama barang",
+                      labelText: "Nama",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0))),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(10.0),
                 ),
                 TextField(
                   controller: controllerPrice,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      hintText: "masukkan harga item", labelText: "Harga"),
+                  decoration: InputDecoration(
+                      hintText: "masukkan harga barang",
+                      labelText: "Harga",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0))),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(10.0),
                 ),
                 TextField(
                   controller: controllerDiscount,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      hintText: "masukkan diskon barang", labelText: "Diskon"),
+                  decoration: InputDecoration(
+                      hintText: "masukkan diskon barang",
+                      labelText: "Diskon",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0))),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(10.0),
                 ),
                 TextField(
                   controller: controllerStock,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      hintText: "masukkan stock item", labelText: "Qty"),
+                  decoration: InputDecoration(
+                      hintText: "masukkan qty barang",
+                      labelText: "Qty",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0))),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(10.0),
                 ),
                 TextField(
                   controller: controllerDesc,
-                  decoration: const InputDecoration(
-                      hintText: "masukkan code item",
-                      labelText: "Deskripsi barang"),
+                  decoration: InputDecoration(
+                      hintText: "masukkan deskripsi barang",
+                      labelText: "Deskripsi barang",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0))),
                 ),
                 const Padding(
                   padding: EdgeInsets.all(20.0),

@@ -63,59 +63,76 @@ class EditBarangState extends State<EditBarang> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Edit Data Barang"),
-        backgroundColor: Colors.green,
-      ),
-      body: Container(
-          padding: const EdgeInsets.all(20.0),
-          child: Card(
-              child: Container(
+        appBar: AppBar(
+          title: const Text("Edit Data Barang"),
+          backgroundColor: Colors.lightGreen,
+        ),
+        body: Container(
             padding: const EdgeInsets.all(10.0),
-            child: ListView(children: [
-              Column(
-                children: [
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  const Text("Edit Data Barang",
-                      style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.bold)),
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  TextField(
-                    controller: controllerName,
-                    decoration:
-                        const InputDecoration(hintText: "masukkan nama"),
-                  ),
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  TextField(
-                    controller: controllerPrice,
-                    decoration:
-                        const InputDecoration(hintText: "masukkan harga"),
-                  ),
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  TextField(
-                    controller: controllerQty,
-                    decoration:
-                        const InputDecoration(hintText: "masukkan stock"),
-                  ),
-                  TextField(
-                    controller: controllerDesc,
-                    decoration:
-                        const InputDecoration(hintText: "masukkan deskripsi"),
-                  ),
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                ],
-              ),
-              TextButton(
-                  onPressed: () {
-                    editData();
-                  },
-                  child: Text("EDIT", style: TextStyle(color: Colors.white)),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.green,
-                  )),
-            ]),
-          ))),
-    );
+            child: Card(
+                child: Container(
+              padding: const EdgeInsets.all(10.0),
+              child: ListView(children: [
+                Column(
+                  children: [
+                    const Padding(padding: EdgeInsets.all(10.0)),
+                    const Text("Edit Data Barang",
+                        style: TextStyle(
+                            fontSize: 25.0, fontWeight: FontWeight.bold)),
+                    const Padding(padding: EdgeInsets.all(10.0)),
+                    const Padding(padding: EdgeInsets.all(10.0)),
+                    TextField(
+                      controller: controllerName,
+                      decoration: InputDecoration(
+                          hintText: "masukkan nama barang",
+                          labelText: "Nama Barang",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0))),
+                    ),
+                    const Padding(padding: EdgeInsets.all(10.0)),
+                    TextField(
+                      controller: controllerPrice,
+                      decoration: InputDecoration(
+                        hintText: "masukkan harga barang",
+                        labelText: "Harga Barang",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(10.0)),
+                    TextField(
+                      controller: controllerQty,
+                      decoration: InputDecoration(
+                          hintText: "masukkan qty barang",
+                          labelText: "Qty Barang",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0))),
+                    ),
+                    const Padding(padding: EdgeInsets.all(10.0)),
+                    TextField(
+                      controller: controllerDesc,
+                      decoration: InputDecoration(
+                          hintText: "masukkan deskripsi barang",
+                          labelText: "Deskripsi Barang",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0))),
+                    ),
+                    const Padding(padding: EdgeInsets.all(10.0)),
+                  ],
+                ),
+              ]),
+            ))),
+        bottomNavigationBar: Container(
+          margin: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+          child: TextButton(
+            onPressed: () {
+              editData();
+            },
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.lightGreen,
+                padding: const EdgeInsets.all(15)),
+            child: const Text("EDIT", style: TextStyle(color: Colors.white)),
+          ),
+        ));
   }
 }
