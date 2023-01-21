@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pretty_json/pretty_json.dart';
@@ -16,6 +17,7 @@ class AddDataState extends State<AddTransaksi> {
   TextEditingController controllerNotes = TextEditingController(text: "");
   TextEditingController controllerQty = TextEditingController(text: "");
   //
+  dynamic selectedBarangSrc = {'name': 'Pilih barang...'};
   String selectedBarang = "";
   //
   List<MapEntry<String, dynamic>> dataBarang = [];
@@ -34,46 +36,13 @@ class AddDataState extends State<AddTransaksi> {
     return prefs.getString(key).toString();
   }
 
-  getDataBarang() async {
-    var token = await getDataStorage('token');
-
-    var body = {"page": "1", "paging": "10", "token": token.toString()};
-
-    final response = await postData(
-        Uri.parse("${globals.BASE_URL}barang/get_barangs"), body);
-
-    if (response.statusCode != 200) {
-      return [];
-    }
-
-    var data = await jsonDecode(response.body);
-
-    if (data['success'] == true) {
-      List<MapEntry<String, dynamic>> resultBarang = [];
-
-      data['data'].forEach((dynamic item) =>
-          {resultBarang.add(MapEntry(item['name'], item['id'].toString()))});
-
-      setState(() {
-        dataBarang = resultBarang;
-        barangData = data['data'];
-      });
-    } else {
-      setState(() {
-        barangData = [];
-        barangData = [];
-      });
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getDataBarang();
   }
 
-  void addData() async {
+  void handleCreateTransaksi() async {
     var token = await getDataStorage('token');
 
     var url = "${globals.BASE_URL}transaksi/create_transaksi";
@@ -85,8 +54,6 @@ class AddDataState extends State<AddTransaksi> {
     });
 
     var body = {
-      "trx_id": "TESSS", // tes
-      "user_id": "1", // tes
       "detail_transaksi": jsonEncode(detailTransaksi),
       "discount": controllerDiscount.text ?? "0",
       "notes": controllerNotes.text,
@@ -96,7 +63,6 @@ class AddDataState extends State<AddTransaksi> {
     // printPrettyJson(body);
 
     http.post(Uri.parse(url), body: body).then((response) => {
-          // printPrettyJson(jsonDecode(response.body)),
           if (response.statusCode == 200)
             {
               if (jsonDecode(response.body)['success'])
@@ -221,18 +187,35 @@ class AddDataState extends State<AddTransaksi> {
     });
   }
 
-  void addBarangTrans(String item_id) {
+  void removeItemBarangTrans(id) {
+    print(id.toString());
+
+    // int index = 0;
+    // int indexDetailTrans = 0;
+    // barangTransaksi.forEach((item) {
+    //   if (item['id'] == id.toString()) {
+    //     indexDetailTrans = index;
+    //   }
+    //   index++;
+    // });
+
+    // barangTransaksi
+    //     .removeWhere((item) => item['id'].toString() == id.toString());
+    // detailTransaksi.remove(detailTransaksi[indexDetailTrans]);
+    // print(barangTransaksi.length.toString());
+    // print(detailTransaksi.length.toString());
+    // barangTransaksi = barangTransaksi;
+    // detailTransaksi = detailTransaksi;
+  }
+
+  void addBarangTrans(dynamic item) {
     var barang = {};
 
-    barangData.forEach((item) {
-      if (item['id'].toString() == item_id.toString()) {
-        barang = {
-          "id": item['id'].toString(),
-          "name": item['name'].toString(),
-          "price": item['price'].toString(),
-        };
-      }
-    });
+    barang = {
+      "id": item['id'].toString(),
+      "name": item['name'].toString(),
+      "price": item['price'].toString(),
+    };
 
     var newData = {
       "id": barang['id'].toString(),
@@ -246,14 +229,35 @@ class AddDataState extends State<AddTransaksi> {
 
     barangTransaksi = barangTransaksi;
 
+    setState(() {
+      selectedBarangSrc = item;
+    });
+
     detailTransaksi.add(Container(
         // padding: const EdgeInsets.all(10.0),
         child: Card(
       child: ListTile(
-        contentPadding: EdgeInsets.all(15.0),
-        title: Text(
-          "${barang['name'].toString()}",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        contentPadding: const EdgeInsets.all(10),
+        title: Stack(
+          children: [
+            Text("${barang['name'].toString()}",
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Container(
+                width: 30,
+                height: 30,
+                child: TextButton(
+                    onPressed: () => removeItemBarangTrans(barang['id']),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.black,
+                      size: 15,
+                    )),
+              ),
+            ),
+          ],
         ),
         subtitle: Column(
           children: [
@@ -268,6 +272,36 @@ class AddDataState extends State<AddTransaksi> {
         ),
       ),
     )));
+  }
+
+  Future<List<dynamic>> getDataBarang(filter) async {
+    var token = await getDataStorage('token');
+
+    if (filter == "") {
+      return [];
+    }
+
+    var body = {
+      "page": "1",
+      "paging": "10",
+      'keyword': filter,
+      "token": token.toString()
+    };
+
+    final response = await postData(
+        Uri.parse("${globals.BASE_URL}barang/get_barangs"), body);
+
+    if (response.statusCode != 200) {
+      return [];
+    }
+
+    var data = await jsonDecode(response.body);
+
+    if (data['success'] == true) {
+      return data['data'];
+    } else {
+      return [];
+    }
   }
 
   @override
@@ -310,6 +344,31 @@ class AddDataState extends State<AddTransaksi> {
                     })
                   },
                 ),
+                DropdownSearch(
+                  asyncItems: (filter) => getDataBarang(filter),
+                  compareFn: (i, s) => i == s,
+                  popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                    isFilterOnline: true,
+                    showSelectedItems: true,
+                    showSearchBox: true,
+                    selectionWidget: ((context, item, isSelected) =>
+                        Text((item as dynamic)['name'])),
+                    itemBuilder: itemSearch,
+                  ),
+                  selectedItem: selectedBarangSrc['name'],
+                  onChanged: (value) => {addBarangTrans(value)},
+                ),
+                const Padding(padding: EdgeInsets.all(10.0)),
+                ItemPicker(
+                  list: dataBarang,
+                  defaultValue: selectedBarang,
+                  onSelectionChange: (value) => {
+                    addBarangTrans(value),
+                    setState(() {
+                      selectedBarang = value;
+                    })
+                  },
+                ),
                 const Padding(padding: EdgeInsets.all(10.0)),
                 const Text(
                   "Barang Transaksi: ",
@@ -335,7 +394,7 @@ class AddDataState extends State<AddTransaksi> {
                 ),
                 Text(
                   "Subtotal: ${subTotal.toString()}",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 // Text(
                 //   "Total: ${grandTotal.toString()}",
@@ -347,15 +406,47 @@ class AddDataState extends State<AddTransaksi> {
               ],
             ),
             TextButton(
-                onPressed: () {
-                  addData();
-                },
-                child: Text("BUAT TRANSAKSI",
-                    style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.lightGreen,
-                )),
+              onPressed: () {
+                handleCreateTransaksi();
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.lightGreen,
+              ),
+              child: const Text("BUAT TRANSAKSI",
+                  style: TextStyle(color: Colors.white)),
+            ),
           ])),
+    );
+  }
+
+  Widget itemSearch(
+    BuildContext context,
+    dynamic? item,
+    bool isSelected,
+  ) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: !isSelected
+          ? null
+          : BoxDecoration(
+              border: Border.all(color: Theme.of(context).primaryColor),
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.white,
+            ),
+      child: ListTile(
+          selected: isSelected,
+          title: Text(item['name'] ?? ''),
+          subtitle: Text(item['price'].toString()),
+          leading: item['image'] != "" && item['image'] != null
+              ? Image.network(
+                  "${globals.BASE_URL}images/barang/${item['image']}",
+                  height: 50,
+                  width: 50,
+                )
+              : const Icon(
+                  Icons.widgets_rounded,
+                  size: 50,
+                )),
     );
   }
 }
