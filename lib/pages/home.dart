@@ -4,6 +4,7 @@ import 'package:autojet_sparepart/pages/listtransaksi.dart';
 import 'package:autojet_sparepart/pages/listuser.dart';
 import 'package:autojet_sparepart/pages/listwarehouse.dart';
 import 'package:flutter/material.dart';
+import '../styles/colors.dart' as colors;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -39,7 +40,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
                 Navigator.pushNamed(context, '/account');
               })
         ],
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: colors.PRIMARY_COLOR,
         bottom: TabBar(
           controller: _tabController,
           tabs: const <Widget>[

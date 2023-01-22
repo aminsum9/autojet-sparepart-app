@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'detailsupplier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class ListSupplier extends StatefulWidget {
   @override
@@ -54,8 +55,8 @@ class ListSupplierState extends State<ListSupplier> {
         child: Scaffold(
             floatingActionButton: FloatingActionButton(
               onPressed: () => Navigator.pushNamed(context, '/add_supplier'),
+              backgroundColor: colors.SECONDARY_COLOR,
               child: const Icon(Icons.add),
-              backgroundColor: Colors.green,
             ),
             body: FutureBuilder(
                 future: getDataTransaksi(),

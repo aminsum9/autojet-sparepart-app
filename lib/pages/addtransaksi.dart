@@ -7,6 +7,7 @@ import 'package:item_picker/item_picker.dart';
 import 'dart:convert';
 import '../config/url.dart' as host;
 import '../helper/rupiah.dart' as rupiah;
+import '../styles/colors.dart' as colors;
 
 class AddTransaksi extends StatefulWidget {
   @override
@@ -320,104 +321,108 @@ class AddDataState extends State<AddTransaksi> {
     // print(grandTotal.toString());
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Buat Transaksi"),
-        backgroundColor: Colors.lightGreen,
-      ),
-      body: Container(
-          padding: const EdgeInsets.all(20.0),
-          child: ListView(children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Pilih Barang: ",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const Padding(padding: EdgeInsets.all(10.0)),
-                ItemPicker(
-                  list: dataBarang,
-                  defaultValue: selectedBarang,
-                  onSelectionChange: (value) => {
-                    addBarangTrans(value),
-                    setState(() {
-                      selectedBarang = value;
-                    })
-                  },
-                ),
-                DropdownSearch(
-                  asyncItems: (filter) => getDataBarang(filter),
-                  compareFn: (i, s) => i == s,
-                  popupProps: PopupPropsMultiSelection.modalBottomSheet(
-                    isFilterOnline: true,
-                    showSelectedItems: true,
-                    showSearchBox: true,
-                    selectionWidget: ((context, item, isSelected) =>
-                        Text((item as dynamic)['name'])),
-                    itemBuilder: itemSearch,
+        appBar: AppBar(
+            title: const Text("Buat Transaksi"),
+            backgroundColor: colors.PRIMARY_COLOR),
+        body: Container(
+            padding: const EdgeInsets.all(20.0),
+            child: ListView(children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Pilih Barang: ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  selectedItem: selectedBarangSrc['name'],
-                  onChanged: (value) => {addBarangTrans(value)},
-                ),
-                const Padding(padding: EdgeInsets.all(10.0)),
-                ItemPicker(
-                  list: dataBarang,
-                  defaultValue: selectedBarang,
-                  onSelectionChange: (value) => {
-                    addBarangTrans(value),
-                    setState(() {
-                      selectedBarang = value;
-                    })
-                  },
-                ),
-                const Padding(padding: EdgeInsets.all(10.0)),
-                const Text(
-                  "Barang Transaksi: ",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const Padding(padding: EdgeInsets.all(5.0)),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: detailTransaksi,
-                ),
-                TextField(
-                  controller: controllerDiscount,
-                  decoration: const InputDecoration(
-                      hintText: "masukkan diskon", labelText: "Diskon"),
-                ),
-                TextField(
-                  controller: controllerNotes,
-                  decoration: const InputDecoration(
-                      hintText: "masukkan notes", labelText: "Notes"),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(15.0),
-                ),
-                Text(
-                  "Subtotal: ${rupiah.toRupiah(subTotal)}",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                // Text(
-                //   "Total: ${grandTotal.toString()}",
-                //   style: TextStyle(fontWeight: FontWeight.bold),
-                // ),
-                const Padding(
-                  padding: EdgeInsets.all(20.0),
-                ),
-              ],
-            ),
-            TextButton(
-              onPressed: () {
-                handleCreateTransaksi();
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.lightGreen,
+                  const Padding(padding: EdgeInsets.all(10.0)),
+                  ItemPicker(
+                    list: dataBarang,
+                    defaultValue: selectedBarang,
+                    onSelectionChange: (value) => {
+                      addBarangTrans(value),
+                      setState(() {
+                        selectedBarang = value;
+                      })
+                    },
+                  ),
+                  DropdownSearch(
+                    asyncItems: (filter) => getDataBarang(filter),
+                    compareFn: (i, s) => i == s,
+                    popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                      isFilterOnline: true,
+                      showSelectedItems: true,
+                      showSearchBox: true,
+                      selectionWidget: ((context, item, isSelected) =>
+                          Text((item as dynamic)['name'])),
+                      itemBuilder: itemSearch,
+                    ),
+                    selectedItem: selectedBarangSrc['name'],
+                    onChanged: (value) => {addBarangTrans(value)},
+                  ),
+                  const Padding(padding: EdgeInsets.all(10.0)),
+                  ItemPicker(
+                    list: dataBarang,
+                    defaultValue: selectedBarang,
+                    onSelectionChange: (value) => {
+                      addBarangTrans(value),
+                      setState(() {
+                        selectedBarang = value;
+                      })
+                    },
+                  ),
+                  const Padding(padding: EdgeInsets.all(10.0)),
+                  const Text(
+                    "Barang Transaksi: ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: detailTransaksi,
+                  ),
+                  TextField(
+                    controller: controllerDiscount,
+                    decoration: const InputDecoration(
+                        hintText: "masukkan diskon", labelText: "Diskon"),
+                  ),
+                  TextField(
+                    controller: controllerNotes,
+                    decoration: const InputDecoration(
+                        hintText: "masukkan notes", labelText: "Notes"),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(15.0),
+                  ),
+                  Text(
+                    "Subtotal: ${rupiah.toRupiah(subTotal)}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(5.0),
+                  ),
+                  Text(
+                    "Total: ${rupiah.toRupiah(subTotal)}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(20.0),
+                  ),
+                ],
               ),
-              child: const Text("BUAT TRANSAKSI",
-                  style: TextStyle(color: Colors.white)),
-            ),
-          ])),
-    );
+            ])),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.all(10),
+          child: TextButton(
+            onPressed: () {
+              handleCreateTransaksi();
+            },
+            style: TextButton.styleFrom(
+                backgroundColor: colors.SECONDARY_COLOR,
+                padding: const EdgeInsets.all(15)),
+            child: const Text("BUAT TRANSAKSI",
+                style: TextStyle(color: Colors.white)),
+          ),
+        ));
   }
 
   Widget itemSearch(

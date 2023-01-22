@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'detailbarang.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class ListBarang extends StatefulWidget {
   @override
@@ -48,7 +49,7 @@ class ListBarangState extends State<ListBarang> {
             floatingActionButton: FloatingActionButton(
               onPressed: () => Navigator.pushNamed(context, '/add_barang'),
               child: const Icon(Icons.add),
-              backgroundColor: Colors.green,
+              backgroundColor: colors.SECONDARY_COLOR,
             ),
             body: FutureBuilder(
                 future: getData(),

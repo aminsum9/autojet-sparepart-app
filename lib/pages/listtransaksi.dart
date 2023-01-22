@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'detailtransaksi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class ListTransaksi extends StatefulWidget {
   @override
@@ -51,8 +52,8 @@ class ListTransaksiState extends State<ListTransaksi> {
         child: Scaffold(
             floatingActionButton: FloatingActionButton(
               onPressed: () => Navigator.pushNamed(context, '/add_transaksi'),
+              backgroundColor: colors.SECONDARY_COLOR,
               child: const Icon(Icons.add),
-              backgroundColor: Colors.green,
             ),
             body: FutureBuilder(
                 future: getDataTransaksi(),
@@ -87,7 +88,7 @@ class ItemList extends StatelessWidget {
                 title: Text("${list[i]["trx_id"]} (${list[i]["status"]})"),
                 subtitle: Text(
                     'Dibuat tgl. : ${list[i]["created_at"].split('T')[0]}'),
-                leading: const Icon(Icons.account_circle),
+                leading: const Icon(Icons.book),
               ),
             ),
           ),

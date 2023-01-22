@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class AddBarang extends StatefulWidget {
   @override
@@ -137,7 +138,7 @@ class AddWarehouseState extends State<AddBarang> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tambah Barang"),
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: colors.PRIMARY_COLOR,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -253,7 +254,7 @@ class AddWarehouseState extends State<AddBarang> {
             addDataBarang();
           },
           style: TextButton.styleFrom(
-              backgroundColor: Colors.lightGreen,
+              backgroundColor: colors.SECONDARY_COLOR,
               padding: const EdgeInsets.all(15)),
           child: const Text("SUBMIT", style: TextStyle(color: Colors.white)),
         ),

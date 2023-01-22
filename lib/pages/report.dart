@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
+import '../helper/rupiah.dart' as rupiah;
 
 class Report extends StatefulWidget {
   List list;
@@ -128,8 +130,8 @@ class ReportState extends State<Report> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("Laporan Transaksi"),
-            backgroundColor: Colors.lightGreen),
+            title: const Text("Laporan Transaksi"),
+            backgroundColor: colors.PRIMARY_COLOR),
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
@@ -141,57 +143,82 @@ class ReportState extends State<Report> {
                 const Padding(
                   padding: EdgeInsets.all(15.0),
                 ),
-                TextButton(
-                    onPressed: () {
-                      selectStartDate();
-                    },
-                    child:
-                        Text("Dari : ${startDate.toString().split(' ')[0]}")),
-                TextButton(
-                    onPressed: () {
-                      selectEndDate();
-                    },
-                    child:
-                        Text("Sampai : ${endDate.toString().split(' ')[0]}")),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        selectStartDate();
+                      },
+                      child: Card(
+                          child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 14, top: 10, right: 14, bottom: 10),
+                              child: Text(
+                                  "Dari : ${startDate.toString().split(' ')[0]}"))),
+                    ),
+                    const Text("-"),
+                    TextButton(
+                        onPressed: () {
+                          selectEndDate();
+                        },
+                        child: Card(
+                            child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 14, top: 10, right: 14, bottom: 10),
+                                child: Text(
+                                    "Sampai : ${endDate.toString().split(' ')[0]}")))),
+                  ],
+                ),
                 const Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.all(20.0),
                 ),
                 const Text(
                   "Total Barang Terjual :",
                   style: TextStyle(
                       fontSize: 20.0,
-                      color: Colors.blueAccent,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold),
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.all(20.0),
                 ),
                 Text(
                   "${totalBarangTerjual}",
                   style: const TextStyle(fontSize: 17.0),
                 ),
+                const Padding(
+                  padding: EdgeInsets.all(10.0),
+                ),
                 const Text(
                   "Total Data Transaksi :",
                   style: TextStyle(
                       fontSize: 20.0,
-                      color: Colors.blueAccent,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold),
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.all(20.0),
                 ),
-                Text(
-                  "Total Subtotal : Rp.${totalSubtotal}",
-                  style: TextStyle(fontSize: 17.0),
-                ),
-                Text(
-                  "Totas Discount. : Rp.${totalDiscount}",
-                  style: const TextStyle(fontSize: 17.0),
-                ),
-                Text(
-                  "Total Grand Total : Rp.${totalGrandTotal}",
-                  style: const TextStyle(fontSize: 17.0),
-                ),
+                Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              "Total Subtotal        : ${rupiah.toRupiah(int.parse(totalSubtotal))}",
+                              style: const TextStyle(fontSize: 17.0),
+                            ),
+                            Text(
+                              "Totas Diskon          : ${rupiah.toRupiah(int.parse(totalDiscount))}",
+                              style: const TextStyle(fontSize: 17.0),
+                            ),
+                            Text(
+                              "Total(Subtotal-Diskon): ${rupiah.toRupiah(int.parse(totalGrandTotal))}",
+                              style: const TextStyle(fontSize: 17.0),
+                            ),
+                          ]),
+                    )),
                 const Padding(
                   padding: EdgeInsets.all(20.0),
                 ),

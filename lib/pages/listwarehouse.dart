@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class ListWarehouse extends StatefulWidget {
   @override
@@ -47,8 +48,8 @@ class ListWarehouseState extends State<ListWarehouse> {
         child: Scaffold(
             floatingActionButton: FloatingActionButton(
               onPressed: () => Navigator.pushNamed(context, '/add_warehouse'),
+              backgroundColor: colors.SECONDARY_COLOR,
               child: const Icon(Icons.add),
-              backgroundColor: Colors.lightGreen,
             ),
             body: FutureBuilder(
                 future: getData(),
