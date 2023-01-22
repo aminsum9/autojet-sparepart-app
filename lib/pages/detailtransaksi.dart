@@ -4,7 +4,7 @@ import 'package:autojet_sparepart/pages/edittransaksi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class DetailTransaksi extends StatefulWidget {
   List list;
@@ -90,7 +90,7 @@ class DetailState extends State<DetailTransaksi> {
   void deleteData() async {
     var token = await getDataStorage('token');
 
-    var url = "${globals.BASE_URL}transaksi/delete";
+    var url = "${host.BASE_URL}transaksi/delete";
 
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),

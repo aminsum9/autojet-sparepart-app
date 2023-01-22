@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:item_picker/item_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class EditTransaksi extends StatefulWidget {
   final List list;
@@ -63,7 +63,7 @@ class EditTransaksiState extends State<EditTransaksi> {
       "token": token.toString(),
     };
 
-    var url = "${globals.BASE_URL}transaksi/update";
+    var url = "${host.BASE_URL}transaksi/update";
     http.post(Uri.parse(url), body: body).then((value) => {
           if (jsonDecode(value.body)['success'] == true)
             {Navigator.pushNamed(context, '/home')}
@@ -188,7 +188,7 @@ class EditTransaksiState extends State<EditTransaksi> {
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:item_picker/item_picker.dart';
 // import 'dart:convert';
-// import 'config/url.dart' as globals;
+// import 'config/host.dart' as url;
 
 // class EditTransaksi extends StatefulWidget {
 //   final List list;
@@ -229,7 +229,7 @@ class EditTransaksiState extends State<EditTransaksi> {
 //     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
 //     final response = await postData(
-//         Uri.parse("${globals.BASE_URL}barang/get_barangs"), body);
+//         Uri.parse("${host.BASE_URL}barang/get_barangs"), body);
 
 //     if (response.statusCode != 200) {
 //       return [];
@@ -276,7 +276,7 @@ class EditTransaksiState extends State<EditTransaksi> {
 //   void editDataUser() async {
 //     var token = await getDataStorage('token');
 
-//     var url = "${globals.BASE_URL}transaksi/update";
+//     var url = "${host.BASE_URL}transaksi/update";
 
 //     List<dynamic> detailTransaksi = [];
 

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class Register extends StatefulWidget {
   @override
@@ -75,7 +75,7 @@ class RegisterState extends State<Register> {
     };
 
     final response =
-        await postData(Uri.parse('${globals.BASE_URL}user/register'), body);
+        await postData(Uri.parse('${host.BASE_URL}user/register'), body);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

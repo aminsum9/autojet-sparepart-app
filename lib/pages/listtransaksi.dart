@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'detailtransaksi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class ListTransaksi extends StatefulWidget {
   @override
@@ -28,7 +28,7 @@ class ListTransaksiState extends State<ListTransaksi> {
     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
     final response = await postData(
-        Uri.parse("${globals.BASE_URL}transaksi/get_transaksis"), body);
+        Uri.parse("${host.BASE_URL}transaksi/get_transaksis"), body);
 
     if (response.statusCode != 200) {
       return [];

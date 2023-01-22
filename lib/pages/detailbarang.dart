@@ -4,7 +4,7 @@ import 'editbarang.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class DetailBarang extends StatefulWidget {
   List list;
@@ -77,7 +77,7 @@ class DetailState extends State<DetailBarang> {
   void deleteData() async {
     var token = await getDataStorage('token');
 
-    var url = "${globals.BASE_URL}barang/delete";
+    var url = "${host.BASE_URL}barang/delete";
 
     http.post(Uri.parse(url), body: {
       "id": widget.list[widget.index]["id"].toString(),
@@ -117,7 +117,7 @@ class DetailState extends State<DetailBarang> {
                                         widget.list[widget.index]["image"] !=
                                             null)
                                     ? (Image.network(
-                                        "${globals.BASE_URL}/images/barang/${widget.list[widget.index]["image"].toString()}",
+                                        "${host.BASE_URL}/images/barang/${widget.list[widget.index]["image"].toString()}",
                                         width: 150,
                                         height: 100,
                                       ))

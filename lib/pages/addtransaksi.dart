@@ -5,7 +5,8 @@ import 'package:pretty_json/pretty_json.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:item_picker/item_picker.dart';
 import 'dart:convert';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
+import '../helper/rupiah.dart' as rupiah;
 
 class AddTransaksi extends StatefulWidget {
   @override
@@ -45,7 +46,7 @@ class AddDataState extends State<AddTransaksi> {
   void handleCreateTransaksi() async {
     var token = await getDataStorage('token');
 
-    var url = "${globals.BASE_URL}transaksi/create_transaksi";
+    var url = "${host.BASE_URL}transaksi/create_transaksi";
 
     List<dynamic> detailTransaksi = [];
 
@@ -288,8 +289,8 @@ class AddDataState extends State<AddTransaksi> {
       "token": token.toString()
     };
 
-    final response = await postData(
-        Uri.parse("${globals.BASE_URL}barang/get_barangs"), body);
+    final response =
+        await postData(Uri.parse("${host.BASE_URL}barang/get_barangs"), body);
 
     if (response.statusCode != 200) {
       return [];
@@ -393,7 +394,7 @@ class AddDataState extends State<AddTransaksi> {
                   padding: EdgeInsets.all(15.0),
                 ),
                 Text(
-                  "Subtotal: ${subTotal.toString()}",
+                  "Subtotal: ${rupiah.toRupiah(subTotal)}",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 // Text(
@@ -439,7 +440,7 @@ class AddDataState extends State<AddTransaksi> {
           subtitle: Text(item['price'].toString()),
           leading: item['image'] != "" && item['image'] != null
               ? Image.network(
-                  "${globals.BASE_URL}images/barang/${item['image']}",
+                  "${host.BASE_URL}images/barang/${item['image']}",
                   height: 50,
                   width: 50,
                 )

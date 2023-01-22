@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class AddBarang extends StatefulWidget {
   @override
@@ -45,7 +45,7 @@ class AddWarehouseState extends State<AddBarang> {
   void addDataBarang() async {
     var token = await getDataStorage('token');
 
-    var url = Uri.parse("${globals.BASE_URL}barang/add");
+    var url = Uri.parse("${host.BASE_URL}barang/add");
 
     var image = imageBarang;
 

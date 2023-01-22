@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'detailbarang.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class ListBarang extends StatefulWidget {
   @override
@@ -27,8 +27,8 @@ class ListBarangState extends State<ListBarang> {
 
     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
-    final response = await postData(
-        Uri.parse("${globals.BASE_URL}barang/get_barangs"), body);
+    final response =
+        await postData(Uri.parse("${host.BASE_URL}barang/get_barangs"), body);
 
     final data = jsonDecode(response.body);
 
@@ -85,7 +85,7 @@ class ItemList extends StatelessWidget {
                 leading: list[i]["image"] != "" && list[i]["image"] != null
                     ? Image.network(
                         list[i]["image"] != null
-                            ? "${globals.BASE_URL}/images/barang/${list[i]["image"]}"
+                            ? "${host.BASE_URL}/images/barang/${list[i]["image"]}"
                             : "",
                         width: 50,
                         height: 50,

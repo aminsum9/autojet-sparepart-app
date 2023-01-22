@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'edituser.dart';
 import 'dart:convert';
 import 'package:pretty_json/pretty_json.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class Account extends StatefulWidget {
   @override
@@ -38,7 +38,7 @@ class AccountState extends State<Account> {
     var body = {"token": token.toString()};
 
     final response =
-        await postData(Uri.parse("${globals.BASE_URL}user/get_by_id"), body);
+        await postData(Uri.parse("${host.BASE_URL}user/get_by_id"), body);
 
     if (response.statusCode != 200) {
       return [];

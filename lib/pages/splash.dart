@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class Splash extends StatefulWidget {
   @override
@@ -76,7 +76,7 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
     getDataStorage('token').then((token) => {
           if (token.toString() != null)
             {
-              postData(Uri.parse('${globals.BASE_URL}user/check_login'), {
+              postData(Uri.parse('${host.BASE_URL}user/check_login'), {
                 "token": token.toString()
               }).then((response) => {
                     if (response.statusCode == 200)

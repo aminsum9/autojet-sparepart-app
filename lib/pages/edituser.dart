@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_json/pretty_json.dart';
 import 'home.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class EditUser extends StatefulWidget {
   final List list;
@@ -38,7 +38,7 @@ class EditUserState extends State<EditUser> {
       "token": token.toString(),
     };
 
-    var url = "${globals.BASE_URL}user/update";
+    var url = "${host.BASE_URL}user/update";
     http
         .post(Uri.parse(url), body: body)
         .then((value) => Navigator.pushNamed(context, '/home'));

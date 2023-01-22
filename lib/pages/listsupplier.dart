@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'detailsupplier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class ListSupplier extends StatefulWidget {
   @override
@@ -29,7 +29,7 @@ class ListSupplierState extends State<ListSupplier> {
     var body = {"page": "1", "paging": "10", "token": token.toString()};
 
     final response = await postData(
-        Uri.parse("${globals.BASE_URL}supplier/get_suppliers"), body);
+        Uri.parse("${host.BASE_URL}supplier/get_suppliers"), body);
 
     if (response.statusCode != 200) {
       return [];

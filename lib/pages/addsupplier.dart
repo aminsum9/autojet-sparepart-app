@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class AddSupplier extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class AddSupplierState extends State<AddSupplier> {
   void addData() async {
     var token = await getDataStorage('token');
 
-    var url = "${globals.BASE_URL}supplier/add";
+    var url = "${host.BASE_URL}supplier/add";
 
     http.post(Uri.parse(url), body: {
       "name": controllerName.text,

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/url.dart' as globals;
+import '../config/url.dart' as host;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -72,7 +72,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     };
 
     final response =
-        await postData(Uri.parse('${globals.BASE_URL}user/login'), body);
+        await postData(Uri.parse('${host.BASE_URL}user/login'), body);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -105,11 +105,11 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         child: Scaffold(
             body: Container(
           child: Container(
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.white, Colors.lightGreen],
-                    begin: FractionalOffset.topCenter,
-                    end: FractionalOffset.bottomCenter)),
+            // decoration: const BoxDecoration(
+            //     gradient: LinearGradient(
+            //         colors: [Colors.white, Colors.lightGreen],
+            //         begin: FractionalOffset.topLeft,
+            //         end: FractionalOffset.bottomRight)),
             child: ListView(padding: const EdgeInsets.all(20.0), children: [
               Stack(alignment: AlignmentDirectional.bottomCenter, children: [
                 Column(
@@ -124,48 +124,95 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           const Padding(
                             padding: EdgeInsets.all(10.0),
                           ),
-                          TextField(
-                            controller: controllerEmail,
-                            decoration: const InputDecoration(
-                                icon: Icon(
-                                  Icons.person,
-                                  color: Colors.white,
+                          Card(
+                            child: Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 40.0),
                                 ),
-                                hintText: "Email"),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(10.0),
-                          ),
-                          TextField(
-                            controller: controllerPassword,
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                                icon: Icon(
-                                  Icons.lock_outline,
-                                  color: Colors.white,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0, right: 15.0),
+                                  child: TextField(
+                                    controller: controllerEmail,
+                                    style: TextStyle(color: Colors.grey[900]),
+                                    decoration: const InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black12),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                        icon: Icon(
+                                          Icons.person,
+                                          color: Colors.lightGreen,
+                                        ),
+                                        hintText: "Email"),
+                                  ),
                                 ),
-                                hintText: "Password"),
+                                const Padding(
+                                    padding: EdgeInsets.only(bottom: 20)),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0, right: 15.0),
+                                  child: TextField(
+                                    controller: controllerPassword,
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black12),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                        icon: Icon(
+                                          Icons.lock_outline,
+                                          color: Colors.lightGreen,
+                                        ),
+                                        hintText: "Password"),
+                                  ),
+                                ),
+                                const Padding(
+                                    padding: EdgeInsets.only(bottom: 20)),
+                                errorMessage != ""
+                                    ? Text(errorMessage,
+                                        style: const TextStyle(
+                                            fontSize: 12, color: Colors.red))
+                                    : const Text(""),
+                                const Padding(
+                                    padding: EdgeInsets.only(top: 13)),
+                              ],
+                            ),
                           ),
-                          const Padding(padding: EdgeInsets.only(top: 13)),
-                          errorMessage != ""
-                              ? Text(errorMessage,
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Colors.red))
-                              : const Text(""),
                           TextButton(
-                              // padding:
-                              //     const EdgeInsets.only(top: 220.0, bottom: 30.0),
-                              onPressed: () {
-                                toRegister();
-                              },
-                              child: const Text(
-                                "Belum punya akun? daftar di sini.",
-                                style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w300,
-                                    letterSpacing: 0.5),
-                              )),
+                            // padding:
+                            //     const EdgeInsets.only(top: 220.0, bottom: 30.0),
+                            onPressed: () {
+                              toRegister();
+                            },
+                            child: RichText(
+                              text: const TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Belum punya akun? daftar ',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 12),
+                                    children: [
+                                      TextSpan(
+                                        text: 'disini.',
+                                        style: TextStyle(
+                                            color: Colors.blue, fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                           InkWell(
                               onTap: () {
                                 _hadleLogin();
@@ -193,7 +240,7 @@ class SignIn extends StatelessWidget {
         width: 320.0,
         height: 60.0,
         decoration: BoxDecoration(
-            color: Colors.red[700],
+            color: Colors.green[700],
             borderRadius: const BorderRadius.all(Radius.circular(30.0))),
         child: const Text("Sign In",
             style: TextStyle(
