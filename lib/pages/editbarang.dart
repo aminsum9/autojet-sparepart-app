@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pretty_json/pretty_json.dart';
 import 'listbarang.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class EditBarang extends StatefulWidget {
   final List list;
@@ -64,9 +64,20 @@ class EditBarangState extends State<EditBarang> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Edit Data Barang"),
-          backgroundColor: Colors.lightGreen,
+          title: const Text(
+            "Edit Data Barang",
+            style: TextStyle(color: colors.SECONDARY_COLOR),
+          ),
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          shadowColor: Colors.transparent,
         ),
+        backgroundColor: Colors.white,
         body: Container(
             padding: const EdgeInsets.all(10.0),
             child: Card(
@@ -76,9 +87,6 @@ class EditBarangState extends State<EditBarang> {
                 Column(
                   children: [
                     const Padding(padding: EdgeInsets.all(10.0)),
-                    const Text("Edit Data Barang",
-                        style: TextStyle(
-                            fontSize: 25.0, fontWeight: FontWeight.bold)),
                     const Padding(padding: EdgeInsets.all(10.0)),
                     const Padding(padding: EdgeInsets.all(10.0)),
                     TextField(
@@ -129,7 +137,10 @@ class EditBarangState extends State<EditBarang> {
               editData();
             },
             style: TextButton.styleFrom(
-                backgroundColor: Colors.lightGreen,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                backgroundColor: colors.SECONDARY_COLOR,
                 padding: const EdgeInsets.all(15)),
             child: const Text("EDIT", style: TextStyle(color: Colors.white)),
           ),

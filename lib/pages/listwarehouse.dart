@@ -83,7 +83,11 @@ class ItemList extends StatelessWidget {
               child: ListTile(
                 title: Text(list[i]["barang"]['name'] ?? ""),
                 subtitle: Text('Qty : ${list[i]["qty"] ?? ""}'),
-                leading: const Icon(Icons.warehouse),
+                leading: const Icon(
+                  Icons.warehouse,
+                  size: 50,
+                  color: Colors.blueGrey,
+                ),
               ),
             ),
           ),

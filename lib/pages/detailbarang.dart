@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'editbarang.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'home.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class DetailBarang extends StatefulWidget {
   List list;
@@ -89,8 +89,19 @@ class DetailState extends State<DetailBarang> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("${widget.list[widget.index]['name']}"),
-            backgroundColor: Colors.lightGreen),
+          title: Text(
+            "${widget.list[widget.index]['name']}",
+            style: const TextStyle(color: colors.SECONDARY_COLOR),
+          ),
+          backgroundColor: Colors.white,
+          shadowColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           // padding: const EdgeInsets.all(20.0),
@@ -99,9 +110,9 @@ class DetailState extends State<DetailBarang> {
               padding: const EdgeInsets.all(10.0),
               child: Center(
                 child: Card(
-                    // margin: const EdgeInsets.all(16),
                     child: Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.only(
+                            left: 20, top: 10, right: 20, bottom: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -130,7 +141,7 @@ class DetailState extends State<DetailBarang> {
                                   widget.list[widget.index]['name'],
                                   style: const TextStyle(
                                       fontSize: 15.0,
-                                      color: Colors.blueAccent,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -193,7 +204,7 @@ class DetailState extends State<DetailBarang> {
                                 TextButton(
                                   onPressed: () => confirmDelete(),
                                   child: const Text(
-                                    "DELETE",
+                                    "HAPUS",
                                     style: TextStyle(color: Colors.red),
                                   ),
                                   // color: Colors.redAccent
@@ -206,8 +217,8 @@ class DetailState extends State<DetailBarang> {
                                               EditBarang(
                                                   list: widget.list,
                                                   index: widget.index))),
-                                  child: const Text("EDIT"),
-                                  // color: Colors.lightGreen
+                                  child: const Text("EDIT",
+                                      style: TextStyle(color: Colors.green)),
                                 ),
                               ],
                             )

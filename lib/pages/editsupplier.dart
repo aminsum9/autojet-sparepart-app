@@ -30,7 +30,7 @@ class EditSupplierState extends State<EditSupplier> {
     var token = await getDataStorage('token');
 
     var body = {
-      "id": widget.list[widget.index]["id"].toString() ?? "",
+      "id": widget.list[widget.index]["id"].toString(),
       "name": controllerName.text,
       "email": controllerEmail.text.toString(),
       "image": "",

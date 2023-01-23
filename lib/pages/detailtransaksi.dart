@@ -1,15 +1,16 @@
-import 'dart:convert';
-
 import 'package:autojet_sparepart/pages/edittransaksi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class DetailTransaksi extends StatefulWidget {
   List list;
   int index;
+
   DetailTransaksi({required this.list, required this.index});
+
   @override
   DetailState createState() => DetailState();
 }
@@ -65,18 +66,22 @@ class DetailState extends State<DetailTransaksi> {
           child: Card(
               child: ListTile(
             title: Text(
-              "${item['barang'] != null ? item['barang']['name'].toString() : ""}",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              item['barang'] != null ? item['barang']['name'].toString() : "",
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Column(
-              children: [
-                const Padding(padding: EdgeInsets.all(5.0)),
-                Text("Qty : ${item['qty'].toString()}"),
-                Text("Subtotal : ${item['subtotal'].toString()}"),
-                Text("Diskon : ${item['discount'].toString()}"),
-                Text("Total : ${item['grand_total'].toString()}"),
-                Text("Penyuplai : ${supplier}"),
-              ],
+            subtitle: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Padding(padding: EdgeInsets.all(5.0)),
+                  Text("Qty : ${item['qty'].toString()}"),
+                  Text("Subtotal : ${item['subtotal'].toString()}"),
+                  Text("Diskon : ${item['discount'].toString()}"),
+                  Text("Total : ${item['grand_total'].toString()}"),
+                  Text("Penyuplai : ${supplier}"),
+                ],
+              ),
             ),
           ))));
     });
@@ -103,89 +108,103 @@ class DetailState extends State<DetailTransaksi> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("${widget.list[widget.index]['trx_id']}"),
-            backgroundColor: Colors.lightGreen),
+            title: Text(
+              "${widget.list[widget.index]['trx_id']}",
+              style: const TextStyle(color: colors.SECONDARY_COLOR),
+            ),
+            backgroundColor: Colors.white,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            shadowColor: Colors.transparent),
+        backgroundColor: Colors.white,
         body: Container(
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Card(
-                  child: Center(
-                      child: Column(children: [
-                const Padding(
-                  padding: EdgeInsets.all(15.0),
-                ),
-                Text(
-                  widget.list[widget.index]['trx_id'],
-                  style: const TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.blueAccent,
-                      fontWeight: FontWeight.bold),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(15.0),
-                ),
-                Text(
-                  "Status : ${widget.list[widget.index]['status']}",
-                  style: const TextStyle(fontSize: 17.0),
-                ),
-                Text(
-                  "Subtotal : ${widget.list[widget.index]['subtotal']}",
-                  style: const TextStyle(fontSize: 17.0),
-                ),
-                Text(
-                  "Discount. : ${widget.list[widget.index]['discount']}",
-                  style: const TextStyle(fontSize: 17.0),
-                ),
-                Text(
-                  "Total : ${widget.list[widget.index]['grand_total']}",
-                  style: const TextStyle(fontSize: 17.0),
-                ),
-                Text(
-                  "Dibuat oleh : ${widget.list[widget.index]['created_by']?['name'] ?? ""}",
-                  style: const TextStyle(fontSize: 17.0),
-                ),
-                Text(
-                  "Catatan : ${widget.list[widget.index]['notes'] ?? ""}",
-                  style: const TextStyle(fontSize: 17.0),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(20.0),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => EditTransaksi(
-                                  list: widget.list, index: widget.index))),
-                      child: const Text("EDIT"),
-                      // color: Colors.lightGreen
-                    ),
-                    const Padding(padding: EdgeInsets.all(15.0)),
-                    TextButton(
-                      onPressed: () => confirmDelete(),
-                      child: const Text("DELETE"),
-                      // color: Colors.redAccent
-                    )
-                  ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                ),
-                const Text(
-                  "Detail Transaksi",
-                  style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: detailTransaksi,
-                ),
-              ]))),
-            )));
+                scrollDirection: Axis.vertical,
+                child: Card(
+                    child: Center(
+                        child: Column(children: [
+                  const Padding(
+                    padding: EdgeInsets.all(15.0),
+                  ),
+                  Text(
+                    widget.list[widget.index]['trx_id'],
+                    style: const TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(15.0),
+                  ),
+                  Text(
+                    "Status : ${widget.list[widget.index]['status']}",
+                    style: const TextStyle(fontSize: 17.0),
+                  ),
+                  Text(
+                    "Subtotal : ${widget.list[widget.index]['subtotal']}",
+                    style: const TextStyle(fontSize: 17.0),
+                  ),
+                  Text(
+                    "Discount. : ${widget.list[widget.index]['discount']}",
+                    style: const TextStyle(fontSize: 17.0),
+                  ),
+                  Text(
+                    "Total : ${widget.list[widget.index]['grand_total']}",
+                    style: const TextStyle(fontSize: 17.0),
+                  ),
+                  Text(
+                    "Dibuat oleh : ${widget.list[widget.index]['created_by']?['name'] ?? ""}",
+                    style: const TextStyle(fontSize: 17.0),
+                  ),
+                  Text(
+                    "Catatan : ${widget.list[widget.index]['notes'] ?? ""}",
+                    style: const TextStyle(fontSize: 17.0),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(20.0),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextButton(
+                        onPressed: () => confirmDelete(),
+                        child: const Text("HAPUS",
+                            style: TextStyle(color: Colors.red)),
+                        // color: Colors.redAccent
+                      ),
+                      const Padding(padding: EdgeInsets.all(15.0)),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    EditTransaksi(
+                                        list: widget.list,
+                                        index: widget.index))),
+                        child: const Text("EDIT"),
+                        // color: Colors.lightGreen
+                      ),
+                    ],
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(10.0),
+                  ),
+                  const Text(
+                    "Detail Transaksi",
+                    style:
+                        TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(10.0),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: detailTransaksi,
+                  ),
+                ]))))));
   }
 }

@@ -48,8 +48,8 @@ class ListBarangState extends State<ListBarang> {
         child: Scaffold(
             floatingActionButton: FloatingActionButton(
               onPressed: () => Navigator.pushNamed(context, '/add_barang'),
-              child: const Icon(Icons.add),
               backgroundColor: colors.SECONDARY_COLOR,
+              child: const Icon(Icons.add),
             ),
             body: FutureBuilder(
                 future: getData(),
@@ -94,6 +94,7 @@ class ItemList extends StatelessWidget {
                     : const Icon(
                         Icons.widgets,
                         size: 50,
+                        color: Colors.blueGrey,
                       ),
               ),
             ),

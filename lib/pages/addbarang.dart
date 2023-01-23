@@ -137,8 +137,16 @@ class AddWarehouseState extends State<AddBarang> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tambah Barang"),
-        backgroundColor: colors.PRIMARY_COLOR,
+        title: const Text("Tambah Barang",
+            style: TextStyle(color: colors.SECONDARY_COLOR)),
+        backgroundColor: Colors.white,
+        shadowColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -254,9 +262,13 @@ class AddWarehouseState extends State<AddBarang> {
             addDataBarang();
           },
           style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               backgroundColor: colors.SECONDARY_COLOR,
               padding: const EdgeInsets.all(15)),
-          child: const Text("SUBMIT", style: TextStyle(color: Colors.white)),
+          child: const Text("TAMBAH BARANG",
+              style: TextStyle(color: Colors.white)),
         ),
       ),
     );

@@ -90,7 +90,10 @@ class ItemList extends StatelessWidget {
               child: ListTile(
                 title: Text(list[i]["name"]),
                 subtitle: Text('Status : ${list[i]["email"]}'),
-                leading: const Icon(Icons.account_circle),
+                leading: const Icon(
+                  Icons.factory,
+                  size: 50,
+                ),
               ),
             ),
           ),

@@ -179,7 +179,7 @@ class AddDataState extends State<AddTransaksi> {
     var newData = {
       "id": item['id'].toString(),
       "name": item['name'].toString(),
-      "image": item['image'].toString(),
+      "image": item['image'] != null ? item['image'].toString() : "",
       "qty": "0",
       "price": item['price'].toString(),
       "notes": "",
@@ -232,16 +232,29 @@ class AddDataState extends State<AddTransaksi> {
     // int discount = 0;
     // int grandTotal = 0;
 
-    for (var item in barangTransaksi) {
-      subTotal = subTotal + int.parse(item['qty']) * int.parse(item['price']);
-    }
+    barangTransaksi.forEach((item) => {
+          print(item['qty'].toString() + item['price'].toString()),
+          subTotal = subTotal +
+              int.parse(item['qty'].toString()) *
+                  int.parse(item['price'].toString())
+        });
     // grandTotal =
     //     subTotal - int.parse(controllerDiscount.text.toString() ?? "0");
-
+    print(subTotal.toString());
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Buat Transaksi"),
-            backgroundColor: colors.PRIMARY_COLOR),
+          title: const Text("Buat Transaksi",
+              style: TextStyle(color: colors.SECONDARY_COLOR)),
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          shadowColor: Colors.transparent,
+        ),
+        backgroundColor: Colors.white,
         body: Container(
             padding: const EdgeInsets.all(20.0),
             child: ListView(children: [
@@ -304,7 +317,8 @@ class AddDataState extends State<AddTransaksi> {
                               title: Text(barangTransaksi[index]['name']),
                               subtitle: Text(
                                   "Qty : " + barangTransaksi[index]['qty']),
-                              leading: barangTransaksi[index]['image'] != ""
+                              leading: barangTransaksi[index]['image'] != "" &&
+                                      barangTransaksi[index]['image'] != null
                                   ? Image.network(
                                       host.BASE_URL +
                                           'images/barang/' +
@@ -337,12 +351,17 @@ class AddDataState extends State<AddTransaksi> {
                     padding: EdgeInsets.all(15.0),
                   ),
                   TextField(
+                    keyboardType: TextInputType.number,
                     controller: controllerDiscount,
                     decoration: InputDecoration(
                         hintText: "masukkan diskon",
                         labelText: "Diskon",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0))),
+                            borderSide: const BorderSide(
+                              color: colors.PRIMARY_COLOR,
+                              width: 10.0,
+                            ),
+                            borderRadius: BorderRadius.circular(5.0))),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(5.0),
@@ -353,20 +372,22 @@ class AddDataState extends State<AddTransaksi> {
                         hintText: "tambah notes",
                         labelText: "Notes",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0))),
+                            borderSide:
+                                const BorderSide(color: colors.PRIMARY_COLOR),
+                            borderRadius: BorderRadius.circular(5.0))),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(15.0),
                   ),
                   Text(
-                    "Subtotal: ${rupiah.toRupiah(subTotal)}",
+                    "Subtotal  : ${rupiah.toRupiah(subTotal)}",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(5.0),
                   ),
                   Text(
-                    "Total: ${rupiah.toRupiah(subTotal)}",
+                    "Total        : ${rupiah.toRupiah(subTotal)}",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const Padding(
@@ -382,6 +403,9 @@ class AddDataState extends State<AddTransaksi> {
               handleCreateTransaksi();
             },
             style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 backgroundColor: colors.SECONDARY_COLOR,
                 padding: const EdgeInsets.all(15)),
             child: const Text("BUAT TRANSAKSI",

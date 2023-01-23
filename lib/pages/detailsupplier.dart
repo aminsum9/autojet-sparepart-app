@@ -1,11 +1,9 @@
-import 'dart:convert';
-
 import 'package:autojet_sparepart/pages/editsupplier.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:autojet_sparepart/pages/editsupplier.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class DetailSupplier extends StatefulWidget {
   List list;
@@ -65,8 +63,16 @@ class DetailState extends State<DetailSupplier> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("${widget.list[widget.index]['name']}"),
-            backgroundColor: Colors.lightGreen),
+            title: const Text("Detail Supplier",
+                style: TextStyle(color: colors.SECONDARY_COLOR)),
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            shadowColor: Colors.transparent),
         body: Container(
           height: 300.0,
           padding: const EdgeInsets.all(20.0),
@@ -80,27 +86,34 @@ class DetailState extends State<DetailSupplier> {
               widget.list[widget.index]['name'],
               style: const TextStyle(
                   fontSize: 20.0,
-                  color: Colors.blueAccent,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold),
             ),
             const Padding(
               padding: EdgeInsets.all(15.0),
             ),
-            Text(
-              "Email : ${widget.list[widget.index]['email']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Alamat : ${widget.list[widget.index]['address']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "No. Telp. : ${widget.list[widget.index]['phone']}",
-              style: const TextStyle(fontSize: 17.0),
-            ),
-            Text(
-              "Deskripsi : ${widget.list[widget.index]['desc']}",
-              style: const TextStyle(fontSize: 17.0),
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Email        :  ${widget.list[widget.index]['email']}",
+                      style: const TextStyle(fontSize: 17.0),
+                    ),
+                    Text(
+                      "Alamat     :  ${widget.list[widget.index]['address']}",
+                      style: const TextStyle(fontSize: 17.0),
+                    ),
+                    Text(
+                      "No. Telp.  :  ${widget.list[widget.index]['phone']}",
+                      style: const TextStyle(fontSize: 17.0),
+                    ),
+                    Text(
+                      "Deskripsi :  ${widget.list[widget.index]['desc']}",
+                      style: const TextStyle(fontSize: 17.0),
+                    ),
+                  ]),
             ),
             const Padding(
               padding: EdgeInsets.all(20.0),
@@ -109,18 +122,20 @@ class DetailState extends State<DetailSupplier> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextButton(
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => EditSupplier(
-                          list: widget.list, index: widget.index))),
-                  child: const Text("EDIT"),
-                  // color: Colors.lightGreen
+                  onPressed: () => confirmDelete(),
+                  child:
+                      const Text("HAPUS", style: TextStyle(color: Colors.red)),
+                  // color: Colors.redAccent
                 ),
                 const Padding(padding: EdgeInsets.all(15.0)),
                 TextButton(
-                  onPressed: () => confirmDelete(),
-                  child: const Text("DELETE"),
-                  // color: Colors.redAccent
-                )
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => EditSupplier(
+                          list: widget.list, index: widget.index))),
+                  child:
+                      const Text("EDIT", style: TextStyle(color: Colors.green)),
+                  // color: Colors.lightGreen
+                ),
               ],
             )
           ]))),

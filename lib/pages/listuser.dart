@@ -51,11 +51,6 @@ class ListUserState extends State<ListUser> {
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-            // floatingActionButton: FloatingActionButton(
-            //   onPressed: () => Navigator.pushNamed(context, '/add_user'),
-            //   child: const Icon(Icons.add),
-            //   backgroundColor: Colors.green,
-            // ),
             body: FutureBuilder(
                 future: getDataUser(),
                 builder: (context, snapshot) {
@@ -88,7 +83,11 @@ class ItemList extends StatelessWidget {
               child: ListTile(
                 title: Text(list[i]["name"]),
                 subtitle: Text('Email : ${list[i]["email"]}'),
-                leading: const Icon(Icons.account_circle),
+                leading: const Icon(
+                  Icons.account_circle,
+                  size: 50,
+                  color: Colors.blueGrey,
+                ),
               ),
             ),
           ),
