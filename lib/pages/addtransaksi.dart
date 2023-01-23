@@ -25,7 +25,6 @@ class AddDataState extends State<AddTransaksi> {
   //
   List<MapEntry<String, dynamic>> dataBarang = [];
   List<dynamic> barangData = [];
-  List<Widget> detailTransaksi = [];
   List<dynamic> barangTransaksi = [];
   //
 
@@ -52,9 +51,9 @@ class AddDataState extends State<AddTransaksi> {
 
     List<dynamic> detailTransaksi = [];
 
-    barangTransaksi.forEach((item) {
+    for (var item in barangTransaksi) {
       detailTransaksi.add(item);
-    });
+    }
 
     var body = {
       "detail_transaksi": jsonEncode(detailTransaksi),
@@ -62,8 +61,6 @@ class AddDataState extends State<AddTransaksi> {
       "notes": controllerNotes.text,
       "token": token.toString(),
     };
-
-    // printPrettyJson(body);
 
     http.post(Uri.parse(url), body: body).then((response) => {
           if (response.statusCode == 200)
@@ -117,12 +114,6 @@ class AddDataState extends State<AddTransaksi> {
   }
 
   void confirmQty(String id) {
-    // if (qty != "") {
-    //   setState(() {
-    //     controllerQty.text = qty;
-    //   });
-    // }
-
     showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -136,14 +127,19 @@ class AddDataState extends State<AddTransaksi> {
           ),
           actions: <Widget>[
             TextButton(
+              onPressed: () =>
+                  {removeItemBarangTrans(id), Navigator.pop(context)},
+              child: const Text("Hapus", style: TextStyle(color: Colors.red)),
+              // color: Colors.lightGreen
+            ),
+            TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("BATAL",
-                  style: TextStyle(color: Colors.lightGreen)),
+              child: const Text("Batal", style: TextStyle(color: Colors.black)),
               // color: Colors.lightGreen
             ),
             TextButton(
               child:
-                  const Text('SET QTY', style: TextStyle(color: Colors.green)),
+                  const Text('Set Qty', style: TextStyle(color: Colors.green)),
               onPressed: () {
                 setQty(id);
                 Navigator.pop(context);
@@ -157,33 +153,13 @@ class AddDataState extends State<AddTransaksi> {
 
   void setQty(String id) {
     int index = 0;
-    barangTransaksi.forEach((item) {
+
+    for (var item in barangTransaksi) {
       if (item['id'] == id.toString()) {
         barangTransaksi[index]['qty'] = controllerQty.text;
-
-        detailTransaksi[index] = Container(
-            padding: const EdgeInsets.all(10.0),
-            child: Card(
-                child: ListTile(
-              contentPadding: EdgeInsets.all(15.0),
-              title: Text(
-                "${barangTransaksi[index]['name'].toString()}",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
-                children: [
-                  const Padding(padding: EdgeInsets.all(15.0)),
-                  TextButton(
-                      onPressed: () {
-                        confirmQty(id);
-                      },
-                      child: Text("Qty : ${controllerQty.text}"))
-                ],
-              ),
-            )));
       }
       index++;
-    });
+    }
 
     setState(() {
       controllerQty.text = "";
@@ -191,90 +167,33 @@ class AddDataState extends State<AddTransaksi> {
   }
 
   void removeItemBarangTrans(id) {
-    print(id.toString());
+    barangTransaksi
+        .removeWhere((item) => item['id'].toString() == id.toString());
 
-    // int index = 0;
-    // int indexDetailTrans = 0;
-    // barangTransaksi.forEach((item) {
-    //   if (item['id'] == id.toString()) {
-    //     indexDetailTrans = index;
-    //   }
-    //   index++;
-    // });
-
-    // barangTransaksi
-    //     .removeWhere((item) => item['id'].toString() == id.toString());
-    // detailTransaksi.remove(detailTransaksi[indexDetailTrans]);
-    // print(barangTransaksi.length.toString());
-    // print(detailTransaksi.length.toString());
-    // barangTransaksi = barangTransaksi;
-    // detailTransaksi = detailTransaksi;
+    setState(() {
+      barangTransaksi = barangTransaksi;
+    });
   }
 
   void addBarangTrans(dynamic item) {
-    var barang = {};
-
-    barang = {
+    var newData = {
       "id": item['id'].toString(),
       "name": item['name'].toString(),
-      "price": item['price'].toString(),
-    };
-
-    var newData = {
-      "id": barang['id'].toString(),
-      "name": barang['name'].toString(),
+      "image": item['image'].toString(),
       "qty": "0",
-      "price": barang['price'].toString(),
+      "price": item['price'].toString(),
       "notes": "",
     };
 
     barangTransaksi.add(newData);
 
-    barangTransaksi = barangTransaksi;
+    setState(() {
+      barangTransaksi = barangTransaksi;
+    });
 
     setState(() {
       selectedBarangSrc = item;
     });
-
-    detailTransaksi.add(Container(
-        // padding: const EdgeInsets.all(10.0),
-        child: Card(
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(10),
-        title: Stack(
-          children: [
-            Text("${barang['name'].toString()}",
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            Positioned(
-              right: 0,
-              top: 0,
-              child: Container(
-                width: 30,
-                height: 30,
-                child: TextButton(
-                    onPressed: () => removeItemBarangTrans(barang['id']),
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.black,
-                      size: 15,
-                    )),
-              ),
-            ),
-          ],
-        ),
-        subtitle: Column(
-          children: [
-            const Padding(padding: EdgeInsets.all(15.0)),
-            TextButton(
-                onPressed: () {
-                  var id = barang['id'];
-                  confirmQty(id);
-                },
-                child: const Text("Qty : 0"))
-          ],
-        ),
-      ),
-    )));
   }
 
   Future<List<dynamic>> getDataBarang(filter) async {
@@ -310,16 +229,14 @@ class AddDataState extends State<AddTransaksi> {
   @override
   Widget build(BuildContext context) {
     int subTotal = 0;
-    int discount = 0;
+    // int discount = 0;
     // int grandTotal = 0;
 
-    barangTransaksi.forEach((item) {
+    for (var item in barangTransaksi) {
       subTotal = subTotal + int.parse(item['qty']) * int.parse(item['price']);
-    });
-    // print(controllerDiscount.text.toString());
+    }
     // grandTotal =
     //     subTotal - int.parse(controllerDiscount.text.toString() ?? "0");
-    // print(grandTotal.toString());
 
     return Scaffold(
         appBar: AppBar(
@@ -377,10 +294,45 @@ class AddDataState extends State<AddTransaksi> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const Padding(padding: EdgeInsets.all(5.0)),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: detailTransaksi,
-                  ),
+                  barangTransaksi.isNotEmpty
+                      ? ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: barangTransaksi.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              title: Text(barangTransaksi[index]['name']),
+                              subtitle: Text(
+                                  "Qty : " + barangTransaksi[index]['qty']),
+                              leading: barangTransaksi[index]['image'] != ""
+                                  ? Image.network(
+                                      host.BASE_URL +
+                                          'images/barang/' +
+                                          barangTransaksi[index]['image'],
+                                      height: 50,
+                                      width: 50,
+                                    )
+                                  : const Icon(
+                                      Icons.widgets,
+                                      size: 50,
+                                    ),
+                              onTap: () {
+                                confirmQty(barangTransaksi[index]['id']);
+                              },
+                            );
+                          },
+                        )
+                      : Container(
+                          child: const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(30),
+                            child: Text(
+                              "Anda belum memilih barang.",
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.grey),
+                            ),
+                          ),
+                        )),
                   TextField(
                     controller: controllerDiscount,
                     decoration: const InputDecoration(

@@ -79,8 +79,9 @@ class ItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: list == null ? 0 : list.length,
+      itemCount: list.isEmpty ? 0 : list.length,
       itemBuilder: (context, i) {
+        //handle status
         switch (list[i]['status']) {
           case 'new':
             colorStatus = Colors.orange;
@@ -103,7 +104,7 @@ class ItemList extends StatelessWidget {
             status = 'refund';
             break;
         }
-
+        //handle date
         var date = DateTime.parse(list[i]["created_at"].split('T')[0]);
         String createdAt = DateFormat('dd MMMM yyy').format(date);
 
@@ -128,7 +129,7 @@ class ItemList extends StatelessWidget {
                           padding: const EdgeInsets.only(
                               left: 5, top: 1, right: 5, bottom: 1),
                           child: Text(
-                            "${status}",
+                            status,
                             style: const TextStyle(color: Colors.white),
                           ),
                         ))
@@ -138,6 +139,7 @@ class ItemList extends StatelessWidget {
                 leading: const Icon(
                   Icons.book,
                   size: 40,
+                  color: Colors.blueGrey,
                 ),
               ),
             ),
