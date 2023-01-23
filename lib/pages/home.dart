@@ -28,7 +28,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     // final state = MyApp.of(context).state;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Autojet Sparepart"),
+        title: const Text("Autojet Sparepart"),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(

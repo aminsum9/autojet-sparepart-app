@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'detailtransaksi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
@@ -72,11 +73,40 @@ class ItemList extends StatelessWidget {
   final List list;
   ItemList({required this.list});
 
+  Color colorStatus = Colors.lightGreen;
+  String status = 'baru';
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: list == null ? 0 : list.length,
       itemBuilder: (context, i) {
+        switch (list[i]['status']) {
+          case 'new':
+            colorStatus = Colors.orange;
+            status = 'baru';
+            break;
+          case 'pending':
+            colorStatus = Colors.blue;
+            status = 'sedang diproses';
+            break;
+          case 'finish':
+            colorStatus = Colors.lightGreen;
+            status = 'selesai';
+            break;
+          case 'cancel':
+            colorStatus = Colors.red;
+            status = 'dibatalkan';
+            break;
+          case 'refund':
+            colorStatus = Colors.purple;
+            status = 'refund';
+            break;
+        }
+
+        var date = DateTime.parse(list[i]["created_at"].split('T')[0]);
+        String createdAt = DateFormat('dd MMMM yyy').format(date);
+
         return Container(
           padding: const EdgeInsets.all(5.0),
           child: GestureDetector(
@@ -85,10 +115,30 @@ class ItemList extends StatelessWidget {
                     DetailTransaksi(list: list, index: i))),
             child: Card(
               child: ListTile(
-                title: Text("${list[i]["trx_id"]} (${list[i]["status"]})"),
-                subtitle: Text(
-                    'Dibuat tgl. : ${list[i]["created_at"].split('T')[0]}'),
-                leading: const Icon(Icons.book),
+                title: Row(
+                  children: [
+                    Text(
+                      "${list[i]["trx_id"]}",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Card(
+                        color: colorStatus,
+                        shadowColor: Colors.transparent,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 5, top: 1, right: 5, bottom: 1),
+                          child: Text(
+                            "${status}",
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ))
+                  ],
+                ),
+                subtitle: Text('Dibuat tgl. : ${createdAt}'),
+                leading: const Icon(
+                  Icons.book,
+                  size: 40,
+                ),
               ),
             ),
           ),

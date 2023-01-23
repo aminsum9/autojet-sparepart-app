@@ -1,7 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:pretty_json/pretty_json.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:item_picker/item_picker.dart';
 import 'dart:convert';
@@ -10,6 +9,8 @@ import '../helper/rupiah.dart' as rupiah;
 import '../styles/colors.dart' as colors;
 
 class AddTransaksi extends StatefulWidget {
+  AddTransaksi({super.key});
+
   @override
   AddDataState createState() => AddDataState();
 }
@@ -57,7 +58,7 @@ class AddDataState extends State<AddTransaksi> {
 
     var body = {
       "detail_transaksi": jsonEncode(detailTransaksi),
-      "discount": controllerDiscount.text ?? "0",
+      "discount": controllerDiscount.text,
       "notes": controllerNotes.text,
       "token": token.toString(),
     };
