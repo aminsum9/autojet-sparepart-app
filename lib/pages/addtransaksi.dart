@@ -333,15 +333,27 @@ class AddDataState extends State<AddTransaksi> {
                             ),
                           ),
                         )),
+                  const Padding(
+                    padding: EdgeInsets.all(15.0),
+                  ),
                   TextField(
                     controller: controllerDiscount,
-                    decoration: const InputDecoration(
-                        hintText: "masukkan diskon", labelText: "Diskon"),
+                    decoration: InputDecoration(
+                        hintText: "masukkan diskon",
+                        labelText: "Diskon",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0))),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(5.0),
                   ),
                   TextField(
                     controller: controllerNotes,
-                    decoration: const InputDecoration(
-                        hintText: "masukkan notes", labelText: "Notes"),
+                    decoration: InputDecoration(
+                        hintText: "tambah notes",
+                        labelText: "Notes",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0))),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(15.0),
