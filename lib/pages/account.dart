@@ -6,6 +6,7 @@ import 'edituser.dart';
 import 'dart:convert';
 import 'package:pretty_json/pretty_json.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class Account extends StatefulWidget {
   @override
@@ -82,51 +83,67 @@ class AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Akun",
-          ),
-          backgroundColor: Colors.lightGreen,
+      appBar: AppBar(
+        title: const Text(
+          "Akun",
+          style: TextStyle(color: colors.SECONDARY_COLOR),
         ),
-        drawerEdgeDragWidth: 10,
-        body: ListView(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(5.0),
-              child: GestureDetector(
-                onTap: () => toEditUser(),
-                child: const Card(
-                  child: ListTile(
-                    title: Text("Edit Akun"),
-                    leading: Icon(Icons.account_circle),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        shadowColor: Colors.transparent,
+      ),
+      backgroundColor: Colors.white,
+      drawerEdgeDragWidth: 10,
+      body: ListView(
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.only(left: 5, top: 10, right: 5, bottom: 5),
+            child: GestureDetector(
+              onTap: () => toEditUser(),
+              child: const Card(
+                child: ListTile(
+                  title: Text("Edit Akun"),
+                  leading: Icon(
+                    Icons.account_circle,
+                    color: colors.PRIMARY_COLOR,
                   ),
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(5.0),
-              child: GestureDetector(
-                onTap: () => toReport(),
-                child: const Card(
-                  child: ListTile(
-                    title: Text("Laporan"),
-                    leading: Icon(Icons.outbox_outlined),
-                  ),
+          ),
+          Container(
+            padding:
+                const EdgeInsets.only(left: 5, top: 0, right: 5, bottom: 5),
+            child: GestureDetector(
+              onTap: () => toReport(),
+              child: const Card(
+                child: ListTile(
+                  title: Text("Laporan"),
+                  leading:
+                      Icon(Icons.outbox_outlined, color: colors.PRIMARY_COLOR),
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: TextButton(
-                onPressed: () {
-                  removeDataStorage();
-                  Navigator.pushNamed(context, '/login');
-                },
-                child: Text("Log Out", style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.lightGreen),
-              ),
-            ),
-          ],
-        ));
+          ),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(10.0),
+        child: TextButton(
+          onPressed: () {
+            removeDataStorage();
+            Navigator.pushNamed(context, '/login');
+          },
+          style: TextButton.styleFrom(backgroundColor: colors.PRIMARY_COLOR),
+          child: const Text("Log Out", style: TextStyle(color: Colors.white)),
+        ),
+      ),
+    );
   }
 }

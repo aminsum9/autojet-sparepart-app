@@ -233,14 +233,13 @@ class AddDataState extends State<AddTransaksi> {
     // int grandTotal = 0;
 
     barangTransaksi.forEach((item) => {
-          print(item['qty'].toString() + item['price'].toString()),
           subTotal = subTotal +
               int.parse(item['qty'].toString()) *
                   int.parse(item['price'].toString())
         });
     // grandTotal =
     //     subTotal - int.parse(controllerDiscount.text.toString() ?? "0");
-    print(subTotal.toString());
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Buat Transaksi",

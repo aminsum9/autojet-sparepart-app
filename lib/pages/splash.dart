@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class Splash extends StatefulWidget {
   @override
@@ -103,17 +104,22 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('img/bg.jpg'), fit: BoxFit.cover)),
-      // child: Container(
-      //   decoration: const BoxDecoration(
-      //       gradient: LinearGradient(
-      //           colors: [Colors.white, Colors.lightGreen],
-      //           begin: FractionalOffset.topCenter,
-      //           end: FractionalOffset.bottomCenter)),
-      // ),
-    ));
+      body: Container(
+        child: Center(
+          child: Image.asset(
+            "img/icons/icon-autojet-sparepart.png",
+            width: 180,
+            height: 180,
+          ),
+          // const Text(
+          //   "Autojet Sparepart",
+          //   style: TextStyle(
+          //       color: colors.PRIMARY_COLOR, fontWeight: FontWeight.bold),
+          // ),
+          //   ],
+          // ),
+        ),
+      ),
+    );
   }
 }

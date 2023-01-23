@@ -19,9 +19,9 @@ class Report extends StatefulWidget {
 
 class ReportState extends State<Report> {
   String totalBarangTerjual = "";
-  String totalSubtotal = "";
-  String totalDiscount = "";
-  String totalGrandTotal = "";
+  int totalSubtotal = 0;
+  int totalDiscount = 0;
+  int totalGrandTotal = 0;
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
@@ -67,9 +67,9 @@ class ReportState extends State<Report> {
             listBarangTerjual =
                 "${listBarangTerjual} - ${item['barang']} :  ${item['qty']}\n"
           });
-      totalSubtotal = data['data']['total_subtotal'].toString();
-      totalDiscount = data['data']['total_diskon'].toString();
-      totalGrandTotal = data['data']['total_grand_total'].toString();
+      totalSubtotal = data['data']['total_subtotal'];
+      totalDiscount = data['data']['total_diskon'];
+      totalGrandTotal = data['data']['total_grand_total'];
 
       setState(() {
         totalBarangTerjual = listBarangTerjual;
@@ -130,8 +130,20 @@ class ReportState extends State<Report> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Laporan Transaksi"),
-            backgroundColor: colors.PRIMARY_COLOR),
+          title: const Text(
+            "Laporan Transaksi",
+            style: TextStyle(color: colors.SECONDARY_COLOR),
+          ),
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          shadowColor: Colors.transparent,
+        ),
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
@@ -206,15 +218,15 @@ class ReportState extends State<Report> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              "Total Subtotal        : ${rupiah.toRupiah(int.parse(totalSubtotal))}",
+                              "Total Subtotal        : ${rupiah.toRupiah(int.parse(totalSubtotal.toString()))}",
                               style: const TextStyle(fontSize: 17.0),
                             ),
                             Text(
-                              "Totas Diskon          : ${rupiah.toRupiah(int.parse(totalDiscount))}",
+                              "Totas Diskon          : ${rupiah.toRupiah(int.parse(totalDiscount.toString()))}",
                               style: const TextStyle(fontSize: 17.0),
                             ),
                             Text(
-                              "Total(Subtotal-Diskon): ${rupiah.toRupiah(int.parse(totalGrandTotal))}",
+                              "Total(Subtotal-Diskon): ${rupiah.toRupiah(int.parse(totalGrandTotal.toString()))}",
                               style: const TextStyle(fontSize: 17.0),
                             ),
                           ]),
