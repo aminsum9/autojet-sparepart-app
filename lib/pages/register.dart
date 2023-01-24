@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class Register extends StatefulWidget {
   @override
@@ -123,14 +124,27 @@ class RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Daftar"),
-        backgroundColor: Colors.lightGreen,
+        title: const Text(
+          "Daftar",
+          style: TextStyle(color: colors.SECONDARY_COLOR),
+        ),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        shadowColor: Colors.transparent,
       ),
       body: ListView(children: [
         Container(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 20.0),
+              ),
               TextField(
                   controller: controllerNama,
                   decoration: InputDecoration(
@@ -146,6 +160,16 @@ class RegisterState extends State<Register> {
                   decoration: InputDecoration(
                       hintText: "Email",
                       labelText: "Email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0)))),
+              const Padding(
+                padding: EdgeInsets.only(top: 20.0),
+              ),
+              TextField(
+                  controller: controllerAddress,
+                  decoration: InputDecoration(
+                      hintText: "Alamat",
+                      labelText: "Alamat",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0)))),
               const Padding(
@@ -172,31 +196,27 @@ class RegisterState extends State<Register> {
               const Padding(
                 padding: EdgeInsets.only(top: 20.0),
               ),
-              TextField(
-                  controller: controllerAddress,
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                      hintText: "Alamat",
-                      labelText: "Alamat",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0)))),
-              const Padding(
-                padding: EdgeInsets.only(top: 20.0),
-              ),
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(10.0),
+      ]),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(5),
+        child: Padding(
+          padding: const EdgeInsets.all(5),
           child: TextButton(
             onPressed: () {
               _submitData();
             },
-            child: Text("Daftar", style: TextStyle(color: Colors.white)),
-            style: TextButton.styleFrom(backgroundColor: Colors.lightGreen),
+            style: TextButton.styleFrom(
+                padding: const EdgeInsets.all(15),
+                backgroundColor: colors.PRIMARY_COLOR,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+            child: const Text("Daftar", style: TextStyle(color: Colors.white)),
           ),
-        )
-      ]),
+        ),
+      ),
     );
   }
 }
