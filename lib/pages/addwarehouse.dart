@@ -5,6 +5,7 @@ import 'package:item_picker/item_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class AddWarehouse extends StatefulWidget {
   @override
@@ -111,65 +112,85 @@ class AddWarehouseState extends State<AddWarehouse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Tambah Data Barang Masuk"),
-        backgroundColor: Colors.lightGreen,
-      ),
-      body: Container(
-          padding: const EdgeInsets.all(20.0),
-          child: ListView(
-              // scrollDirection: Axis.vertical,
-              // shrinkWrap: true,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Nama Supplier: ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    ItemPicker(
-                      list: dataSuppliers,
-                      defaultValue: selectedSupplier,
-                      onSelectionChange: (value) => {
-                        setState(() {
-                          selectedSupplier = value;
-                        })
-                      },
-                    ),
-                    const Text(
-                      "Nama Barang: ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    ItemPicker(
-                      list: dataBarang,
-                      defaultValue: selectedBarang,
-                      onSelectionChange: (value) => {
-                        setState(() {
-                          selectedBarang = value;
-                        })
-                      },
-                    ),
-                    TextField(
-                      controller: controllerStock,
-                      decoration: const InputDecoration(
-                          hintText: "masukkan Qty", labelText: "Qty"),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(20.0),
-                    ),
-                  ],
+        appBar: AppBar(
+          title: const Text(
+            "Tambah Data Barang Masuk",
+            style: TextStyle(color: colors.SECONDARY_COLOR),
+          ),
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          shadowColor: Colors.transparent,
+        ),
+        backgroundColor: Colors.white,
+        body: Container(
+            padding: const EdgeInsets.all(20.0),
+            child: ListView(
+                // scrollDirection: Axis.vertical,
+                // shrinkWrap: true,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Nama Supplier: ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      ItemPicker(
+                        list: dataSuppliers,
+                        defaultValue: selectedSupplier,
+                        onSelectionChange: (value) => {
+                          setState(() {
+                            selectedSupplier = value;
+                          })
+                        },
+                      ),
+                      const Text(
+                        "Nama Barang: ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      ItemPicker(
+                        list: dataBarang,
+                        defaultValue: selectedBarang,
+                        onSelectionChange: (value) => {
+                          setState(() {
+                            selectedBarang = value;
+                          })
+                        },
+                      ),
+                      TextField(
+                        controller: controllerStock,
+                        decoration: const InputDecoration(
+                            hintText: "masukkan Qty", labelText: "Qty"),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                      ),
+                    ],
+                  ),
+                ])),
+        bottomNavigationBar: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: TextButton(
+              onPressed: () {
+                addWarehouse();
+              },
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                TextButton(
-                    onPressed: () {
-                      addWarehouse();
-                    },
-                    child: Text("Tambah Data",
-                        style: TextStyle(color: Colors.white)),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.lightGreen,
-                    )),
-              ])),
-    );
+                backgroundColor: colors.PRIMARY_COLOR,
+                padding: const EdgeInsets.all(15),
+              ),
+              child: const Text("Tambah Data",
+                  style: TextStyle(color: Colors.white)),
+            ),
+          ),
+        ));
   }
 }

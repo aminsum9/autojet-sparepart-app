@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class AddSupplier extends StatefulWidget {
   @override
@@ -42,8 +43,18 @@ class AddSupplierState extends State<AddSupplier> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tambah Supplier"),
-        backgroundColor: Colors.lightGreen,
+        title: const Text(
+          "Tambah Supplier",
+          style: TextStyle(color: colors.SECONDARY_COLOR),
+        ),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        shadowColor: Colors.transparent,
       ),
       body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -81,15 +92,23 @@ class AddSupplierState extends State<AddSupplier> {
                 ),
               ],
             ),
-            TextButton(
-                onPressed: () {
-                  addData();
-                },
-                child: Text("SUBMIT", style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.lightGreen,
-                )),
           ])),
+      bottomNavigationBar: Container(
+          child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: TextButton(
+          onPressed: () {
+            addData();
+          },
+          style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              backgroundColor: colors.PRIMARY_COLOR,
+              padding: const EdgeInsets.all(15)),
+          child: const Text("SUBMIT", style: TextStyle(color: Colors.white)),
+        ),
+      )),
     );
   }
 }
