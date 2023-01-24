@@ -201,7 +201,7 @@ class EditWarehouseState extends State<EditWarehouse> {
               editWarehouse();
             },
             style: TextButton.styleFrom(
-              backgroundColor: Colors.lightGreen,
+              backgroundColor: colors.PRIMARY_COLOR,
             ),
             child:
                 const Text("Edit Data", style: TextStyle(color: Colors.white)),

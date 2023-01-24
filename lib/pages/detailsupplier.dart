@@ -28,7 +28,6 @@ class DetailState extends State<DetailSupplier> {
               onPressed: () => Navigator.pop(context),
               child: const Text("BATAL",
                   style: TextStyle(color: Colors.lightGreen)),
-              // color: Colors.lightGreen
             ),
             TextButton(
               child: const Text('HAPUS', style: TextStyle(color: Colors.red)),
@@ -134,7 +133,6 @@ class DetailState extends State<DetailSupplier> {
                           list: widget.list, index: widget.index))),
                   child:
                       const Text("EDIT", style: TextStyle(color: Colors.green)),
-                  // color: Colors.lightGreen
                 ),
               ],
             )

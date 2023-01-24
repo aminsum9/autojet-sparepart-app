@@ -81,7 +81,6 @@ class AddDataState extends State<AddTransaksi> {
                             onPressed: () => Navigator.pop(context),
                             child: const Text("OK",
                                 style: TextStyle(color: Colors.green)),
-                            // color: Colors.lightGreen
                           ),
                         ],
                       );
@@ -103,7 +102,6 @@ class AddDataState extends State<AddTransaksi> {
                         onPressed: () => Navigator.pop(context),
                         child: const Text("OK",
                             style: TextStyle(color: Colors.green)),
-                        // color: Colors.lightGreen
                       ),
                     ],
                   );
@@ -130,12 +128,10 @@ class AddDataState extends State<AddTransaksi> {
               onPressed: () =>
                   {removeItemBarangTrans(id), Navigator.pop(context)},
               child: const Text("Hapus", style: TextStyle(color: Colors.red)),
-              // color: Colors.lightGreen
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text("Batal", style: TextStyle(color: Colors.black)),
-              // color: Colors.lightGreen
             ),
             TextButton(
               child:

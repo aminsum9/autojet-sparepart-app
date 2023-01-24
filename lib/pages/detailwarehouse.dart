@@ -31,7 +31,6 @@ class DetailState extends State<DetailWarehouse> {
               onPressed: () => Navigator.pop(context),
               child: const Text("BATAL",
                   style: TextStyle(color: Colors.lightGreen)),
-              // color: Colors.lightGreen
             ),
             TextButton(
               child: const Text('HAPUS', style: TextStyle(color: Colors.red)),
