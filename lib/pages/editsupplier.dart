@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pretty_json/pretty_json.dart';
-import 'home.dart';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class EditSupplier extends StatefulWidget {
   final List list;
@@ -65,9 +64,20 @@ class EditSupplierState extends State<EditSupplier> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Data Supplier"),
-        backgroundColor: Colors.lightGreen,
+        title: const Text(
+          "Edit Data Supplier",
+          style: TextStyle(color: colors.SECONDARY_COLOR),
+        ),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        shadowColor: Colors.transparent,
       ),
+      backgroundColor: Colors.white,
       body: Container(
           padding: const EdgeInsets.all(20.0),
           child: Card(
@@ -76,12 +86,7 @@ class EditSupplierState extends State<EditSupplier> {
             child: ListView(children: [
               Column(
                 children: [
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  const Text("Edit Data Supplier",
-                      style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.bold)),
-                  const Padding(padding: EdgeInsets.all(10.0)),
-                  const Padding(padding: EdgeInsets.all(10.0)),
+                  const Padding(padding: EdgeInsets.all(20.0)),
                   TextField(
                     controller: controllerName,
                     decoration:
@@ -112,16 +117,22 @@ class EditSupplierState extends State<EditSupplier> {
                   const Padding(padding: EdgeInsets.all(10.0)),
                 ],
               ),
-              TextButton(
-                  onPressed: () {
-                    editDataUser();
-                  },
-                  child: Text("EDIT", style: TextStyle(color: Colors.white)),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.lightGreen,
-                  )),
             ]),
           ))),
+      bottomNavigationBar: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: TextButton(
+            onPressed: () {
+              editDataUser();
+            },
+            style: TextButton.styleFrom(
+              backgroundColor: colors.PRIMARY_COLOR,
+            ),
+            child: const Text("EDIT", style: TextStyle(color: Colors.white)),
+          ),
+        ),
+      ),
     );
   }
 }

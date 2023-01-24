@@ -46,8 +46,7 @@ class AccountState extends State<Account> {
     }
 
     var data = await jsonDecode(response.body);
-    // var data = response.body;
-    // print(prettyJson(data));
+
     if (data['success'] == true) {
       setState(() {
         dataUser = data['data'];
@@ -66,7 +65,6 @@ class AccountState extends State<Account> {
   }
 
   void toEditUser() async {
-    print(prettyJson(dataUser));
     if (dataUser['name'] != null) {
       await Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) =>

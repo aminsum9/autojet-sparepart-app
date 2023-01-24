@@ -112,7 +112,6 @@ class EditTransaksiState extends State<EditTransaksi> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(selectedStatus.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Data Transaksi",

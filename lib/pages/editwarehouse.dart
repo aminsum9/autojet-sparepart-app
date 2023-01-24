@@ -5,6 +5,7 @@ import 'package:item_picker/item_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../config/url.dart' as host;
+import '../styles/colors.dart' as colors;
 
 class EditWarehouse extends StatefulWidget {
   final List list;
@@ -124,9 +125,18 @@ class EditWarehouseState extends State<EditWarehouse> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Data Barang Masuk"),
-        backgroundColor: Colors.lightGreen,
+        title: const Text("Edit Data Barang Masuk",
+            style: TextStyle(color: colors.SECONDARY_COLOR)),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: colors.SECONDARY_COLOR),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        shadowColor: Colors.transparent,
       ),
+      backgroundColor: Colors.white,
       body: Container(
           padding: const EdgeInsets.all(20.0),
           child: ListView(
@@ -149,6 +159,7 @@ class EditWarehouseState extends State<EditWarehouse> {
                         })
                       },
                     ),
+                    const Padding(padding: EdgeInsets.all(10)),
                     const Text(
                       "Nama Barang: ",
                       style: TextStyle(fontWeight: FontWeight.bold),
@@ -162,26 +173,41 @@ class EditWarehouseState extends State<EditWarehouse> {
                         })
                       },
                     ),
+                    const Padding(padding: EdgeInsets.all(10)),
                     TextField(
                       controller: controllerQty,
-                      decoration: const InputDecoration(
-                          hintText: "masukkan Qty", labelText: "Qty"),
+                      decoration: InputDecoration(
+                        hintText: "masukkan Qty",
+                        labelText: "Qty",
+                        border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: colors.PRIMARY_COLOR,
+                              width: 10.0,
+                            ),
+                            borderRadius: BorderRadius.circular(5.0)),
+                      ),
                     ),
                     const Padding(
                       padding: EdgeInsets.all(20.0),
                     ),
                   ],
                 ),
-                TextButton(
-                    onPressed: () {
-                      editWarehouse();
-                    },
-                    child: Text("Edit Data",
-                        style: TextStyle(color: Colors.white)),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.lightGreen,
-                    )),
               ])),
+      bottomNavigationBar: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: TextButton(
+            onPressed: () {
+              editWarehouse();
+            },
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.lightGreen,
+            ),
+            child:
+                const Text("Edit Data", style: TextStyle(color: Colors.white)),
+          ),
+        ),
+      ),
     );
   }
 }

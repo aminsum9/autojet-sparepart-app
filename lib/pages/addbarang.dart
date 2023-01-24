@@ -50,8 +50,6 @@ class AddWarehouseState extends State<AddBarang> {
 
     var image = imageBarang;
 
-    debugPrint(image.path);
-
     var request = http.MultipartRequest("POST", url);
 
     request.fields['name'] = controllerName.text;

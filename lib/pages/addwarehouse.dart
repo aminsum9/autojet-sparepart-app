@@ -149,6 +149,7 @@ class AddWarehouseState extends State<AddWarehouse> {
                           })
                         },
                       ),
+                      const Padding(padding: EdgeInsets.all(10)),
                       const Text(
                         "Nama Barang: ",
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -162,10 +163,17 @@ class AddWarehouseState extends State<AddWarehouse> {
                           })
                         },
                       ),
+                      const Padding(padding: EdgeInsets.all(10)),
                       TextField(
                         controller: controllerStock,
-                        decoration: const InputDecoration(
-                            hintText: "masukkan Qty", labelText: "Qty"),
+                        decoration: InputDecoration(
+                          hintText: "masukkan Qty",
+                          labelText: "Qty",
+                          border: OutlineInputBorder(
+                              borderSide:
+                                  const BorderSide(color: colors.PRIMARY_COLOR),
+                              borderRadius: BorderRadius.circular(5.0)),
+                        ),
                       ),
                       const Padding(
                         padding: EdgeInsets.all(20.0),

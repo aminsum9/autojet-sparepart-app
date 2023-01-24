@@ -38,7 +38,7 @@ class EditBarangState extends State<EditBarang> {
       "desc": controllerDesc.text,
       "token": token.toString(),
     };
-    // print(prettyJson(body));
+
     var url = "${host.BASE_URL}barang/update";
     http.post(Uri.parse(url), body: body).then((value) => Navigator.of(context)
         .push(MaterialPageRoute(
