@@ -170,7 +170,7 @@ class AddWarehouseState extends State<AddBarang> {
                               width: 100.0,
                               height: 100.0,
                               child: const Icon(Icons.widgets,
-                                  color: Colors.grey, size: 100.0),
+                                  color: Colors.blueGrey, size: 100.0),
                             ),
                           )),
                     imageName == ""

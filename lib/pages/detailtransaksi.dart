@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
 import '../styles/colors.dart' as colors;
+import '../helper/rupiah.dart' as rupiah;
 
 class DetailTransaksi extends StatefulWidget {
   List list;
@@ -140,29 +141,99 @@ class DetailState extends State<DetailTransaksi> {
                   const Padding(
                     padding: EdgeInsets.all(15.0),
                   ),
-                  Text(
-                    "Status : ${widget.list[widget.index]['status']}",
-                    style: const TextStyle(fontSize: 17.0),
-                  ),
-                  Text(
-                    "Subtotal : ${widget.list[widget.index]['subtotal']}",
-                    style: const TextStyle(fontSize: 17.0),
-                  ),
-                  Text(
-                    "Discount. : ${widget.list[widget.index]['discount']}",
-                    style: const TextStyle(fontSize: 17.0),
-                  ),
-                  Text(
-                    "Total : ${widget.list[widget.index]['grand_total']}",
-                    style: const TextStyle(fontSize: 17.0),
-                  ),
-                  Text(
-                    "Dibuat oleh : ${widget.list[widget.index]['created_by']?['name'] ?? ""}",
-                    style: const TextStyle(fontSize: 17.0),
-                  ),
-                  Text(
-                    "Catatan : ${widget.list[widget.index]['notes'] ?? ""}",
-                    style: const TextStyle(fontSize: 17.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              const Text(
+                                "Status         : ",
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${widget.list[widget.index]['status']}",
+                                style: const TextStyle(fontSize: 17.0),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Subtotal     : ",
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                rupiah.toRupiah(
+                                    widget.list[widget.index]['subtotal']),
+                                style: const TextStyle(fontSize: 17.0),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Diskon        : ",
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                rupiah.toRupiah(
+                                    widget.list[widget.index]['discount']),
+                                style: const TextStyle(fontSize: 17.0),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Total           : ",
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                rupiah.toRupiah(
+                                    widget.list[widget.index]['grand_total']),
+                                style: const TextStyle(fontSize: 17.0),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Dibuat oleh :",
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${widget.list[widget.index]['created_by']?['name'] ?? ""}",
+                                style: const TextStyle(fontSize: 17.0),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Catatan      : ",
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                widget.list[widget.index]['notes'] ?? "",
+                                style: const TextStyle(fontSize: 17.0),
+                              ),
+                            ],
+                          )
+                        ]),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(20.0),
@@ -184,7 +255,8 @@ class DetailState extends State<DetailTransaksi> {
                                     EditTransaksi(
                                         list: widget.list,
                                         index: widget.index))),
-                        child: const Text("EDIT"),
+                        child: const Text("EDIT",
+                            style: TextStyle(color: Colors.green)),
                       ),
                     ],
                   ),
