@@ -74,24 +74,22 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
           });
     animationControllerButton.forward();
 
-    getDataStorage('token').then((token) => {
-          if (token.toString() != null)
-            {
-              postData(Uri.parse('${host.BASE_URL}user/check_login'), {
-                "token": token.toString()
-              }).then((response) => {
-                    if (response.statusCode == 200)
-                      {
-                        if (jsonDecode(response.body)['success'] == true)
-                          {Navigator.pushNamed(context, '/home')}
-                      }
-                    else
-                      {
-                        {Navigator.pushNamed(context, '/login')}
-                      }
-                  })
-            }
+    getDataStorage('token').then((token) {
+      if (token.toString() != "") {
+        postData(Uri.parse('${host.BASE_URL}user/check_login'),
+            {"token": token.toString()}).then((response) {
+          if (response.statusCode == 200) {
+            if (jsonDecode(response.body)['success'] == true)
+              // ignore: curly_braces_in_flow_control_structures
+              Navigator.pushNamed(context, '/home');
+          } else {
+            Navigator.pushNamed(context, '/login');
+          }
         });
+      } else {
+        Navigator.pushNamed(context, '/login');
+      }
+    });
   }
 
   @override
