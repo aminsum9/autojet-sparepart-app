@@ -103,20 +103,11 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        child: Center(
-          child: Image.asset(
-            "img/icons/icon-autojet-sparepart.png",
-            width: 180,
-            height: 180,
-          ),
-          // const Text(
-          //   "Autojet Sparepart",
-          //   style: TextStyle(
-          //       color: colors.PRIMARY_COLOR, fontWeight: FontWeight.bold),
-          // ),
-          //   ],
-          // ),
+      body: Center(
+        child: Image.asset(
+          "img/icons/icon-autojet-sparepart.png",
+          width: 180,
+          height: 180,
         ),
       ),
     );
