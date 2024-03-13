@@ -37,8 +37,6 @@ class ListTransaksiState extends State<ListTransaksi> {
   void getData() async {
     List<dynamic> dataTrans = await getDataTransaksi();
 
-    print("data get:  ${data.length.toString()}");
-
     setState(() {
       data = dataTrans;
     });
@@ -76,7 +74,6 @@ class ListTransaksiState extends State<ListTransaksi> {
 
   @override
   Widget build(BuildContext context) {
-    print("data: ${data.length}");
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -91,7 +88,6 @@ class ListTransaksiState extends State<ListTransaksi> {
               padding: const EdgeInsets.all(8),
               itemCount: data.length,
               itemBuilder: (context, index) {
-                print("item: ${data[index]['status']}");
                 return ItemList(
                     list: data,
                     trxStatus: data[index]['status'],

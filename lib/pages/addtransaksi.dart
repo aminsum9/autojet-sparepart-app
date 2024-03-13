@@ -315,7 +315,7 @@ class AddDataState extends State<AddTransaksi> {
                               leading: barangTransaksi[index]['image'] != "" &&
                                       barangTransaksi[index]['image'] != null
                                   ? Image.network(
-                                      host.BASE_URL +
+                                      host.BASE_URL_IMAGE +
                                           'images/barang/' +
                                           barangTransaksi[index]['image'],
                                       height: 50,
@@ -429,7 +429,7 @@ class AddDataState extends State<AddTransaksi> {
           subtitle: Text(item['price'].toString()),
           leading: item['image'] != "" && item['image'] != null
               ? Image.network(
-                  "${host.BASE_URL}images/barang/${item['image']}",
+                  "${host.BASE_URL_IMAGE}images/barang/${item['image']}",
                   height: 50,
                   width: 50,
                 )

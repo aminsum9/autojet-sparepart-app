@@ -8,6 +8,8 @@ import '../config/url.dart' as host;
 import '../styles/colors.dart' as colors;
 
 class ListBarang extends StatefulWidget {
+  const ListBarang({super.key});
+
   @override
   ListBarangState createState() => ListBarangState();
 }
@@ -23,6 +25,8 @@ Future<http.Response> postData(Uri url, dynamic body) async {
 }
 
 class ListBarangState extends State<ListBarang> {
+  List<dynamic> data = [];
+
   Future<List> getData() async {
     var token = await getDataStorage('token');
 
@@ -41,6 +45,29 @@ class ListBarangState extends State<ListBarang> {
     }
   }
 
+  void getDataBarang() async {
+    List<dynamic> dataBarang = await getData();
+
+    setState(() {
+      data = dataBarang;
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    List<dynamic> dataBarang = await getData();
+
+    setState(() {
+      data = dataBarang;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDataBarang();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -51,56 +78,70 @@ class ListBarangState extends State<ListBarang> {
               backgroundColor: colors.SECONDARY_COLOR,
               child: const Icon(Icons.add),
             ),
-            body: FutureBuilder(
-                future: getData(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) print(snapshot.error);
-                  return snapshot.hasData
-                      ? ItemList(list: snapshot.data!)
-                      : const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                })));
+            body: RefreshIndicator(
+                onRefresh: () => _handleRefresh(),
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    print("image: ${data[index]['image']}");
+                    return ItemList(
+                        list: data,
+                        name: data[index]['name'],
+                        image: data[index]['image'],
+                        qty: data[index]['qty'],
+                        index: index);
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                ))));
   }
 }
 
+// ignore: must_be_immutable
 class ItemList extends StatelessWidget {
-  final List list;
-  ItemList({required this.list});
+  String name = '';
+  String image = '';
+  int qty = 0;
+  int index = 0;
+  List list = [];
+
+  ItemList(
+      {super.key,
+      required this.list,
+      required this.name,
+      required this.image,
+      required this.qty,
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: list == null ? 0 : list.length,
-      itemBuilder: (context, i) {
-        return Container(
-          padding: const EdgeInsets.all(5.0),
-          child: GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    DetailBarang(list: list, index: i))),
-            child: Card(
-              child: ListTile(
-                title: Text(list[i]["name"]),
-                subtitle: Text('Qty : ${list[i]["qty"]}'),
-                leading: list[i]["image"] != "" && list[i]["image"] != null
-                    ? Image.network(
-                        list[i]["image"] != null
-                            ? "${host.BASE_URL}/images/barang/${list[i]["image"]}"
-                            : "",
-                        width: 50,
-                        height: 50,
-                      )
-                    : const Icon(
-                        Icons.widgets,
-                        size: 50,
-                        color: Colors.blueGrey,
-                      ),
-              ),
-            ),
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                DetailBarang(list: list, index: index))),
+        child: Card(
+          child: ListTile(
+            title: Text(name),
+            subtitle: Text('Qty : $qty'),
+            leading: image != ""
+                ? Image.network(
+                    image != ""
+                        ? "${host.BASE_URL_IMAGE}/images/barang/$image"
+                        : "",
+                    width: 50,
+                    height: 50,
+                  )
+                : const Icon(
+                    Icons.widgets,
+                    size: 50,
+                    color: Colors.blueGrey,
+                  ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

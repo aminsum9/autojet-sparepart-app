@@ -127,7 +127,7 @@ class DetailState extends State<DetailBarang> {
                                         widget.list[widget.index]["image"] !=
                                             null)
                                     ? (Image.network(
-                                        "${host.BASE_URL}/images/barang/${widget.list[widget.index]["image"].toString()}",
+                                        "${host.BASE_URL_IMAGE}/images/barang/${widget.list[widget.index]["image"].toString()}",
                                         width: 150,
                                         height: 100,
                                       ))

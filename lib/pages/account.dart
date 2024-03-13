@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'edituser.dart';
 import 'dart:convert';
-import 'package:pretty_json/pretty_json.dart';
 import '../config/url.dart' as host;
 import '../styles/colors.dart' as colors;
 
