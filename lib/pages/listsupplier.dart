@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:autojet_sparepart/pages/detailsupplier.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'detailsupplier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
 import '../styles/colors.dart' as colors;
 
 class ListSupplier extends StatefulWidget {
+  const ListSupplier({super.key});
+
   @override
   ListSupplierState createState() => ListSupplierState();
 }
@@ -24,7 +25,9 @@ Future<http.Response> postData(Uri url, dynamic body) async {
 }
 
 class ListSupplierState extends State<ListSupplier> {
-  Future<List> getDataTransaksi() async {
+  List<dynamic> data = [];
+
+  Future<List> getDataSuppliers() async {
     var token = await getDataStorage('token');
 
     var body = {"page": "1", "paging": "10", "token": token.toString()};
@@ -37,7 +40,6 @@ class ListSupplierState extends State<ListSupplier> {
     }
 
     var data = await jsonDecode(response.body);
-    // var data = response.body;
 
     if (data['success'] == true) {
       return data['data'];
@@ -45,7 +47,29 @@ class ListSupplierState extends State<ListSupplier> {
       var data = [];
       return data;
     }
-    // return [];
+  }
+
+  void getData() async {
+    List<dynamic> dataSuppliers = await getDataSuppliers();
+
+    setState(() {
+      data = dataSuppliers;
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    List<dynamic> dataSuppliers = await getDataSuppliers();
+
+    setState(() {
+      data = dataSuppliers;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
   }
 
   @override
@@ -58,47 +82,56 @@ class ListSupplierState extends State<ListSupplier> {
               backgroundColor: colors.SECONDARY_COLOR,
               child: const Icon(Icons.add),
             ),
-            body: FutureBuilder(
-                future: getDataTransaksi(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) print(snapshot.error);
-                  return snapshot.hasData
-                      ? ItemList(list: snapshot.data!)
-                      : const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                })));
+            body: RefreshIndicator(
+              onRefresh: () => _handleRefresh(),
+              child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return ItemList(
+                        name: data[index]["name"],
+                        email: data[index]["email"],
+                        index: index,
+                        list: data);
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                  itemCount: data.length),
+            )));
   }
 }
 
+// ignore: must_be_immutable
 class ItemList extends StatelessWidget {
+  String name = '';
+  String email = '';
+  int index = 0;
   final List list;
-  ItemList({required this.list});
+
+  ItemList(
+      {super.key,
+      required this.list,
+      required this.name,
+      required this.email,
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: list == null ? 0 : list.length,
-      itemBuilder: (context, i) {
-        return Container(
-          padding: const EdgeInsets.all(5.0),
-          child: GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    DetailSupplier(list: list, index: i))),
-            child: Card(
-              child: ListTile(
-                title: Text(list[i]["name"]),
-                subtitle: Text('Status : ${list[i]["email"]}'),
-                leading: const Icon(
-                  Icons.factory,
-                  size: 50,
-                ),
-              ),
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                DetailSupplier(list: list, index: index))),
+        child: Card(
+          child: ListTile(
+            title: Text(name),
+            subtitle: Text('Email : $email'),
+            leading: const Icon(
+              Icons.factory,
+              size: 50,
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

@@ -8,6 +8,8 @@ import '../config/url.dart' as host;
 import '../styles/colors.dart' as colors;
 
 class ListWarehouse extends StatefulWidget {
+  const ListWarehouse({super.key});
+
   @override
   ListWarehouseState createState() => ListWarehouseState();
 }
@@ -23,6 +25,8 @@ Future<http.Response> postData(Uri url, dynamic body) async {
 }
 
 class ListWarehouseState extends State<ListWarehouse> {
+  List<dynamic> data = [];
+
   Future<List> getData() async {
     var token = await getDataStorage('token');
 
@@ -41,6 +45,29 @@ class ListWarehouseState extends State<ListWarehouse> {
     }
   }
 
+  void getDataWarehouse() async {
+    List<dynamic> dataWarehouse = await getData();
+
+    setState(() {
+      data = dataWarehouse;
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    List<dynamic> dataWarehouse = await getData();
+
+    setState(() {
+      data = dataWarehouse;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDataWarehouse();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -51,48 +78,56 @@ class ListWarehouseState extends State<ListWarehouse> {
               backgroundColor: colors.SECONDARY_COLOR,
               child: const Icon(Icons.add),
             ),
-            body: FutureBuilder(
-                future: getData(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) print(snapshot.error);
-                  return snapshot.hasData
-                      ? ItemList(list: snapshot.data!)
-                      : const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                })));
+            body: RefreshIndicator(
+                onRefresh: () => _handleRefresh(),
+                child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      return ItemList(
+                          name: data[index]["barang"]['name'],
+                          qty: data[index]["qty"],
+                          list: data,
+                          index: index);
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(),
+                    itemCount: data.length))));
   }
 }
 
+// ignore: must_be_immutable
 class ItemList extends StatelessWidget {
-  final List list;
-  ItemList({required this.list});
+  String name = '';
+  int qty = 0;
+  int index = 0;
+  List list = [];
+
+  ItemList(
+      {super.key,
+      required this.list,
+      required this.name,
+      required this.qty,
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: list == null ? 0 : list.length,
-      itemBuilder: (context, i) {
-        return Container(
-          padding: const EdgeInsets.all(5.0),
-          child: GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    DetailWarehouse(list: list, index: i))),
-            child: Card(
-              child: ListTile(
-                title: Text(list[i]["barang"]['name'] ?? ""),
-                subtitle: Text('Qty : ${list[i]["qty"] ?? ""}'),
-                leading: const Icon(
-                  Icons.warehouse,
-                  size: 50,
-                  color: Colors.blueGrey,
-                ),
-              ),
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                DetailWarehouse(list: list, index: index))),
+        child: Card(
+          child: ListTile(
+            title: Text(name),
+            subtitle: Text('Qty : $qty'),
+            leading: const Icon(
+              Icons.warehouse,
+              size: 50,
+              color: Colors.blueGrey,
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

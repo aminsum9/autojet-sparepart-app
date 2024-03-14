@@ -84,7 +84,6 @@ class ListBarangState extends State<ListBarang> {
                   padding: const EdgeInsets.all(8),
                   itemCount: data.length,
                   itemBuilder: (context, index) {
-                    print("image: ${data[index]['image']}");
                     return ItemList(
                         list: data,
                         name: data[index]['name'],
