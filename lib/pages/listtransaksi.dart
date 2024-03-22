@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:autojet_sparepart/models/trans_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -26,7 +27,7 @@ Future<http.Response> postData(Uri url, dynamic body) async {
 }
 
 class ListTransaksiState extends State<ListTransaksi> {
-  List<dynamic> data = [];
+  List<TransModel> data = [];
 
   @protected
   @mustCallSuper
@@ -35,14 +36,14 @@ class ListTransaksiState extends State<ListTransaksi> {
   }
 
   void getData() async {
-    List<dynamic> dataTrans = await getDataTransaksi();
+    List<TransModel> dataTrans = await getDataTransaksi();
 
     setState(() {
       data = dataTrans;
     });
   }
 
-  Future<List> getDataTransaksi() async {
+  Future<List<TransModel>> getDataTransaksi() async {
     var token = await getDataStorage('token');
 
     var body = {"page": "1", "paging": "10", "token": token.toString()};
@@ -56,16 +57,35 @@ class ListTransaksiState extends State<ListTransaksi> {
 
     var data = await jsonDecode(response.body);
 
+    List<TransModel> ressData = [];
+
     if (data['success'] == true) {
-      return data['data'];
+      for (var i = 0; i < data['data'].length; i++) {
+        var item = data['data'][i];
+
+        ressData.add(TransModel(
+            id: item['id'],
+            trxId: item['trx_id'],
+            userId: item['user_id'],
+            subtotal: item['subtotal'],
+            discount: item['discount'],
+            grandTotal: item['grand_total'],
+            notes: item['notes'],
+            status: item['status'],
+            createdAt: item['created_at'],
+            updatedAt: item['updated_at']));
+      }
+
+      print("ressData length: ${ressData.length}");
+
+      return ressData;
     } else {
-      var data = [];
-      return data;
+      return ressData;
     }
   }
 
   Future<void> _handleRefresh() async {
-    List<dynamic> dataTrans = await getDataTransaksi();
+    List<TransModel> dataTrans = await getDataTransaksi();
 
     setState(() {
       data = dataTrans;
@@ -88,11 +108,11 @@ class ListTransaksiState extends State<ListTransaksi> {
               padding: const EdgeInsets.all(8),
               itemCount: data.length,
               itemBuilder: (context, index) {
-                return ItemList(
+                return ItemTrans(
                     list: data,
-                    trxStatus: data[index]['status'],
-                    trxId: data[index]['trx_id'],
-                    trxCreatedAt: data[index]['created_at'],
+                    trxStatus: data[index].status as String,
+                    trxId: data[index].trxId as String,
+                    trxCreatedAt: data[index].createdAt as String,
                     index: index);
               },
               separatorBuilder: (BuildContext context, int index) =>
@@ -104,14 +124,14 @@ class ListTransaksiState extends State<ListTransaksi> {
 }
 
 // ignore: must_be_immutable
-class ItemList extends StatelessWidget {
+class ItemTrans extends StatelessWidget {
   String trxStatus = '';
   String trxId = '';
   String trxCreatedAt = '';
   List list = [];
   int index = 0;
 
-  ItemList(
+  ItemTrans(
       {super.key,
       required this.list,
       required this.trxStatus,

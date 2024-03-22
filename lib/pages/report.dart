@@ -155,7 +155,7 @@ class ReportState extends State<Report> {
                 const Padding(
                   padding: EdgeInsets.all(15.0),
                 ),
-                Row(
+                Column(
                   children: [
                     TextButton(
                       onPressed: () {
