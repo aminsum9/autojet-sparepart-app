@@ -1,3 +1,4 @@
+import 'package:autojet_sparepart/models/trans_model.dart';
 import 'package:flutter/material.dart';
 //
 import 'pages/splash.dart';
@@ -36,7 +37,7 @@ import 'pages/editwarehouse.dart';
 class AppRouter extends InheritedWidget {
   final Color color;
 
-  AppRouter({
+  const AppRouter({
     super.key,
     required this.color,
     required Widget child,
@@ -65,7 +66,7 @@ class RouterState extends State<RouterApp> with TickerProviderStateMixin {
     return AppRouter(
         color: Colors.lightGreen,
         child: MaterialApp(
-            home: Splash(),
+            home: const Splash(),
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               brightness: Brightness.light,
@@ -82,37 +83,41 @@ class RouterState extends State<RouterApp> with TickerProviderStateMixin {
             routes: {
               '/login': (context) => LoginPage(),
               '/register': (context) => Register(),
-              '/home': (context) => Home(),
+              '/home': (context) => const Home(),
               '/account': (context) => Account(),
-              '/report': (context) => Report(list: [], index: 0),
+              '/report': (context) => Report(list: const [], index: 0),
               //transaksi
-              '/list_transaksi': (context) => ListTransaksi(),
+              '/list_transaksi': (context) => const ListTransaksi(),
               '/detail_transaksi': (context) =>
-                  DetailTransaksi(list: [], index: 0),
+                  DetailTransaksi(trans: TransModel(), index: 0),
               '/add_transaksi': (context) => AddTransaksi(),
-              '/edit_transaksi': (context) => EditTransaksi(list: [], index: 0),
+              '/edit_transaksi': (context) =>
+                  EditTransaksi(trans: TransModel(), index: 0),
               //barang
-              '/list_barang': (context) => ListBarang(),
-              '/detail_barang': (context) => DetailBarang(list: [], index: 0),
-              '/add_barang': (context) => AddBarang(),
-              '/edit_barang': (context) => EditBarang(list: [], index: 0),
+              '/list_barang': (context) => const ListBarang(),
+              '/detail_barang': (context) =>
+                  DetailBarang(list: const [], index: 0),
+              '/add_barang': (context) => const AddBarang(),
+              '/edit_barang': (context) => EditBarang(list: const [], index: 0),
               //user
               '/list_user': (context) => ListUser(),
-              '/detail_user': (context) => DetailUser(list: [], index: 0),
+              '/detail_user': (context) => DetailUser(list: const [], index: 0),
               '/add_user': (context) => AddUser(),
-              '/edit_user': (context) => EditUser(list: [], index: 0),
+              '/edit_user': (context) => EditUser(list: const [], index: 0),
               //
-              '/list_supplier': (context) => ListSupplier(),
+              '/list_supplier': (context) => const ListSupplier(),
               '/add_supplier': (context) => AddSupplier(),
               '/detail_supplier': (context) =>
-                  DetailSupplier(list: [], index: 0),
-              '/edit_supplier': (context) => EditSupplier(list: [], index: 0),
+                  DetailSupplier(list: const [], index: 0),
+              '/edit_supplier': (context) =>
+                  EditSupplier(list: const [], index: 0),
               //warehouse
-              '/list_warehouse': (context) => ListWarehouse(),
+              '/list_warehouse': (context) => const ListWarehouse(),
               '/add_warehouse': (context) => AddWarehouse(),
               '/detail_warehouse': (context) =>
-                  DetailWarehouse(list: [], index: 0),
-              '/edit_warehouse': (context) => EditWarehouse(list: [], index: 0),
+                  DetailWarehouse(list: const [], index: 0),
+              '/edit_warehouse': (context) =>
+                  EditWarehouse(list: const [], index: 0),
             }));
   }
 }

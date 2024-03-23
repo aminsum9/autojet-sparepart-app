@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:autojet_sparepart/models/trans_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:item_picker/item_picker.dart';
@@ -8,10 +9,10 @@ import '../config/url.dart' as host;
 import '../styles/colors.dart' as colors;
 
 class EditTransaksi extends StatefulWidget {
-  final List list;
+  final TransModel trans;
   final int index;
 
-  EditTransaksi({required this.list, this.index = 0});
+  const EditTransaksi({super.key, required this.trans, this.index = 0});
   @override
   EditTransaksiState createState() => EditTransaksiState();
 }
@@ -54,7 +55,7 @@ class EditTransaksiState extends State<EditTransaksi> {
     }
 
     var body = {
-      "id": widget.list[widget.index]["id"].toString() ?? "",
+      "id": widget.trans.id ?? "",
       "status": status,
       "subtotal": controllerSubTotal.text.toString(),
       "discount": controllerDiscount.text.toString(),
@@ -77,15 +78,14 @@ class EditTransaksiState extends State<EditTransaksi> {
   @override
   void initState() {
     super.initState();
-    controllerSubTotal = TextEditingController(
-        text: widget.list[widget.index]['subtotal'].toString() ?? "");
-    controllerDiscount = TextEditingController(
-        text: widget.list[widget.index]['discount'].toString() ?? "");
-    controllerTotal = TextEditingController(
-        text: widget.list[widget.index]['grand_total'].toString() ?? "");
-    controllerNotes =
-        TextEditingController(text: widget.list[widget.index]['notes'] ?? "");
-    var status = widget.list[widget.index]['status'].toString();
+    controllerSubTotal =
+        TextEditingController(text: widget.trans.subtotal.toString());
+    controllerDiscount =
+        TextEditingController(text: widget.trans.discount.toString());
+    controllerTotal =
+        TextEditingController(text: widget.trans.grandTotal.toString());
+    controllerNotes = TextEditingController(text: widget.trans.notes);
+    var status = widget.trans.status;
 
     if (status == 'new') {
       setState(() {
@@ -140,9 +140,8 @@ class EditTransaksiState extends State<EditTransaksi> {
                           fontSize: 25.0, fontWeight: FontWeight.bold)),
                   const Padding(padding: EdgeInsets.all(10.0)),
                   const Padding(padding: EdgeInsets.all(10.0)),
-                  Text("ID Transaksi : ${widget.list[widget.index]['trx_id']}"),
-                  Text(
-                      "Dibuat oleh : ${widget.list[widget.index]['created_by']['name']}"),
+                  Text("ID Transaksi : ${widget.trans.trxId}"),
+                  Text("Dibuat oleh : ${widget.trans.createdBy?.name}"),
                   TextField(
                     controller: controllerSubTotal,
                     decoration: const InputDecoration(hintText: "Subtotal"),

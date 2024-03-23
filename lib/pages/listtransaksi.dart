@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:autojet_sparepart/models/barang_model.dart';
+import 'package:autojet_sparepart/models/detail_trans_model.dart';
+import 'package:autojet_sparepart/models/supplier_model.dart';
 import 'package:autojet_sparepart/models/trans_model.dart';
+import 'package:autojet_sparepart/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -63,6 +67,57 @@ class ListTransaksiState extends State<ListTransaksi> {
       for (var i = 0; i < data['data'].length; i++) {
         var item = data['data'][i];
 
+        List<DetailTransModel> detailTrans = [];
+
+        for (var j = 0; j < item['detail_transaksi'].length; j++) {
+          var itemDetailTrans = item['detail_transaksi'][j];
+
+          List<SupplierModel> barangSuppliers = [];
+
+          for (var j = 0;
+              j < itemDetailTrans['barang']['suppliers'].length;
+              j++) {
+            var itemSupplier = itemDetailTrans['barang']['suppliers'][j];
+
+            barangSuppliers.add(SupplierModel(
+              id: itemSupplier['id'],
+              name: itemSupplier['name'],
+              email: itemSupplier['email'],
+              image: itemSupplier['image'],
+              address: itemSupplier['address'],
+              phone: itemSupplier['phone'],
+              desc: itemSupplier['desc'],
+              createdAt: itemSupplier['created_at'],
+              updatedAt: itemSupplier['updated_at'],
+            ));
+          }
+
+          detailTrans.add(DetailTransModel(
+              id: itemDetailTrans['id'],
+              transId: itemDetailTrans['trans_id'],
+              barangId: itemDetailTrans['barang_id'],
+              qty: itemDetailTrans['qty'],
+              subtotal: itemDetailTrans['subtotal'],
+              discount: itemDetailTrans['discount'],
+              grandTotal: itemDetailTrans['grand_total'],
+              notes: itemDetailTrans['notes'],
+              barang: BarangModel(
+                id: itemDetailTrans['barang']['id'],
+                name: itemDetailTrans['barang']['name'],
+                alias: itemDetailTrans['barang']['alias'],
+                image: itemDetailTrans['barang']['image'],
+                qty: itemDetailTrans['barang']['qty'],
+                price: itemDetailTrans['barang']['price'],
+                discount: itemDetailTrans['barang']['discount'],
+                desc: itemDetailTrans['barang']['desc'],
+                suppliers: barangSuppliers,
+                createdAt: itemDetailTrans['barang']['created_at'],
+                updatedAt: itemDetailTrans['barang']['updated_at'],
+              ),
+              createdAt: itemDetailTrans['created_at'],
+              updatedAt: itemDetailTrans['updated_at']));
+        }
+
         ressData.add(TransModel(
             id: item['id'],
             trxId: item['trx_id'],
@@ -72,11 +127,20 @@ class ListTransaksiState extends State<ListTransaksi> {
             grandTotal: item['grand_total'],
             notes: item['notes'],
             status: item['status'],
+            detailTrans: detailTrans,
+            createdBy: UserModel(
+                id: item['created_by']['id'],
+                name: item['created_by']['name'],
+                email: item['created_by']['email'],
+                image: item['created_by']['image'],
+                address: item['created_by']['address'],
+                phone: item['created_by']['phone'],
+                isVerify: item['created_by']['is_verify'],
+                createdAt: item['created_by']['created_at'],
+                updatedAt: item['created_by']['updated_at']),
             createdAt: item['created_at'],
             updatedAt: item['updated_at']));
       }
-
-      print("ressData length: ${ressData.length}");
 
       return ressData;
     } else {
@@ -109,7 +173,7 @@ class ListTransaksiState extends State<ListTransaksi> {
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return ItemTrans(
-                    list: data,
+                    item: data[index],
                     trxStatus: data[index].status as String,
                     trxId: data[index].trxId as String,
                     trxCreatedAt: data[index].createdAt as String,
@@ -128,12 +192,12 @@ class ItemTrans extends StatelessWidget {
   String trxStatus = '';
   String trxId = '';
   String trxCreatedAt = '';
-  List list = [];
+  TransModel item;
   int index = 0;
 
   ItemTrans(
       {super.key,
-      required this.list,
+      required this.item,
       required this.trxStatus,
       required this.trxId,
       required this.trxCreatedAt,
@@ -179,7 +243,7 @@ class ItemTrans extends StatelessWidget {
       child: GestureDetector(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (BuildContext context) =>
-                DetailTransaksi(list: list, index: index))),
+                DetailTransaksi(trans: item, index: index))),
         child: Card(
           child: ListTile(
             title: Row(

@@ -5,13 +5,13 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/url.dart' as host;
-import '../styles/colors.dart' as colors;
 
 class Splash extends StatefulWidget {
+  const Splash({super.key});
+
   @override
   SplashState createState() => SplashState();
 
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(60.0),

@@ -1,3 +1,6 @@
+import 'package:autojet_sparepart/models/detail_trans_model.dart';
+import 'package:autojet_sparepart/models/user_model.dart';
+
 class TransModel {
   final int? id;
   final String? trxId;
@@ -9,6 +12,8 @@ class TransModel {
   final String? status;
   final String? createdAt;
   final String? updatedAt;
+  final List<DetailTransModel>? detailTrans;
+  final UserModel? createdBy;
 
   TransModel(
       {this.id,
@@ -20,7 +25,9 @@ class TransModel {
       this.notes,
       this.status,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.detailTrans,
+      this.createdBy});
 
   factory TransModel.fromJson(Map<String, dynamic> json) {
     return TransModel(
@@ -32,6 +39,8 @@ class TransModel {
       grandTotal: json['grand_total'] as int?,
       notes: json['notes'] as String?,
       status: json['status'] as String?,
+      detailTrans: json['detail_transaksi'] as List<DetailTransModel>?,
+      createdBy: json['created_by'] as UserModel?,
       createdAt: json['created_at'] as String?,
       updatedAt: json['created_at'] as String?,
     );
